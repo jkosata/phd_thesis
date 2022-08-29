@@ -5,7 +5,7 @@
 
 \begin{chapterabstract}
 		
-	As discussed in Chapter \ref{ch:intro}, it is possible to create topological modes by opening a suitable gap in $k$-space, which may be achieved by breaking the symmetry of a metamaterial pattern. In this Chapter, we take a step back and analyse the concept of symmetry in a very general manner. Our aim is to determine the constraints symmetries impose on the band structure, and its fate when they are broken. As a preliminary, we describe the concept of excitations in linear media. We then introduce in Sec.~\ref{sec:symm_groups} a self-contained framework adapted from the theory of space groups, which serves to find band structure degeneracies, followed by a perturbative approach to describe symmetry breaking in Sec.~\ref{sec:symm_perts}. Finally, we apply the introduced concepts on sixfold and fourfold symmetric lattices in Secs.~\ref{sec:symm_sixfold} and \ref{sec:symm_fourfold}, discussing the various effects which may be induced in engineered metamaterials. 	
+	As discussed in Chapter \ref{ch:intro}, it is possible to create topological modes by opening a suitable gap in $k$-space, which may be achieved by breaking the symmetry of a metamaterial pattern. In this Chapter, we take a step back and analyse the concept of symmetry in a very general manner. Our aim is to determine the constraints symmetries impose on the band structure and its fate when they are broken. As a preliminary, we describe the concept of excitations in linear media. We then introduce in Sec.~\ref{sec:symm_groups} a self-contained framework adapted from the theory of space groups, which serves to find band structure degeneracies, followed by a perturbative approach to describe symmetry breaking in Sec.~\ref{sec:symm_perts}. Finally, we apply the introduced concepts to sixfold and fourfold symmetric lattices in Secs.~\ref{sec:symm_sixfold} and \ref{sec:symm_fourfold}, discussing the various effects which may be induced in engineered metamaterials. 	
 	%
 	\tcblower
 	%
@@ -33,7 +33,7 @@ The form of Eqs.~\eqref{eq:symm_maxwell} and \eqref{eq:symm_se} suggests a separ
 \psi(\vb{r}, t) = \e^{-i \omega t} \phi(\vb{r}) + \text{c.c.} 
 \end{equation}
 %
-This allows us to drop the explicit time-dependence to get,
+This allows us to drop the explicit time-dependence to get
 \begin{equation} \label{eq:symm_linproblem}
 L \phi(\vb{r}) = E(\omega) \phi(\vb{r})\,,
 \end{equation}
@@ -41,11 +41,11 @@ where $L$ is a linear operator in real space. The interpretation of the eigenval
 
 As we focus on periodic structures, we express the spatial part as a Bloch function\footnote{In the presence of discrete time-translation symmetry, the time dependence may also be expressed as a Bloch function. The study of such solutions is called \textit{Floquet theory}.}. Assuming a lattice vector $\vb{a}$, we may choose a vector $\vb{k}$ to construct a solution of the form
 \begin{equation} \label{eq:symm_sol_gen_space}
-\phi_{\vb{k}}(\vb{r}) = u_{\vb{k}}(\vb{r}) \e^{i \vb{k} \vdot \vb{r}} \,, \qquad u_{\vb{k}}(\vb{r} + \vb{a}) = u_{\vb{k}}(\vb{r}) \,,
+\phi_{\vb{k}}(\vb{r}) = u_{\vb{k}}(\vb{r}) \e^{i \vb{k} \vdot \vb{r}} \,, \qquad u_{\vb{k}}(\vb{r} + \vb{a}) = u_{\vb{k}}(\vb{r}) \,.
 \end{equation}
 The functional dependence of $E(\omega)$ on $\vb{k}$ is then known as \textit{dispersion}.
 
-We may now impose symmetry constraints on $\phi(\vb{r})$ and the resulting eigenvalue spectrum. Before plunging into a formal presentation of the necessary concepts, we attempt an informal explanation to guide our efforts in this Chapter. 
+We may now impose symmetry constraints on $\phi(\vb{r})$ and the resulting eigenvalue spectrum. Before plunging into a formal presentation of the necessary concepts, we give an informal explanation to guide our efforts in this Chapter. 
 
 \subsubsection{Informal summary} 
 
@@ -56,7 +56,7 @@ u_{\vb{k}}(\vb{r}) \e^{i \vb{k} \vdot \vb{r}}\quad \xrightarrow{\mathmakebox[1.5
 When this mapping results in a distinct solution, a degeneracy occurs. Degenerate solutions may have the same or different $\vb{k}$ labels. The set of degenerate solutions mapped into each other form a \textit{basis for an irreducible representation} -- we find these in Sec.~\ref{sec:symm_groups}.
 %We explore the degeneracy by finding a \textit{basis} -- a set of functions $u_{\vb{k}}(\vb{r}) \e^{i \vb{k} \vdot \vb{r}}$ closed under the action of all symmetry operations.
 
-With an explicit basis at hand, we may represent each symmetry operation by a matrix -- its \textit{representation matrix}, which must commute with our linear operator $L$. Perturbing the structure then removes one of these symmetry requirements, allowing for the degeneracy to split in a way that preserves the remaining symmetries. The degeneracy will typically only hold at a specific point $\vb{k}$ and not in its vicinity, giving rise to Dirac cones.
+With an explicit basis at hand, we may represent each symmetry operation by a matrix -- its \textit{representation matrix}, which must commute with our linear operator $L$. Perturbing the structure removes one of these symmetry requirements, allowing for the degeneracy to split in a way that preserves the remaining symmetries. The degeneracy will typically only hold at a specific point $\vb{k}$ and not in its vicinity, giving rise to band touchings.
 
 To get any further, we must now introduce the much more precise language of group and representation theory.
 
@@ -101,7 +101,7 @@ To illustrate the above terminology, we describe the space group \textit{p6m} ex
 
 $\boldsymbol{\Gamma}$: The point $\boldsymbol{\Gamma} = (0,0)$ is invariant under all point group operations. Hence, its little co-group is the same as the isogonal group, $C_{6v}$, which implies that the star $S = \{ \boldsymbol{\Gamma} \}$.
 
-$\boldsymbol{M}$: The point $\boldsymbol{M} = \frac{2\pi}{3 \abs{\vb{a}}} \left(1,\,0 \right)$ is taken into an equivalent $k$-point, $-\boldsymbol{M}$, by spatial inversion and a $C_2$ rotation, giving a little co-group $C_{2v}$. A $C_6$ rotation brings it into an inequivalent point $\boldsymbol{M}'$, so that the star is $S = \{ \boldsymbol{M}, \boldsymbol{M}' \}$. 
+$\boldsymbol{M}$: The point $\boldsymbol{M} = \frac{2\pi}{3 \abs{\vb{a}}} \left(1,\,0 \right)$ is taken into an equivalent $k$-point, $-\boldsymbol{M}$, by spatial inversion and a $C_2$ rotation, giving a little co-group $C_{2v}$. Two successive $C_6$ rotations generate two inequivalent points, so that the star is $S = \{ \boldsymbol{M}, \boldsymbol{M}', \boldsymbol{M}'' \}$. 
 
 $\boldsymbol{K}$: The point $\boldsymbol{K} =  \frac{2\pi}{3 \abs{\vb{a}}} \left(1,\, 1/\sqrt{3} \right)$ is taken into an equivalent $k$-point by a $C_3$ rotation and a vertical mirror plane, giving a little co-group $C_{3v}$. The star is again generated by a $C_6$ rotation: $S = \{\boldsymbol{K}, \boldsymbol{K}' \}$. 
 
@@ -139,7 +139,7 @@ which is equivalent to taking
 \begin{equation} \label{eq:symm_trs}
 u_{\vb{k}}(\vb{r}) \rightarrow u_{\vb{k}}(\vb{r})^* \,, \quad \vb{k} \rightarrow -\vb{k} \,,
 \end{equation}
-which must again yield a valid solution. Eq.~\eqref{eq:symm_trs} will allow us to impose (or break) TR symmetry despite not dealing explicitly with the time dimension. 
+which must again yield a valid solution. Eq.~\eqref{eq:symm_trs} will allow us to impose (or break) TR symmetry despite not dealing with the time dimension explicitly.  
 
 \subsubsection{Example: \textit{p6m} continued}
 
@@ -149,14 +149,14 @@ We now construct a basis for one of the irreducible representations of \textit{p
  		\caption{Properties of different $k$-points of the \textit{p6m} space group. }
 		\label{table:symm_p6m_degs}
  	\begin{tabular}{ c c c c c }
- 		$k$ point & $\boldsymbol{\Gamma}$ & $\boldsymbol{M}$ & $\boldsymbol{K}$ & $\boldsymbol{P}$  \\ \hline
+ 		$k$-point & $\boldsymbol{\Gamma}$ & $\boldsymbol{M}$ & $\boldsymbol{K}$ & $\boldsymbol{P}$  \\ \hline
  		little co-group irrep dimensions & 1, 2 & 1 & 1, 2 & 1 \\
- 		star members & 1 & 2 & 2 & 6 \\
- 		solution degeneracy & 1, 2 & 2 & 2, 4 & 6 \\
+ 		star members & 1 & 3 & 2 & 6 \\
+ 		solution degeneracy & 1, 2 & 3 & 2, 4 & 6 \\
  	\end{tabular}
 \end{table}
 
-Somewhat counter-intuitively, it is the low-symmetry point $\boldsymbol{P}$ which shows the highest solution degeneracy. However, this degeneracy is hardly useful for mimicking the physics of Dirac cones. To do that, we must use one of the high-symmetry points. As discussed in Chapter~\ref{ch:intro}, a TR-symmetric emulation of the quantum spin and valley Hall effects requires a 4-band model. For this reason, we will now focus on the $\boldsymbol{K}$ point. Note however that the degeneracies at $\boldsymbol{M}$ and $\boldsymbol{\Gamma}$ are also interesting -- these may emulate the Hall effect, which only needs a 2-band model. 
+Somewhat counter-intuitively, it is the low-symmetry point $\boldsymbol{P}$ which shows the highest solution degeneracy. However, this degeneracy is hardly useful for mimicking the physics of Dirac cones. To do that, we must use one of the high-symmetry points. As discussed in Chapter~\ref{ch:intro}, a TR-symmetric emulation of the quantum spin and valley Hall effects requires a 4-band model. For this reason, we will now focus on the $\boldsymbol{K}$ point. Note however that the degeneracies at $\boldsymbol{M}$ and $\boldsymbol{\Gamma}$ are also interesting -- these may emulate the quantum Hall effect, which only needs a 2-band model. 
 
 The star of $\boldsymbol{K}$ has two members; seeking a fourfold degeneracy, we focus on the 2-dimensional irrep of $C_{3v}$. A possible basis for this irrep is $(x,y)$;  we therefore define functions $(u_x(\vb{r}), u_y(\vb{r}))$, which transform as $(x,y)$ under point group operations, but are invariant under lattice translations. Applying steps (i) and (ii) with $h = C_6$ gives four basis functions of \textit{p6m}. Omitting the brackets, these are
 %
@@ -177,7 +177,7 @@ The mirror plane $\sigma_x \notin \overline{\mathcal{G}}_{\boldsymbol{K}}$ maps 
 \end{equation}
 %
 where $\tau$ are the Pauli matrices.
-Finally the rotation $C_6 \notin \overline{\mathcal{G}}_{\boldsymbol{K}}$ maps $(u_x, u_y) \rightarrow R_6 (u_x,u_y)$, where $R_6$ is the $2\pi/6$ rotation matrix, and $(\boldsymbol{K}, \boldsymbol{K}') \rightarrow (\boldsymbol{K}', \boldsymbol{K})$, giving in our basis choice
+Finally the rotation $C_6 \notin \overline{\mathcal{G}}_{\boldsymbol{K}}$ maps $(u_x, u_y) \rightarrow R_6 (u_x,u_y)$, where $R_6$ is the $2\pi/6$ rotation matrix, and $(\boldsymbol{K}, \boldsymbol{K}') \rightarrow (\boldsymbol{K}', \boldsymbol{K})$, giving
 \begin{equation}
 \rho(C_6) = \tau_1 \otimes R_6\,.
 \end{equation}
@@ -193,14 +193,14 @@ where $\mathcal{K}$ is the complex conjugation operator. It is reassuring to not
 
 In general, for a continuous medium, the number of solutions $\phi(\vb{r})$ of the linear problem \eqref{eq:symm_linproblem} is infinite. In the previous Section, we formulated symmetry requirements that allowed us to group the solutions into degenerate sets, identifying each with an irrep of the underlying space group. 
 
-Here, we make a conceptual leap and focus exclusively on a single set of degenerate solutions. It is within this restricted subspace that topological physics in metamaterials is usually realised. Such an approach is justified where the solutions lie in a bandgap, in which case no other solutions with similar eigenvalues are available for mixing. Where this is not the case (i.e., if accidental degeneracies are present), interactions of different solution sets must be considered~\cite{Benalcazar_2020, Cerjan_2020}.
+Here, we make a conceptual leap and focus exclusively on a single set of degenerate solutions. It is within this restricted subspace that topological physics in metamaterials is usually realised. Such an approach is justified where the solutions lie in a bandgap, in which case no other solutions with similar eigenvalues are available for mixing. Where this is not the case (i.e., when accidental degeneracies are present), interactions of different solution sets must be considered~\cite{Benalcazar_2020, Cerjan_2020}.
 
 We apply the concepts introduced in Sec.~\ref{sec:symm_groups} to obtain symmetry-allowed perturbative terms in our linear problem \eqref{eq:symm_linproblem}\footnote{Although adapted for our purposes, much of this material is covered in Refs.~\cite{Saba_2017, Saba_2020}.}.
 Having chosen a basis where the solution appears as a vector $\vb{v}$, we have the equation
 \begin{equation} \label{seq:eigenproblem}
 M(\boldsymbol{\lambda})  \vb{v} = E(\boldsymbol{\lambda}) \vb{v} \,,
 \end{equation}
-where $M$ is a matrix (often, the Hamiltonian, in which case $E$ describes energy), and $\boldsymbol{\lambda}$ is a vector parametrising the perturbation.
+where $M$ is a matrix (often, the Hamiltonian, in which case $E$ describes energy), and $\boldsymbol{\lambda}$ is a vector parametrising a perturbation.
 \\
 
 \subsubsection{Zeroth order} 
@@ -209,19 +209,19 @@ Suppose that the unperturbed operator $M(0)$ has a set of symmetries forming the
 \begin{equation}
 \begin{gathered}
 M(0)\vb{v} = E(0) \vb{v} \quad \implies \quad M(0) \rho(g) \vb{v} = E(0) \rho(g) \vb{v} \\
-\implies \quad \rho(g)^{-1} M(0) \rho(g) \vb{v} =  M(0) \vb{v} \,,
+\implies \quad \rho(g)^{-1} M(0) \rho(g) \vb{v} =  M(0) \vb{v} \,.
 \end{gathered}
 \end{equation}
 Since $\vb{v}$ is arbitrary, we arrive at the kernel equation
 \begin{equation} \label{seq:zeroconstraint}
 M(0) = \rho(g)^{-1} M(0) \rho(g)\,,
 \end{equation}
-which, by construction, is satisfied only if $M(0) \propto \mathbb{1}$. In this case, the degeneracy is said to be \textit{symmetry-protected}, as any permissible perturbation must change all four eigenvalues simultaneously.
+which, by construction, is satisfied only if $M(0) \propto \mathbb{1}$. The degeneracy is thus said to be \textit{symmetry-protected}.
 \\
 
 \subsubsection{First order} 
 
-We now perturb with a real parameter $\boldsymbol{\lambda}$ to the first order. Keeping the same basis. Eq.~\eqref{seq:eigenproblem} now reads
+We now perturb with a real parameter $\boldsymbol{\lambda}$ to the first order. Keeping the same basis, Eq.~\eqref{seq:eigenproblem} now reads
 \begin{equation} \label{seq:perteq}
 \left[\boldsymbol{\lambda} \vdot \boldsymbol{M}_{1}(\boldsymbol{\lambda})\right] \vb{v} = E_1(\boldsymbol{\lambda}) \vb{v}\,,
 \end{equation}
@@ -253,7 +253,7 @@ While a ubiquitous way to create topological bandgaps, some engineered perturbat
 
 \subsection{Quasimomentum k} \label{sec:symm_kpert}
 
-To find the behaviour of our solution away from the high-symmetry points in $k$-space, we consider a perturbation with $\boldsymbol{\lambda} = (\delta k_x, \delta k_y) = \vb{k} - \boldsymbol{K}$. The operator $\boldsymbol{\nabla}_{\vb{k}}$ transforms similarly to the vector $(x, y)$, for which the $2 \cross 2$ matrices $R(g)$ are readily found. The resulting perturbation is linearly proportional to $\vb{k}$, i.e., it describes linear dispersion. In some cases~\cite{Denner_2020}, this contribution vanishes, necessitating perturbations of higher order in $ \vb{k}$. Depending on the space group, symmetry-adapted basis vectors such as $(\delta k_x^2- \delta k_y^2, \delta k_x \delta k_y)$ are then a convenient basis choice. Note that this approach is essentially equivalent to that of $\vb{k} \vdot \vb{p}$ theory.
+To find the behaviour of our solution away from the high-symmetry points in $k$-space, we consider a perturbation with $\boldsymbol{\lambda} = (\delta k_x, \delta k_y) = \vb{k} - \boldsymbol{K}$. The operator $\boldsymbol{\nabla}_{\vb{k}}$ transforms similarly to the vector $(x, y)$, for which the $2 \cross 2$ matrices $R(g)$ are readily found. The resulting perturbation is linearly proportional to $\vb{k}$, i.e., it describes linear dispersion. In some cases~\cite{Denner_2020}, this contribution vanishes, necessitating perturbations of higher order in $ \vb{k}$. Depending on the space group, symmetry-adapted basis functions such as $(\delta k_x^2- \delta k_y^2, \delta k_x \delta k_y)$ are then a convenient basis choice. Note that this approach is essentially equivalent to that of $\vb{k} \vdot \vb{p}$ theory~\cite{Dresselhaus}.
 
 Equipped with the necessary framework, we now proceed to describe the various possible perturbations of six and fourfold symmetric lattices and their effects.
 
@@ -266,7 +266,7 @@ We have already obtained the necessary representation matrices in the Example in
 \rho(\vb{a}) = \text{diag}\{ \e^{4 \pi i /3}, \e^{2 \pi i / 3} \} \otimes \mathbb{1}_2 \, , \quad \rho(\mathcal{T}) = (\tau_1 \otimes \mathbb{1}_2) \mathcal{K} \,.
 \end{gathered}
 \end{equation}
-First, let us consider the perturbations associated with moving the quasimomentum $\vb{k}$ away from the high-symmetry points. Proceeding as outlined in Sec.~\ref{sec:symm_kpert}, we look for two $4 \cross 4$ matrices constrained by the condition \eqref{seq:condition}. This is a linear problem in 32 variables, which we solve in Wolfram Mathematica~\cite{Mathematica}, obtaining the allowed perturbation terms (notice that both anticommute with time reversal, $\rho(\mathcal{T})$)\textit{}
+First, let us consider the perturbations associated with moving the quasimomentum $\vb{k}$ away from the high-symmetry points. Proceeding as outlined in Sec.~\ref{sec:symm_kpert}, we look for two $4 \cross 4$ matrices constrained by the condition \eqref{seq:condition}. This is a linear problem in 32 variables, which we solve in Wolfram Mathematica~\cite{Mathematica}, obtaining the allowed perturbation terms [notice that both anticommute with time reversal, $\rho(\mathcal{T})$]
 \begin{equation}
 \delta k_x \left(\tau_3 \otimes \tau_1 \right) \equiv \delta k_x \gamma_x \,, \quad \delta  k_y \left(\tau_3 \otimes \tau_3 \right) \equiv \delta  k_y \gamma_y \,.
 \end{equation} 
@@ -303,19 +303,19 @@ where $E_0$ is the unperturbed eigenvalue and $M_1$ is given by structural and/o
 \begin{equation}
 E(\delta k_x, \delta k_y, c_1, c_2) = c_1 \pm \sqrt{\delta k_x^2 + \delta k_y^2 + c_2^2} \,,
 \end{equation}
-which is the case for any perturbation which anticommutes with both $\gamma_x$ and $\gamma_y$. Reversing the orientation of the triangular incision changes the sign of $c_2$ -- the two orientations thus form topologically distinct bulks. Many variants of this structure have been shown to display the analogue of the quantum valley Hall effect in metamaterials, see Chapter \ref{ch:intro}.
+which is the case for any perturbation which anticommutes with both $\gamma_x$ and $\gamma_y$. Reversing the orientation of the triangular incision changes the sign of $c_2$, resulting in band inversion. Many variants of this structure have been shown to display the analogue of the quantum valley Hall effect in metamaterials, see Chapter \ref{ch:intro}.
 
 \textbf{(c)} All point group symmetries are preserved here, with translation symmetry being broken instead, resulting in an enlarged unit cell. In $k$-space, this corresponds to a shrunken unit cell, such that both $\boldsymbol{K}$ and $\boldsymbol{K'}$ are mapped to the $\boldsymbol{\Gamma}$ point. This is known as \textit{band folding} and was the mechanism to obtain analogues of the quantum spin Hall effect in the pioneering work of Wu and Hu~\cite{Wu_Hu_2015}. As this perturbation enforces eigenstates which are either even or odd under inversion, it does not commute with (b).  
 
 \textbf{(d)} Here we apply a vector potential corresponding to a magnetic field in the out-of-page direction. This is exactly the mechanism which was proposed~\cite{Haldane_2008} and soon after demonstrated~\cite{Wang_2009} to emulate the quantum Hall effect for the first time. Indeed, the induced perturbation anticommutes with both $\gamma_x$ and $\gamma_y$, opening a gap, but breaks TR symmetry, enabling the formation of chiral (one-way) modes. Interestingly, it commutes with both perturbations (b) and (c). 
 
-\textbf{(e)} Another breaking of inversion symmetry occurs here, now preserving $\sigma_y$. The Dirac cones are unaffected, except for a constant shift, which seems rather surprising, as it suggests that $C_6$ symmetry is not necessary to maintain a fourfold degeneracy. Notice the contrast with (b) where $\mathcal{T}$ and $\sigma_x$ are present. Both map $\boldsymbol{K} \rightarrow \boldsymbol{K'}$, fixing two double degeneracies but permitting splitting at each point. $\sigma_y$ on the other hand operates within the valley subspace but preserves the $\boldsymbol{K}$ label, enforcing two separate double degeneracies at $\boldsymbol{K}$ and $\boldsymbol{K'}$. The simultaneous presence of $\sigma_y$ and $\mathcal{T}$ then ensures a fourfold degeneracy. Had $\mathcal{T}$ been lifted, we would arrive at a perturbation matrix $\tau_3 \otimes \mathbb{1}_2$, shifting the two Dirac cones in opposite directions.
+\textbf{(e)} Another breaking of inversion symmetry occurs here, now preserving $\sigma_y$. The Dirac cones are unaffected, except for a constant shift, which seems rather surprising, as it suggests that $C_6$ symmetry is not necessary to maintain a fourfold degeneracy. Notice the contrast with (b) where $\mathcal{T}$ and $\sigma_x$ are present. Both map $\boldsymbol{K} \rightarrow \boldsymbol{K'}$, fixing two double degeneracies but permitting splitting at each point. $\sigma_y$ on the other hand operates within the valley subspace but preserves the $\boldsymbol{K}$ label, enforcing two separate double degeneracies at $\boldsymbol{K}$ and $\boldsymbol{K'}$. The simultaneous presence of $\sigma_y$ and $\mathcal{T}$ therefore ensures a fourfold degeneracy. Had $\mathcal{T}$ been lifted, we would arrive at a perturbation matrix $\tau_3 \otimes \mathbb{1}_2$, shifting the two Dirac cones in opposite directions.
 
 \textbf{(f)} Here, rotational symmetry is reduced to $C_2$, giving a perturbation that commutes with $\gamma_y$. The resulting four eigenvalues and eigenvectors,
 \begin{equation}
 \begin{aligned}
-E(\delta k_x, \delta k_y, c_1, c_2) &= c_1 \pm \sqrt{\delta k_x^2 + (\delta k_y - c)^2} \quad \text{with} \quad \vb{e}_{_{2}^{1}} \\
-E(\delta k_x, \delta k_y, c_1, c_2) &= c_1 \pm \sqrt{\delta k_x^2 + (\delta k_y + c)^2} \quad \text{with} \quad \vb{e}_{_{4}^{3}} 
+E(\delta k_x, \delta k_y, c_1, c_2) &= c_1 \pm \sqrt{\delta k_x^2 + (\delta k_y - c)^2} \quad \text{with} \quad \vb{e}_{_{2}^{1}} \,, \\
+E(\delta k_x, \delta k_y, c_1, c_2) &= c_1 \pm \sqrt{\delta k_x^2 + (\delta k_y + c)^2} \quad \text{with} \quad \vb{e}_{_{4}^{3}} \,,
 \end{aligned}
 \end{equation}
 show that no gap has been opened, but the two cones are shifted in $k$-space. Incidentally, the effect of $c_2$ is similar to that of a vector potential along the $y$-axis, with opposite signs in each valley [see the basis definition in Eq.~\eqref {seq:basis}]. Applying uniaxial stress on a patterned material causes exactly such a perturbation, with $c_2$ showing a gradient in space. This creates a pseudomagnetic field with similarly opposing signs~\cite{Jamadi_2020, Guglielmon_2021}. We do not pursue this avenue further in this thesis.
@@ -339,7 +339,7 @@ The theory of space groups shows that the point groups compatible with translati
 \end{figure}
 
 
-The symmetry-guaranteed solution degeneracies are shown in Table \ref{table:symm_p4m_degs}. Unlike in the case of sixfold symmetry, there are no fourfold degeneracies here. The physics of the QSHE and QVHE cannot therefore be induced in a fourfold-symmetric lattice, unless accidental degeneracies are created. 
+The symmetry-guaranteed solution degeneracies are shown in Table \ref{table:symm_p4m_degs}. Unlike in the case of sixfold symmetry, there are no fourfold degeneracies at the high-symmetry points. The physics of the QSHE and QVHE cannot therefore be induced in a fourfold-symmetric lattice, unless accidental degeneracies are created. 
 
 \begin{table} [h!]
 	\centering
@@ -361,7 +361,7 @@ In our treatment so far, we have only imposed spatial symmetry operations under 
 \begin{figure} [h!]
 	\centering
 	\includesvg{figures/symmetries/blg_inplane.svg}
-	\caption{Lattices threaded by a flux to create antiunitary symmetries. (a) The unit cell of the BBH model. (b) AB-stacked bilayer graphene under an in-plane magnetic field B, taken from Ref.~\cite{Denner_2020}.}
+	\caption{Lattices threaded by a flux to create antiunitary symmetries. (a) The unit cell of the Benalcazar-Bernevig-Hughes model. (b) AB-stacked bilayer graphene under an in-plane magnetic field B, taken from Ref.~\cite{Denner_2020}.}
 	\label{fig:symm_fluxes}
 \end{figure}
 
@@ -369,4 +369,4 @@ While complicated to engineer in experiment~\cite{Serra-Garcia_2018}, the qualit
 \begin{equation}
 \rho(g) M(0) \rho(g) = - M(0) \,.
 \end{equation} 
-Hence, no new degeneracies form as a result of adding magnetic flux. What does change, however, is the impact of both engineered perturbations and deviations of $k$ away from the high-symmetry points. This in turn affects the resulting topological boundary modes, enabling otherwise inaccessible phenomena such as antichirality~\cite{Denner_2020}. The analysis presented in this Chapter can be readily applied to such cases. 
+Hence, no new degeneracies form as a result of adding magnetic flux. What does change, however, is the impact of both engineered perturbations and deviations of $k$ away from the high-symmetry points. This in turn affects the resulting topological boundary modes, enabling otherwise inaccessible phenomena such as \textit{antichirality} -- the presence of co-propagating modes on two opposite sides of a TI~\cite{Denner_2020}. The analysis developed in this Chapter can be readily applied to such cases. 
