@@ -1,0 +1,310 @@
+% !TeX spellcheck = en_GB
+% !TEX root = ../thesis.tex
+
+\chapter{Application: spin detection via parametric frequency conversion} \label{ch:spins}
+
+\begin{chapterabstract}
+	The previous Chapters focused primarily developing a consistent framework to treat driven nonlinear systems, reaching to specific problems to provide examples. In this Chapter, we delve deeper into the analysis of a concrete system. Motivated by recent demonstrations of ultracoherent nanomechanical resonators, we propose to use two coupled ultracoherent resonator modes on an elastic membrane for the detection of small nuclear spin ensembles. To this end, we employ
+	parametric frequency conversion between nondegenerate modes. The nondegenerate modes result from
+	coupled degenerate resonators, and the parametric conversion is mediated by periodic inversions of the
+	nuclear spins in the presence of a magnetic scanning tip. We analyse potential noise sources and derive
+	the achievable signal-to-noise ratio with typical experimental parameter values. Our proposal brings forth a promising platform for spin-phonon interaction and spin imaging.
+	%
+	\tcblower
+	%
+	This chapter is adapted from the manuscript~\cite{Kosata_2020}, with the permission of the American Physical Society.
+\end{chapterabstract}
+
+In Sec.~\ref{sec:spins_intro}, we introduce the concept of NanoMRI and the challenges it poses. 
+The working principle of our sensing scheme is then outlined in Section~\ref{sec:spins_scheme}. In Section~\ref{sec:spins_model}, we derive the full equation of motion for the system in the coupled mode basis. In Section~\ref{sec:linear}, we obtain a simple closed form expression for the signal gain in the absence of nonlinearities and noise. The limitations of this scheme due to the onset of nonlinear behavior are explored in Section~\ref{sec:nl}, followed by noise analysis and a derived expression for the signal-to-noise ratio in Section~\ref{sec:spins_stochastic}. Finally, in Section~\ref{sec:spins_disc} we present a survey of current state-of-the-art experimental possibilities and evaluate the expected performance of our method. 
+
+%In Sec.~\ref{sec:spins_scheme}, we provide an accessible explanation of the proposed sensing scheme, followed by a full model description in Sec.~\ref{sec:spins_model}. In Sec.~\ref{sec:spins_stochastic}, we add the effects of noise to calculate signal-to-noise ratios (SNR) -- the primary figure of merit for the potential application. Finally, we discuss the implications and directions for future work in Sec.~\ref{sec:spins_disc}.
+
+
+\section{\label{sec:level1}Introduction -- NanoMRI} \label{sec:spins_intro} 
+Nanoscale Magnetic Resonance Imaging (NanoMRI) aims at detecting nuclear spins in three spatial dimensions with sub-nanometer resolution~\cite{Sidles_1991, Degen_2009, Poggio_2010, Mamin_2013, Staudacher_2013, Loretz_2014}. In contrast to other techniques like electron microscopy or X-ray tomography, NanoMRI is able to obtain 3D images of complex macromolecules in a nondestructive manner. Combined with the elemental selectivity of MRI, this emerging technique has the potential to become a unique probe of the 3D composition of nanostructures.
+
+Achieving the necessary sensitivity to detect the magnetic moment of a nanometer-sized nuclear spin ensemble is a formidable task. One candidate technique to achieve this goal is Magnetic Resonance Force Microscopy (MRFM)~\cite{Sidles_1991, Rugar_2004, Degen_2009, Nichol_2012, Nichol_2013, Moores_2015, Rose_2018}. In MRFM, nuclear spins are periodically inverted inside a magnetic field gradient to generate a force proportional to the spin magnetic moment. A mechanical transducer is used to detect this force and to translate it into an optical or electrical signal. The sensitivity of the transducer is typically limited by the thermomechanical force noise power spectral density (PSD) of its resonant mode,
+\begin{align} \label{eq:1}
+S_f = 4 k_B T \gamma \,,
+\end{align}
+where $k_B$ is the Boltzmann constant and $T$ is the mode temperature. The transducer's dissipation coefficient is $\gamma = \sqrt{m k}/Q = m \omega_0/Q$, where $m$ is the effective mass of the mode, $\omega_0=2\pi f_0$ is the angular resonance frequency, $k = m\omega_0^2$ is the spring constant, and $Q$ is the mechanical quality factor. In order to reach better sensitivity, much effort is being invested to reduce the dissipation~\cite{Mamin_2001, Moser_2013, Tao_2014, Weber_2016, Reinhardt_2016, Norte_2016, Rossi_2017, Delepinay_2017, Tsaturyan_2017, Heritier_2018, deBonis_2018, Ghadimi_2018}.
+
+Traditional MRFM setups are constructed around cantilever resonators with very small spring constants~\cite{Mamin_2001, Moores_2015, Heritier_2018, Nichol_2012, Nichol_2013, Rose_2018, Rossi_2017}. While this strategy reduces $\gamma$, it can generate issues with long-term stability and strong tip-sample interaction. In addition, one of the primary goals of MRFM is the imaging of biological samples and macromolecules, which are difficult to mount on the tip of a cantilever. Recently, a route towards ultra-low damping coefficients has emerged through the development of soft-clamped silicon nitride membranes and strings, with localized defect modes that feature quality factors up to the $Q \sim 10^9$ range ~\cite{Tsaturyan_2017, Ghadimi_2018, Rossi_2018}. Thanks to this outstanding virtue, silicon nitride resonators offer force sensitivities comparable to those of singly-clamped cantilevers, in spite of their higher masses and resonance frequencies.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.65\textwidth]{figures/spins/fig1.pdf} % size for 2column
+	\caption{\label{fig:spins_fig1} Proposed measurement setup. A silicon nitride membrane is patterned such that a phononic bandstructure is obtained with explicit band gaps. Two unpatterned `defect' areas define in-gap vibrational modes (labeled 1 and 2). A sample spin (or an ensemble of spins) on defect $1$ is periodically inverted by radio-frequency pulses, while a sharp tip provides a magnetic field gradient, transducing the spin inversion to a force acting on the membrane. A cavity laser focused on defect $2$ is used for driving and readout. Each hole in the pattern has a diameter of roughly $80~\mu$m. Image credit: A. Eichler.}
+\end{figure}
+
+Silicon nitride membranes are attractive transducers for spin detection instruments~\cite{Scozzaro_2016, Blankenhorn_2017, Takahashi_2018, Fischer_2019}. Their large surface allows simple placement of samples, and their high spring constants ensure low displacement drift and bending even in the proximity of a scanning tip. However, there remains one serious obstacle, which we term the `frequency mismatch problem': the vibrational modes of interest are in the low MHz range. Inverting nuclear spins adiabatically at an angular rate of $2\omega_0$, as required by traditional MRFM protocols~\cite{Sidles_1991, Degen_2009}, is unrealistic with such devices. More specifically, current experiments use oscillating fields of a few mT in amplitude to achieve inversion rates of $\sim 10$~kHz~\cite{Grob_2019}. Scaling this method to MHz frequencies would entail oscillating field amplitudes that are incompatible with cryogenic operation and nanoscale precision.
+
+%In this paper, we propose a sensing scheme that circumvents the frequency mismatch problem. We employ a parametric upconversion method~\cite{Dougherty_1996, Moore_2010} to couple two nondegenerate normal modes. The coupling is achieved by a modulation of the effective mechanical frequencies via nuclear spins that are inverted at the splitting frequency. We explore how degenerate local defect modes on the membrane give rise to split extended normal modes, how parametric modulation of a local mode leads to coupling between the normal modes, and how parametric modulation is generated by nuclear spins placed on one local mode in the presence of a magnetic field gradient source. In addition to solving the frequency mismatch problem, the extended nature of the normal modes allows for spatial separation of the sample placement and the readout of the membrane vibrations. This facilitates the integration of our proposed scanning force setup into a high-finesse optical cavity, which allows very sensitive readout of the membrane vibrations and enables a host of optomechanical control techniques~\cite{Aspelmeyer_2014}. From our analysis with realistic experimental parameters, we currently predict a sensitivity competitive with that of contemporary cantilever-based MRFM~\cite{Moores_2015, Rose_2018, deWit2019, Grob_2019} while harnessing the advantages of the membrane platform (these we discuss in more detail in Section~\ref{subsec:spins_disc}). Furthermore, we pinpoint the critical properties of the resonator to design transducers with  improved spin detection performances in the future.
+
+\section{The sensing scheme} \label{sec:spins_scheme}
+We now present our spin detection scheme based on membrane transducers. Consider an elastic membrane patterned with a hexagonal array of holes (Fig.~\ref{fig:fig1}) to create a phononic band gap. As mentioned in Chapter \ref{ch:intro}, localized in-gap modes may be created by engineering a defect in the periodic pattern. Alternatively, the pattern may be varied in space to create second-order topological modes (see Chapter \ref{ch:hoti}). In either case, the modes are effectively isolated from the rest of the membrane and can thus reach extremely high quality factors.
+
+We consider two such modes with equal frequencies and effective masses. When in close proximity, the modes are mechanically coupled, giving rise to symmetric and antisymmetric normal modes with frequencies $\omega_S = \omega_0$ and $\omega_A > \omega_S$ [see Fig.~\ref{fig:splittings} (a) and (b)]. In experiments, the frequencies $\omega_S$ and $\omega_A$ are in the MHz range, but their difference $\Delta \omega = \omega_A - \omega_S$ is on the order of a few kHz~\cite{Haelg_2021, Catalini_2020}. The exact details of the coupling can be found using the methods of Sec.~\ref{sec:hb_membrane_eom}.
+
+An ensemble of spins with magnetization $M$ is placed on one of the defects and is periodically inverted by radio-frequency pulses~\cite{Degen_2009}. In the presence of a magnetic tip, the magnetic field gradient couples mechanical motion to the spin moment. Namely, the second derivative leads to a frequency modulation of the corresponding defect mode. This modulation translates into a time-dependent coupling between the normal modes~\cite{Frimmer_2014}. If this coupling is periodically varied exactly at the rate $\Delta \omega$, it generates what is known as parametric frequency conversion or parametric mode coupling. When one of the modes, e.g. $\omega_S$, is additionally resonantly driven by an external force to amplitude $X_S$, the parametric mode coupling induces the antisymmetric mode at $\omega_A$ to be driven by the combination of $X_S$ and $M$ [cf. Fig.~\ref{fig:splittings} (c)] to amplitude $X_A$. The presence of the spins can thus be inferred from the oscillations, which can be read off at $\omega_A$ at either of the two defect locations. In this way, a slow spin inversion can lead to a detectable signal at a high-frequency mode. Note that the frequency conversion mechanism has recently been demonstrated in experiment~\cite{Haelg_2022}. 
+
+\begin{figure} [ht!] 
+	\centering
+	\includegraphics[width=65mm]{figures/spins/fig2.png}
+	\caption{Mode power spectra at different levels of coupling. (a) The two uncoupled degenerate modes at $\omega_S$. Inserts provide schematic representations of the mode shapes. (b) frequency splitting introduced by linear spatial coupling. (c) spin-mediated amplitude at $\omega_A$ generated by weak parametric modulation and a strong drive at $\omega_S$. (d) further splitting (Rabi oscillations) due to strong parametric driving (not realized in our case).}
+	\label{fig:splittings}
+\end{figure}
+
+
+\section{Model description} \label{sec:spins_model}
+
+We model the system as two equivalent interacting oscillators with coordinates $x_1$ and $x_2$, corresponding to modes 1 and 2 in Fig.~\ref{fig:fig1}. Our treatment is entirely classical, as in our case thermal effects overcome the oscillator's energy level spacing, i.e.,  $\hbar\omega_0 \ll k_B T$ down to cryogenic temperatures (with $\hbar$ the reduced Planck constant). Nonlinearities are added, as they turn out to play an important role (cf. Sec.~\ref{sec:nl}). We designate $x_1$ to host a time-dependent magnetic moment $\vb{M}(t)$ in the presence of an inhomogeneous magnetic field $\vb{B}(x_1)$ in the $x$ direction. The goal of our scheme is to measure the magnetization $\abs{\vb{M}(t)}$, which corresponds to the net polarization of a nanoscale ensemble of nuclear spins. Additionally, $x_2$ is externally driven by a force $F(t)$, e.g., by laser radiation pressure. The corresponding Hamiltonian reads
+\begin{equation}
+H = H_0 + H_{1},
+\end{equation}
+where $H_0$ describes two non-interacting nonlinear resonators, and
+\begin{equation} \label{eq:hamiltonian}
+H_{1} = \frac{m \omega_0 \Delta \omega}{2} (x_1 - x_2)^2  - \vb{M}(t) \vdot \vb{B}(x_1) - F(t)\: x_2
+\end{equation}
+
+contains the linear coupling between the resonators, the field interaction, and the external drive, respectively. The component of spin polarization that is perpendicular to the external field undergoes Larmor precession and does not contribute to the signal. Therefore $\vb{M}(t) \vdot \vb{B}(x_1) = M(t) B(x_1)$ and the corresponding equations of motion in the presence of homogeneous dissipation $\gamma$ are
+\begin{multline} \label{eq:x1}
+\ddot{x}_1 + \gamma \dot{x}_1 + \omega_0^2\: [1 + \chi_1(t)] \:x_1 + \omega_0 \Delta \omega (x_1 - x_2) +K(x_1)\\
+= \frac{1}{m} \bigg[M(t)\frac{\partial}{\partial x_1} B(x_1) +  \xi_1(t)\bigg] \,,
+\end{multline}
+and
+\begin{multline} \label{eq:x2}
+\ddot{x}_2 + \gamma \dot{x}_2 + \omega_0^2\: [1 + \chi_2(t)] \:x_2 +  \omega_0 \Delta \omega (x_2 - x_1) +K(x_2)\\
+= \frac{1}{m} [F(t) + \xi_2(t)] \,.
+\end{multline}
+The function $K(x)$ contains all nonlinear elements, cf. Sec.~\ref{sec:nl}. The terms $\xi_{1,2}(t)$ and $\chi_{1,2}(t)$ represent thermal and frequency noise, respectively, whose roles are discussed in Sec.~\ref{sec:spins_stochastic}.
+
+The magnetization $M(t)$ fluctuates with a finite correlation time, known as the spin relaxation time $T_1$ in NMR experiments. Simultaneously, we apply periodic spin-flipping with frequency $\Omega$, so that
+\begin{align} \label{eq:M(t)}
+M(t) = M \xi_M(t) \cos{\Omega t} \\\expval{\xi_M(t) \xi_M(t')} = e^{- \abs{t-t'} / T_1}
+\end{align}
+where $\xi_M(t)$ is a stochastic term with an approximately Lorentzian PSD in the frequency domain. In accord with the frequency mismatch problem discussed above, the spin-flipping rate is slow relative to the membrane mode frequency, $\Omega \ll \omega_0$.
+
+Taking the equilibrium point to be $x_1 = 0$ and expanding $B(x_1)$ yields, to second order\footnote{Note that higher order terms introduce nonlinearities into the equation of motion, but here these are negligible in magnitude.},
+\begin{equation} \label{eq:diff_B}
+\frac{\partial  B(x_1)}{\partial x_1} = \eval{\frac{\partial  B(x_1)}{\partial x_1}}_{x_1 = 0} + \eval{\frac{\partial^2 B(x_1)}{\partial x_1^2}}_{x_1 = 0} x_1 \,.
+\end{equation}
+
+Substituting Eq.~\eqref{eq:diff_B} into Eq.~\eqref{eq:x1}, the first derivative of $B$ corresponds to a direct drive of mode 1 by the spin force, which is measured in conventional MRFM by flipping the spin at the resonator frequency, $\Omega = \omega_0$. For $\Omega \ll \omega_0$, this drive is off-resonant and can be neglected. The second term corresponds to a force that is proportional to the amplitude $x_1$, i.e., it corresponds to a parametric drive~\cite{Rugar_1991, Lifshitz_2008, Leuch_2016}. This parametric drive is also strongly detuned from the main parametric resonance frequency, which is $\Omega = 2 \omega_0$. The frequency shift caused by this term has been observed in experiments~\cite{Rugar_2004, Garner_2004, Degen_2009, Lee_2012}, but its practical use for nuclear spin detection is typically hindered by frequency noise in the resonator. 
+\\
+
+The key role of the higher field derivatives in Eq.~\eqref{eq:diff_B} is brought out in the normal mode basis (see Fig.~\ref{fig:splittings} for a visualization). Applying the linear transformation
+\begin{equation} \label{eq:transform}
+\mqty(x_S \\ x_A) = \frac{1}{\sqrt{2}}\mqty(1 && 1 \\ 1 && -1) \mqty(x_1 \\ x_2)
+\end{equation}
+yields two normal modes labeled $x_S$ (symmetric) and $x_A$ (antisymmetric), governed by the two equations of motion
+\begin{equation} \label{eq:bigeom}
+\ddot{x}_i + \gamma \dot{x}_i +\omega_i^2(t) \: x_i + K_i(x_i, x_j) =  \delta\omega^2(t) x_j + \frac{F(t)}{\sqrt{2} m} + \frac{\xi_i(t)}{m} \,,
+\end{equation}
+with $i,j \in \{S,A\}, \: i \neq j$. The normal modes are split in frequency~\footnote{Please note that the elastic coupling energy term proportional to $(x_1-x_2)^2$ does not affect the symmetric mode while it raises the frequency of the antisymmetric mode. The more common situation where the coupling is proportional to $x_1 x_2$ (e.g.,~Rabi splitting) results in a symmetric splitting around $\omega_0$.},
+\begin{align} \label{eq:normal_basis}
+\begin{split}
+\omega_S^2(t) &= \omega_0^2 - \delta\omega^2(t), \\
+\omega_A^2(t) &= \omega_0^2 + 2 \omega_0 \Delta \omega- \delta\omega^2(t) \,,
+\end{split}
+\end{align}
+where we denoted
+\begin{equation} \label{eq:deltaomega}
+\delta\omega^2(t) = \frac{M(t)}{2 m} \partial^2_x B \,,
+\end{equation}
+and from now on we use the short-hand notation $\partial^2_x B \equiv \eval{\frac{\partial^2 B(x_1)}{\partial x_1^2}}_{x_1 = 0}$. 
+
+The transformed nonlinear terms $K_i(x_i, x_j)$ further couple the two modes. Note that for resonators with non-identical frequencies and/or masses, a transformation analogous to Eq.~\eqref{eq:transform} can always be found which cancels the linear coupling term. -- normal modes always exist.
+
+\subsection{Linear case} \label{sec:linear}
+Before turning to the key performance characteristic of our proposed scheme - the signal-to-noise ratio (SNR) - in Sec.~\ref{sec:spins_stochastic}, we demonstrate its working principle on a simple case. To this end, we neglect nonlinearities and noise terms in Eq.~\eqref{eq:bigeom} and set $T_1 \rightarrow \infty$.
+
+It is important to note that $\delta\omega^2(t)$ enters as two different effects. First, it enters Eq.~\eqref{eq:normal_basis} as a (parametric) modulation in time of the normal mode frequencies. As mentioned before, this modulation is far detuned from resonance and can be neglected. Second, $\delta\omega^2(t)$ appears in Eq.~\eqref{eq:bigeom} as an explicit coupling term between $x_S$ and $x_A$~\cite{Frimmer_2014}.
+
+Energy upconversion is equivalent to a driving force exerted by one mode onto the other. Taking, without loss of generality, $x_S$ as the strongly-driven \textit{pump} and $x_A$ as the \textit{readout} mode, we set the external force to be $F(t) = F \cos(\omega_S t)$ and write the pump mode amplitude as\footnote{This is equivalent to the single-harmonic ansatz introduced in Chapter \ref{ch:hb}.}
+\begin{equation} \label{slowflow}
+x_{S}(t) = X_S \cos{\omega_{S} t} \,.
+\end{equation}
+The oscillating term $\delta\omega^2(t)x_S(t)$ in Eq.~\eqref{eq:bigeom} now acts as a driving force for $x_A$ that facilitates a frequency conversion: the low-frequency parametric drive $\delta\omega^2(t)$ of the resonator $x_1$ is upconverted into two driving terms acting on the mode $x_A$ at frequencies $\omega_S \pm \Omega$. Flipping the spins at the modes' frequency difference, $\Omega = \Delta \omega$, hence results in a resonant driving force for $x_A$ with amplitude
+\begin{equation} \label{eq:fspin}
+F_{\rm spin} = \frac{M \partial_x^2 B}{4} X_S \,.
+\end{equation}
+In this way, the driven pump mode generates a magnetization-dependent motion of the readout mode. We can thus detect $M$ by measuring the Fourier component $\hat{x}_A(\omega_A)$ (denoted $X_A$), which is proportional to $F_{\rm spin}$ and has a fixed ratio to the pump mode amplitude $X_S$,
+\begin{equation} \label{eq:moderatio}
+X_A = \frac{M \partial^2_x B}{4 m \omega_A^2} Q \,X_S \,.
+\end{equation}
+where $Q = \omega_0 / \gamma$.
+
+Note that strong parametric coupling of two nondegenerate modes generates doubly-split states [see Fig.~\ref{fig:splittings} (d)]~\cite{Okamoto_2013, Abdo_2013}. This can be understood as a periodic redistribution of energy between the modes, akin to Rabi oscillations~\cite{Frimmer_2014, Faust_2013, Okamoto_2013_NP}, which manifest as a beating in the amplitude of each normal mode. The frequency of the Rabi oscillations for a sinusoidal parametric drive $\delta\omega^2(t) \equiv \delta\omega^2\sin\left(t\Delta\omega\right)$ is given by the corresponding natural frequency shift, $\omega_{Rabi} = \delta \omega^2 / 2\omega_0$. In our case, however, $\omega_{Rabi} \ll \gamma \ll \omega_0$, meaning that energy upconverted from $\omega_S$ to $\omega_A$ is dissipated long before it can be coherently transported back to $\omega_S$. We thus neglect coherent Rabi oscillations and only look for steady-state amplitudes of the normal modes $x_S$ and $x_A$ under the influence of weak energy upconversion [Fig.~\ref{fig:splittings} (c)].
+
+In summary, we can see that the strong drive at frequency $\omega_S$ has been converted into a signal at $\omega_A$ that depends linearly on $M$, i.e., it corresponds to the (instantaneous) magnetization of the measured spin or spin ensemble. Measuring the ratio in Eq.~\eqref{eq:moderatio}, instead of a directly-driven resonator amplitude, enables the use of high-frequency resonators as MRFM sensors. Note that for finite spin lifetimes this magnetization will turn into a fluctuating quantity whose variance in time represents the signal~\cite{Grob_2019}.
+
+\subsection{Nonlinear effects} \label{sec:nl}
+Inspecting Eq.~\eqref{eq:moderatio} suggests that, in order to maximize the signal amplitude, we should drive the pump mode as much as possible. However, nonlinearities, which are naturally present in any real system, become non-negligible as the oscillation amplitudes increase. We have seen in Chapter \ref{ch:hb} that nonlinear systems are difficult to solve. Fortunately, our readout mode will only be weakly excited, we can therefore assume it to be {quasi-linear} -- nonlinearities will only enter as perturbations of linear behaviour.  
+
+In line with the contemporary development of defect modes in membrane nanoresonators~\cite{Catalini_2020}, we consider a combination of a Duffing term $\alpha$ and nonlinear damping terms $\Gamma_1$ and $\Gamma_2$, such that $K$ in Eqs.~\eqref{eq:x1} and~\eqref{eq:x2} becomes
+\begin{equation}
+K(x_i) = \frac{\alpha}{m} x_i^3 + (\Gamma_1 x_i^2 + \Gamma_2 \dot{x}_i^2)\: \dot{x}_i, \quad i = 1,2 \,,
+\end{equation}
+with our analysis being directly applicable to higher order nonlinear terms. 
+
+Identifying again $x_S$ as the pump mode, we refer to the equations of motion \eqref{eq:bigeom} in the limit of $x_S \gg x_A$. The nonlinearity of $x_S$ will shift its resonant frequency and induce motion at higher harmonics of the driving frequency~\cite{Rand_2005}. These higher harmonics generally affect the readout mode $x_A$ non-resonantly, such that the approximation $x_S \approx X_S \cos(\omega_S t)$ remains correct. The readout mode $x_A$ has a much smaller amplitude than $x_S$ because it is not driven resonantly. We can therefore continue to treat it as a linear resonator,
+\begin{equation} \label{xasimp}
+\begin{gathered}
+\ddot{x}_A + 
+\gamma^{\rm {nl}}_A(t)\:  \dot{x}_A 
++ \omega^{\rm {nl}}_A (t)^2 x_A \\
+= X_S \: \delta \omega^2(t) \cos(\omega_S \: t)+ \frac{F(t)}{\sqrt{2} m}\,.
+\end{gathered}
+\end{equation}
+However, nonlinearities in the bare resonators $x_1, x_2$ couple the motions of $x_S$ and $x_A$ (cf. Appendix~\ref{app:spins_expt}). The damping term $\gamma^{\rm {nl}}_A$ and natural frequency $\omega^{\rm {nl}}_A$ are hence affected by the large amplitude $X_S$ as 
+\begin{align} \label{eq:omeganl}
+\begin{split}
+\gamma^{\rm {nl}}_A(t) &= \gamma + \frac{X_S^2}{4} \big[\Gamma_1 + 3 \omega_S^2 \Gamma_2 +(\Gamma_1 - 3 \omega_S^2 \Gamma_2) \cos{2 \omega_S t}\big],\\
+\omega^{\rm {nl}}_A(t)^2 &= \omega_A^2[1+\lambda_1 (1 + \cos{2 \omega_S t}) + \lambda_2\sin{2 \omega_S t}],
+\end{split}
+\end{align}
+where
+\begin{equation} \label{eq:lambdas}
+\lambda_1 = \frac{3 \alpha}{4 m \omega_A^2} X_S^2,\quad \text{ and} \quad \lambda_2 = \frac{\Gamma_1 \omega_S}{2 \omega_A^2} X_S^2 .
+\end{equation}
+The time-dependent terms in Eq.~\eqref{eq:omeganl} act as off-resonant parametric drives and have no significant effect (cf. Appendix~\ref{app:spins_expt}). Similarly, the natural frequency shift introduced by the Duffing nonlinearity $\alpha$ is negligible ($\lambda_1 \cong 10^{-6}$), precluding significant changes in the response of $x_A$~\cite{Lifshitz_2003}. Note that $\lambda_1$ converts any noise present in the amplitude $X_S$ to frequency noise of $x_A$~\cite{Kenig_2012}. Importantly, though, the effective damping is increased. Defining a nonlinear damping parameter $\Gamma_{\rm nl} = \frac{1}{4} (\Gamma_1 + 3 \omega_S^2 \Gamma_2)$, the quality factor of the readout mode $x_A$ is lowered to
+\begin{equation} \label{Qnl}
+Q_{\rm nl} = \frac{\omega_0}{\gamma + \Gamma_{\rm nl} X_S^2},
+\end{equation}
+which in turn limits the signal gain, cf. Eq.~\eqref{eq:moderatio} with $Q\rightarrow{Q}_{\rm nl}$. As we will show in Sec.~\ref{sec:spins_stochastic}, the increased damping is also detrimental to the SNR since it increases the thermal noise power, in accordance with the fluctuation-dissipation theorem, [cf. Eq.~\eqref{eq:1}].
+
+\section{Statistical treatment} \label{sec:spins_stochastic}
+\subsection{Noise terms in the model}
+In a realistic setting, the bare resonators [Eqs.~\eqref{eq:x1},~\eqref{eq:x2}] are subject to both additive thermal white noise $\xi_{1,2}(t)$ and multiplicative frequency noise $\chi_{1,2}(t)$~\cite{Cleland_2002}. In the frequency domain $\xi_{1,2}$ is spectrally flat, whereas $\chi_{1,2}$ will usually drop off as $\omega^{-1}$ or $\omega^{-2}$~\cite{Fong_2012}. The observed amplitude of the readout mode $x_A$ is thus a combination of the desired signal and fluctuations in the system. To obtain the SNR, we analyze the additive and multiplicative noise components in Eq.~\eqref{eq:bigeom} separately.
+
+\subsubsection{Transformed noise terms} 
+In the normal mode basis, the multiplicative noise is simply
+\begin{equation}
+\chi_{A,S} = \frac{\chi_1(t) + \chi_2(t)}{2},
+\end{equation}
+while the additive noise has contributions from both additive (thermal) and multiplicative (frequency) noise of the bare oscillators,
+\begin{equation}
+\xi_{A,S} = \frac{\xi_1(t)\pm\xi_2(t)}{\sqrt{2}}+ \frac{m\omega_0^2[\chi_2(t) - \chi_1(t)] }{2} x_{S,A}. \\
+\end{equation}
+Specifically, we note the coherent term $x_S$ entering the additive noise $\xi_A$ - taking $x_S$ to be the monochromatic pump [Eq.~\eqref{slowflow}], this upconverts the noise from $\chi_1(t)$ and $\chi_2(t)$, creating a qualitatively different noise term in the coupled system.
+
+\subsubsection{Noise PSD} For equivalent bare oscillators, we assume equal frequency noise PSDs, $S_{\chi_1}(\omega) = S_{\chi_2}(\omega) \equiv S_\chi(\omega)$, whereas the thermal noise PSD is taken constant as per the equipartition theorem, $S_{\xi_1} = S_{\xi_2} \equiv S_\xi$. We then arrive at the PSD of $\xi_A$,
+\begin{equation} \label{eq:SxiA}
+S_{\xi_A}(\omega) = \frac{2\omega_0 m k_B T}{\pi Q_{\rm nl}} + \frac{(m \omega_0^2 X_S)^2}{8} [S_{\chi}(\omega - \omega_S) + S_\chi(\omega + \omega_S)] \,,
+\end{equation}
+comprising both thermal noise and upconverted frequency noise\footnote{Note that as we are using a single-sided PSD as a function of angular frequency $\omega$, the thermal noise appears with a factor of $2/\pi$ instead of the more familiar case of a PSD as a function of frequency $f = \omega/2\pi$, which results in a factor $4$}. The last term in Eq.~\eqref{eq:SxiA} will typically be negligible due to the fast decay of $S_\chi(\omega)$ with $\omega$.
+
+\subsubsection{Effect of frequency noise} In general, colored frequency noise is difficult to treat analytically. Exact results have been obtained for dichotomous and trichotomous Markovian noise with a Lorentzian PSD~\cite{Bourret_1973, Gitterman_2003, Mankin_2008}. These display a highly complex dependence of the system response on the noise profile, which however only manifests at relatively long coherence times. In our case, the typical noise coherence times $\tau_c$ fall within the limit $\gamma \ll \tau_c^{-1} \ll \omega_0$. It has been shown~\cite{Gitterman_2003} that in this case, the noise simply shifts the system slightly off resonance, so that the response [Eq.~\eqref{eq:moderatio}] decreases to
+\begin{equation} \label{eq:varomega}
+X_A \rightarrow X_A \bigg[1 - \frac{\text{Var}(\omega_A^2)}{\omega_0^4}Q^2\bigg] \,.
+\end{equation}
+The frequency variance $\text{Var}(\omega_A^2)$ can be obtained via the Wiener-Khinchin theorem by integrating the power spectral density of the dimensionless term $\chi(t)$,
+\begin{equation} 
+\text{Var}(\omega_A^2) = \omega_0^4 \int_0^\infty S_\chi(\omega) \:d\omega \,.
+\end{equation}
+
+Apart from the intrinsic frequency noise $\chi$, our system is also affected by the conversion of any noise in the pump amplitude $X_S$ into the frequency noise of $x_A$, as shown in Appendix~\ref{app:spins_expt}. However, both sources result in negligible corrections compared to the effect of thermal noise acting on $x_A$ and we disregard them from now on.
+
+\subsubsection{Effect of spin fluctuations} We now study the impact of the finite spin lifetime. During the course of a measurement, the magnetization will fluctuate with a characteristic time $T_1$, cf. Eq.~\eqref{eq:M(t)}. In the frequency domain, this corresponds to a Lorentzian distribution. The signal (i.e., the force PSD due to the nuclear spins) is therefore broadened to give
+\begin{equation}\label{eq:S_spin}
+S_{\rm spin}(\omega) = F^2_{\rm spin} \frac{T_1}{\pi[1 + (\omega-\omega_A)^2 \,T_1^2]}\,,
+\end{equation}
+where $F_{\rm spin}$ is the force originating from parametric driving with a coherent magnetic moment [Eq.~\eqref{eq:fspin}]. From a practical perspective (cf. Sec.~\ref{sec:spins_disc}), it is desirable to increase the bandwidth of the resonator beyond the spin lifetime, $2 Q / \omega_A < T_1$~\cite{Degen_2007}. This is routinely achieved by active feedback damping~\cite{Courty_2001, Kleckner_2006, Poggio_2007, Rossi_2018}.
+
+
+\subsubsection{General displacement PSD} We finally present a formulation of the displacement PSD of the readout mode in the presence of feedback damping and various noise sources. Since we consider the case $k_B T  \gg \hbar\omega_A$, we neglect zero-point fluctuations and the discrete nature of the energy spectrum. 
+
+We start by defining the susceptibility of the mode as
+\begin{equation} \label{eq:susc_damped}
+g^2(\omega) = \frac{1 / m^2}{(\omega^2 - \omega_A^2)^2 + (\omega \omega_A / Q_{\rm fd})^2}
+\end{equation}
+with $Q_{\rm fd} = Q_{\rm nl}/(1+p)$ being the (nonlinear) quality factor damped by a feedback gain $p$.
+The mode is driven by the fluctuating force $S_{\xi_A}(\omega)$ defined in Eq.~\eqref{eq:SxiA} and is further subject to detector noise $S_{\rm det}$ and to quantum backaction force noise $S_{\rm qba}$, which represents the non-negligible disturbance of the system by an increasingly precise measurement~\cite{Courty_2001, Clerk_2010}. The latter takes on the value 
+\begin{equation} \label{eq:S_ba}
+S_{\rm qba} = \frac{\hbar^2}{4 \pi^2 S_{\rm det} \eta}
+\end{equation}
+with $0 < \eta \leq 1$ being the detection efficiency~\cite{Rossi_2018}. The observed displacement PSD of the readout mode in the presence of all of these fluctuating forces as well as a spin signal becomes~\cite{Poggio_2007, Rossi_2018}
+\begin{equation} \label{eq:S_x}
+\begin{split}
+S_x(\omega) = g^2(\omega)[& S_{\xi_A}(\omega) + S_{\rm qba} \\& + S_{\rm spin}(\omega) + g_{p=0}^{-2}(\omega) S_{\rm det}]
+\end{split}
+\end{equation}
+where $g_{p=0}^{2}(\omega)$ is the susceptibility without feedback damping. There are three important points to note here: first, we can see from Eq.~\eqref{eq:S_x} that feedback damping decreases the thermomechanical displacement noise PSD but not the underlying force noise PSD (terms in the bracket on the right-hand side). The benefit of feedback damping for nuclear spin detection is only to allow for rapid sampling of statistically independent spin configurations~\cite{Degen_2007}. Second, the fact that zero-point fluctuations are reduced by feedback damping does not violate the Heisenberg uncertainty principle, since the added measurement uncertainty corresponds to at least one half quantum of energy~\cite{Courty_2001, Rossi_2018}. Third, tuning $S_{\rm det}$, for instance by varying the laser power in an optical cavity used to detect the resonator motion, enables an optimal measurement that minimizes $S_x$ over a desired bandwidth~\cite{Clerk_2010}.
+
+\subsubsection{Filtering} In order to reduce the measured displacement noise, we apply a filter to reject noise far off the signal frequency. As a concrete example, we consider a standard Butterworth filter, which modulates the signal with $G(\omega) = [1 + ((\omega - \omega_A)/\omega_f)^{2 n}]^{-1/2}$, where $\omega_f$ denotes the bandwidth and $n$ the filter order. The signal of our experiment corresponds to the displacement variance driven by the spin signal,
+\begin{equation} \label{eq:signal}
+\sigma_{\rm spin}^2 = \int_{0}^{\infty} G(\omega)^2  g(\omega)^2 S_{\rm spin} (\omega) \: d\omega \,,
+\end{equation}
+which is measured together with a noise background of
+\begin{equation} \label{eq:noise}
+\begin{gathered}
+\sigma_{\rm noise}^2 = \int_{0}^{\infty} G(\omega)^2 g(\omega)^2[S_{\xi_A}(\omega) \\+ S_{\rm qba} + g_{p=0}^{-2}(\omega) S_{\rm det}]\: d\omega \,.
+\end{gathered}
+\end{equation}
+
+
+\begin{figure*}
+	\centering
+	\hspace*{-5mm}
+	\includesvg{figures/spins/snrplot.svg}
+	\caption{The SNR [cf. Eq.~\eqref{eq:SNR}] as a function of (a) pump mode amplitude $X_S$ and (b) feedback-damped quality factor $Q_{\rm fd}$. The lines correspond to different values of nonlinear damping $\Gamma_{\rm nl}$ (from top to bottom, red: $7\cross10^{13}$ m$^{-2}$s$^{-1}$, blue: $1\cross10^{14}$ m$^{-2}$s$^{-1}$, green: $3\cross10^{14}$ m$^{-2}$s$^{-1}$, dotted gray: no nonlinear damping). The collection time is $t_c = 240$~s and we consider an ensemble size of $10^4$ proton spins at $T = 0.2$ K, as well as $T_1$ = 50 ms, and $S_{\rm det} =  10^{-31}$~m$^2$\;s (cf. other values in Appendix~\ref{app:spins_expt}). In (a), the quality factor is $Q_{\rm fd} =2 \cross 10^5$, and the dashed lines show the respective asymptotic limits [cf. Eq.~\eqref{eq:snrlimit}]. In (b), the pump mode amplitude is $10$~nm.}
+	\label{fig:snr}
+\end{figure*}
+
+
+\section{Experiment proposal} \label{sec:spins_disc}
+We now assess the feasibility of the proposed measurement scheme using representative experimental parameters of patterned Si$_3$N$_4$ membranes, cf. Fig.~\ref{fig:fig1}. The full set of parameters is included in Appendix~\ref{app:spins_expt}.
+
+First of all, we need to relate $\sigma_{\rm spin}^2$ to the number of spins in the measured ensemble. To this end, we utilize the MRFM framework of spin variance sensing~\cite{Degen_2007}. For an ensemble of $N$ spins, as $N$ becomes small, the thermal (Boltzmann) polarization scales as $N$ and is eventually outweighed by the spin noise, whose standard deviation scales as $\sqrt{N}$. The preferred measurable quantity at the nanoscale is hence the magnetization variance
+\begin{equation}
+\expval{M^2 - \expval{M}^2} = N \mu^2 \,,
+\end{equation}
+where $\mu = 1.4 \times 10^{-26}$~J\;T$^{-1}$ is the proton magnetic moment. Assuming $\expval{M} \cong 0$, the expected spin force is then $\expval{F^2_{\rm spin}} \propto N \mu^2$. Our aim is to estimate the variance by taking successive noisy readings of $M$ as it fluctuates in time, and hence determine $N$. For a spin ensemble with lifetime $T_1$ and matched filter bandwidth $\omega_f = 1 / T_1$, in the limits $\sigma_{\rm spin}^2 \ll \sigma_{\rm noise}^2$, we can represent the  SNR after a collection time $t_c \gg T_1$ in the concise form~\cite{Degen_2007}
+\begin{equation} \label{eq:SNR}
+\text{SNR} = \frac{1}{2} \sqrt{\frac{t_c}{T_1}}\frac{\sigma_{\rm spin}^2}{\sigma_{\rm noise}^2} \,.
+\end{equation}
+
+Eq.~\eqref{eq:SNR} is the most important characteristic of the proposed experiment.
+
+
+\begin{figure*}
+	\centering
+	\hspace{-6mm}
+	\includesvg{figures/spins/PSDs.svg}
+	\caption{A cumulative plot of (a) the force PSD acting on the readout mode [cf. Eq.~\eqref{eq:S_x}] and (b) the resulting filtered displacement PSD [cf. Eq.~\eqref{eq:noise}]. The individual contributions, from bottom to top, correspond to the quantum backaction [purple, cf. Eq.~\eqref{eq:S_ba}], effective thermal noise $S_{\xi_A}$ (orange), detector noise $S_{\rm det}$ (green), and the spin signal $S_{\rm spin}$ [blue, cf. Eq.~\eqref{eq:S_spin}]. We use conservative values for $S_{\rm det} = 10^{-31}$~m$^2$~s, and $T = 0.2$ K, $T_1$ = 50 ms, $Q_{\rm fd} =2 \cross 10^5$, $\Gamma_{\rm nl} = 1 \cross 10^{14}$ m$^{-2}$ s$^{-1}$, $X_S = 10$ nm. (Other values in Appendix~\ref{app:spins_expt}.)}
+	\label{fig:PSDs}
+\end{figure*}
+
+\subsection{Expected SNR}
+Let us now evaluate the SNR of the feedback-damped system [Eq.~\eqref{eq:SNR}]. Driving the pump mode $X_S$ stronger boosts the SNR via the parametric conversion into the force $\abs{F_{\rm spin}}$ [cf. Eqs.~\eqref{eq:fspin} and~\eqref{eq:S_spin}]. However, it also increases the readout mode dissipation via nonlinear damping [Eq.~\eqref{Qnl}], which in turn increases thermal fluctuations [Eq.~\eqref{eq:SxiA}]. 
+
+\subsubsection{Asymptotic limit} 
+The nonlinear damping eventually becomes the dominant dissipation mechanism, whereby for
+\begin{equation} \label{eq:stronglim}
+\Gamma_{\rm nl} \gg \gamma / X_S^2 \,,
+\end{equation}
+both the signal and the thermal noise PSD scale as $X_S^2$, resulting in a limiting value of the SNR,
+\begin{equation} \label{eq:snrlimit}
+\lim_{X_S\rightarrow \infty}{\text{SNR}} =\frac{ C_n (\mu\: \partial_x^2 B)^2}{64 k_B T m \:\Gamma_{\rm nl} } N \sqrt{t_c \: T_1} \,.
+\end{equation}
+where
+\begin{equation} \label{eq:cn}
+C_n = \frac{\int_{0}^{\infty} [ (1 + z^{2n}) (1 + z^2)]^{-1} \: dz}{\int_{0}^{\infty} (1 + z^{2n})^{-1} \:dz}
+\end{equation}
+is a dimensionless constant, depending solely on the filter order $n$. Note that Eq.~\eqref{eq:snrlimit} is independent of the intrinsic linear damping parameter $\gamma$, assuming it is possible to drive the system strongly enough to satisfy the inequality in Eq.~\eqref{eq:stronglim}.
+
+\subsubsection{Case study} 
+We proceed to calculate the expected SNR [Eq.~\eqref{eq:SNR}] for values motivated by recent experiments~\cite{Rossi_2018}. The filtering constant $C_n$ [Eq.~\eqref{eq:cn}] increases with $n$; we use the value $n=4$ ($C_4 \cong 0.77$) as higher orders bring negligible improvement. A plot of the SNR against the pump mode amplitude for three representative values of $\Gamma_{\rm nl}$ is shown in Fig.~\ref{fig:snr}. All parameters are taken from Appendix~\ref{app:spins_expt} unless stated otherwise.
+
+The current membrane devices typically possess $\Gamma_{\rm nl} \cong 1\cross10^{14}$ m$^{-2}$ s$^{-1}$~\cite{Catalini_2020}. In Fig.~\ref{fig:snr}, we see that this allows an SNR exceeding 1 at relatively modest pump mode amplitudes of $X_S = 10$ nm and collection times of 240 s, approaching 9.5 at stronger pumping. [Please note that the spatially resolved amplitudes of $x_{1,2}$ are equal to $X_S/\sqrt{2}$, cf. Eq.~\eqref{eq:transform}. For $X_S = 10$ nm, the spin sample moves therefore with an amplitude of $7.1$ nm.]. This projected performance is on par with current state-of-the-art MRFM experiments, although with a significant potential for improvement stemming from the unusual sensing mechanism (cf. Sec.~\ref{subsec:spins_disc}).
+
+A breakdown of the different noise sources in terms of their impact on the observed displacement is shown in Fig.~\ref{fig:PSDs}. The principal noise component is the thermomechanical noise.
+
+\subsection{Discussion and conclusions} \label{subsec:spins_disc}
+The SNR results presented in Fig.~\ref{fig:snr} compare favorably to recent MRFM experiments. We expect to reach an SNR value of 1 after 240 seconds of measurement with ensemble sizes around $N \sim 10^4$ spins, which matches the sensitivity of current state-of-the-art measurements obtained with ultrasoft cantilevers and nanowires~\cite{Moores_2015, Rose_2018, Grob_2019}. Further significant improvements are expected since the design of ultracoherent nanoscale resonators is an area of active research. As shown in Eq.~\eqref{eq:snrlimit}, the instrumental limitation to the SNR depends on the product $(m \Gamma_{\rm nl})^{-1}$. On the one hand, low mass $m$ can readily be achieved by exploring different mode designs: thin ribbon-shaped modes, or possibly second-order topological defects (Chapter \ref{ch:hoti}). On the other hand, the nonlinear damping coefficient $\Gamma_{\rm nl}$ has hitherto not received much attention. Optimizing the resonator design accordingly could open up unprecedented sensitivities in nuclear spin sensing. A particularly interesting possibility is the use of active feedback to reduce nonlinear damping we showed in Sec.~\ref{sec:hb_damping_the_damping}.
+
+Our scheme offers significant practical advantages over instruments based on cantilevers or nanowires. (i) The membrane surface is convenient for placement of `large' samples, such as viruses or biological molecules in the $100~$nm range. (ii) The spring constant of the membrane resonator modes is orders of magnitude higher than that of typical MRFM cantilevers, which results in a drastically reduced susceptibility towards spatially varying interaction potentials that affect the sensitivity. The scheme is easily extendable to oscillators with unequal masses and natural frequencies. (iii) Our parametric upconversion scheme does not require any electrical or magnetic signal at the frequency of the detection mode. This will be helpful to avoid spurious driving of the sensor which can make data interpretation difficult. (iv) Finally, the magnetic field gradient source in our scheme is located on the scanning tip, which will allow to utilize commercial magnetic force microscopy (MFM) probes. Membrane-based MRFM thus has the potential to become a mature and versatile NanoMRI platform.
+
+In summary, we have theoretically demonstrated the feasibility of using MHz optomechanical membrane resonators as force sensors for nuclear spins. Our work highlights the potential of membrane platforms for sensitive spin detection and should encourage further development of membrane-based NanoMRI instruments and spin-mechanics quantum information platforms.

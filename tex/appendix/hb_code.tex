@@ -1,0 +1,317 @@
+% !TeX spellcheck = en_GB
+% !TEX root = ../thesis.tex
+	
+\chapter{HarmonicBalance.jl: A Julia package} \label{app:hb}
+	
+This Appendix elaborates on the software implementation of the methods developed in Chapter \ref{ch:hb}-\ref{ch:hopf}. It is largely adapted from \cite{Kosata_2022a}.
+	
+\section{Structure}
+
+The bulk of HarmonicBalance.jl is written in Julia, a language combining the accessibility of interpreted languages such as Python with the performance of compiled languages such as C and Fortran. Our package is designed with simplicity of use and scalability in mind. We give a short overview of the package structure and basic workflow below; it is also displayed in Fig.~\ref{fig:app_workflow}.
+    %
+\begin{enumerate}
+	\item ODE systems serve as primary input and are inserted in symbolic form via Symbolics.jl. Each ODE is accompanied by a user-defined set of frequencies to build the harmonic ansatz \eqref{eq:hb_ansatz}. From this, a set of harmonic equations is obtained symbolically.
+	\item Harmonic equations are interfaced with a root-finding algorithm (HomotopyContinuation.jl) and numerical ODE solvers (DifferentialEquations.jl).
+	\item  Steady-state solutions are further analysed, e.g., for stability and other criteria. A toolbox for the calculation of linear response spectra is included. 
+	\item Steady-state solutions for one- and two-dimensional parameter sets are readily visualised. An ODE solver may be used to obtain the slow-time ($T$) dynamics and verify the steady-state results.
+\end{enumerate}
+
+In the following, we detail the working principles of HarmonicBalance.jl. For detailed online documentation on the latest release, we refer the reader to~\cite{harmonic_balance_docs}.
+
+\begin{figure} [h!]
+	\centering
+	\includesvg[width=\textwidth]{figures/appendix/hb_workflow.svg}
+	\caption{The basic workflow of HarmonicBalance.jl.}
+	\label{fig:app_workflow}
+\end{figure}
+
+\subsection{Defining a system, extracting harmonic equations.}
+
+Conceptually, specifying a system requires two ingredients: its ODE of motion, and the set of oscillating frequencies forming the harmonic ansatz. Once defined, the equation of motion is stored in the dedicated object \texttt{DifferentialEquation}. For this primary input and subsequent symbolic manipulations, we employ the Julia package Symbolics.jl~\cite{10.1145/3511528.3511535}, whose emphasis on high performance is essential in dealing with complex problems, such as the coupled oscillators shown in Section~\ref{sec:hardexample}. 
+
+After constructing the harmonic ansatz and introducing the slow time $T$, the harmonic equations governing the harmonic variables $\vb{U}(T)$ are found using the Fourier transform definition in Eq.~\eqref{eq:hb_int}. These equations are stored in the object \texttt{HarmonicEquation}, which in itself stores instances of \texttt{HarmonicVariable}, each specifying one pair $\{u_{i,j}, v_{i,j}\}$.
+
+
+\subsection{Obtaining and characterising steady states}
+
+To find and analyse the steady states of a \texttt{HarmonicEquation}, we need the corresponding (algebraic) steady-state equations and the linear response matrix; these are symbolically stored in the object \texttt{Problem}.
+
+Next, numerical parameter values are specified. Our primary solving method, \texttt{get\_steady\_states}, allows the user to specify which parameters are constant and which are varied. One may vary any number of parameters, i.e., solution sets of any dimension are supported. We then employ a homotopy to retrieve steady states for each parameter set value. The native multi-threading support of HomotopyContinuation.jl can dispatch path tracking over multiple cores. Note that complex roots are being followed throughout the procedure.
+
+Once steady states are found, HarmonicBalance.jl automatically classifies each state by whether it is real (complex roots bear no physical meaning) and by its stability. The final output is a \texttt{Result} object.
+
+\subsection{Visualisation}\label{subsec:vis}
+
+Functionality for static plotting of steady-state and time-dependent solutions is provided using the \texttt{Matplotlib} library~\cite{Hunter2007}. At the core of our plotting routines is the function \texttt{transform\_solutions}, which evaluates a symbolic expression by substituting each of the solutions from a \texttt{Result} object. We implemented classification functionality to label solutions satisfying a given condition.
+
+Rather than the solutions themselves, a \textit{phase diagram} is often desired, which shows how the qualitative behaviour of the system changes in parameter space. We provide the functionality to distinguish parameter space regions by the number of (stable/all) solutions. We also include a sorting algorithm to identify the distinct solution branches.
+
+\subsection{Time-dependent simulations}\label{sec:time_dep}
+
+The behaviour of a system can be found using a numerical ODE solver and an initial condition $\vb{U}(T=T_0)$. This approach is beneficial for analysing systems whose parameters are being adiabatically varied in time, such as the one in Sec.~\ref{sec:hopf_example}. Other potential uses of time-dependent simulations are verifying steady-state results, their stability and fluctuation spectra, and identifying their basins of attraction.
+
+A time-dependent simulation may use either a \texttt{DifferentialEquation} or a \texttt{HarmonicEquation}. The former represents the system in the time domain and uses no approximations. However, the numerical propagation of oscillatory dynamics can be extremely inefficient. Specifically, time grids need to resolve fractions of the period of the fastest oscillation to keep numerical precision. A \texttt{HarmonicEquation} is significantly faster to solve since it describes the system using the slow time $T$, where the oscillatory steady states appear time-independent. This approach, however, can only capture the chosen set of harmonics and nearby frequencies through the slowly varying amplitudes $\vb{U}(T)$. To include additional frequencies, the harmonic ansatz must be expanded. To illustrate the interface to time-dependent solvers, we provide a simple example in the online documentation \url{https://nonlinearoscillations.github.io/HarmonicBalance.jl/stable/examples/time_dependent/}.
+
+\section{Comparison with other harmonic balance implementations}
+
+Steady-state problems in nonlinear periodic ODEs appear in diverse areas of science and technology. Several free and commercial packages exist to solve them. Examples of open-source software include Xyce - a high-performance parallel electronic simulator that can perform harmonic balance analysis~\cite{verley2018xyce}. The harmonic balance method is also natively supported for general nonlinear multiphysics finite element simulations in the open-source C++ FEM library Sparselizard~\cite{halbach2017sparselizard}. An example of a commercial software package is Cadence AWR Microwave Office, which focuses on the analysis of electrical circuits in the frequency domain (i.e. calculation of voltage and current for a given set of elements), and includes features that are not yet implemented in HarmonicBalance.jl (e.g., noise analysis). Generally, these packages are use-case specialised, making their application in other settings challenging.
+
+Likely the closest existing tool to our Julia package is NLvib~\cite{Krack_2019}. However, it focuses
+on predefined problems primarily relevant to mechanical engineering and requires a MATLAB license to use, which is unaffordable for many research groups and educational institutes. Crucially, in all of the above packages, the harmonic balance equations are solved by either (i) time evolution from a given set of initial conditions or (ii) single-root finding methods such as Newton's. These approaches only return one steady state at a time, and even when combined with the continuation of a known solution, disconnected solution branches remain hidden. Our distinction from existing work lies in three main points:
+\begin{itemize}
+	\item The use of homotopy continuation allows us to find all possible solutions of the harmonic balance equations, where solutions for multiple parameters can be obtained reliably and efficiently. In this critical step, usually the most computationally intensive, we rely on HomotopyContinuation.jl, a package which outperforms other established homotopy continuation libraries~\cite{Breiding_2018}.
+	\item Arbitrary equations of motion can be entered and processed. This is crucial for use by the academic community, where an ab-initio approach to physical problems is often preferred over specialised GUI-based tools.
+	\item The code and its dependencies are entirely open-source. This enables a natural synergy with Julia's existing rich ecosystem for scientific computing.
+\end{itemize}
+	
+\section{Computational complexity and performance scaling}\label{sec:hardexample}
+    Here, we shortly illustrate the performance of HarmonicBalance.jl for varying system sizes. We consider a chain of linearly coupled Duffing oscillators similar to Example \ref{sec:hb_mem_driven}, each with nonlinear damping,
+    %
+    \begin{equation} \label{eq:Duffing_chain}
+    \ddot{x}_i(t) + \omega_0^2 x_i(t) +  \alpha x_i(t)^3 + \eta x_i(t)^2 \dot{x}_i(t) - k \sum_{j=i\pm1} x_j(t) = F \cos(\omega t)\,.
+    \end{equation}
+    %
+    where $i = 1,2,..., N$. 
+    Similar systems have been explored in the context of combinatorial optimisation machines based on the mapping of effective spins to parametron networks~\cite{Wang2013,Bello2019a,CalvaneseStrinati2019,2019PhRvL.123y4102F,CalvaneseStrinati2020,Heugel_2022}.
+    The displacement of each oscillator, $x_i$, is expanded using a single-harmonic ansatz at $\omega$,
+    %
+    \begin{equation}
+    x_i(t) = u_i(T) \cos(\omega t ) + v_i(T) \sin(\omega t) \,.
+    \end{equation}
+    %
+    As explained in Section~\ref{sec:harm_exp}, each oscillator adds 2 harmonic equations of order 3. Therefore, a chain of length $N$ and $M=1$ leads to a set of $2{N}$ equations. The corresponding B\'{e}zout bound on the number of solutions, and hence the number of paths which must be tracked by the homotopy continuation algorithm, is $3^{2{N}}$. 
+    
+    In Table \ref{table:benchmark}, we show the computational times for symbolic manipulation and homotopy solving as well as the number of complex and real solutions found. Solving a chain of $N=5$ resonators still takes a few minutes on a single CPU. Notably, the number of unique solutions is significantly smaller than the B\'{e}zout bound in all cases, with the number of real solutions being smaller still. The bottleneck is, therefore, the initial tracking of the homotopy from $3^{2{N}}$ paths to the relatively few non-singular ones. Subsequent steps such as solving for multiple parameter sets (i.e. tracking parameter homotopy paths) and determining stability (Chapter \ref{ch:linresp}) only involve non-singular paths and thus are relatively inexpensive.
+    
+	\begin{table}[ht!] 
+	    \centering
+	    \caption{\textbf{Finding the steady states of Eq.~\eqref{eq:Duffing_chain} for varying chain length $N$.} The rows describe (i)~Computational time required to obtain the harmonic equations and the symbolic Jacobian $t_{\mathrm{symbolic}}$. (ii)~Time to solve the harmonic equations for 50 parameter sets $t_{\mathrm{solve}}$. (iii)~The B\'{e}zout bound. (iv)~Number of complex solutions found. (v)~Number of real solutions found. The parameters used are $\omega_0 = 1, \alpha = 1, k=0.1, \eta = 0.1, F=0.01$. A single core of an Intel i7-8550U CPU was used.}
+		\label{table:benchmark}
+        \begin{tabular}{ |c|c|c|c|c|c|} 
+         \hline
+         $N$ & 1 & 2 & 3 & 4 & 5 \\ \hline
+         $t_{\mathrm{symbolic}}$ [s] & 0.16 & 0.38 & 0.71 & 1.11 & 1.54 \\
+         $t_{\mathrm{solve}}$ [s] & 0.52 & 1.47 & 17.3 & 173 & 1801 \\
+         B\'{e}zout bound & 9 & 81 & 729 & 6561 & 59049 \\
+         complex solutions & 3 & 11 & 59 & 545 & 3577\\
+         real solutions & 3 & 11 & 32 & 103 & 310 \\
+         \hline
+        \end{tabular}
+
+	\end{table}
+    
+    Two remarks regarding performance are in order. First, the process of path tracking is naturally well-suited for parallelisation, and HomotopyContinuation.jl does include the necessary functionality. Second, systems such as the Duffing chain possess spatial symmetries (in this case, inversion symmetry) and internal/gauge symmetries (e.g. discrete time translation, $u_i\mapsto -v_i, v_i\mapsto u_i$, see Chapter \ref{ch:hopf}) which cause some solutions to be degenerate. Making use of this property can further reduce the computational time needed.
+    
+\section{Examples of HarmonicBalance.jl usage} \label{sec:examples}
+In this Section, we present examples of input code. Instructions to install HarmonicBalance.jl and further detailed examples can be found at \url{https://github.com/NonlinearOscillations/HarmonicBalance.jl}.
+\subsection{Steady states and stability} \label{sec:app_duffing_example}
+
+
+The simplest use case for HarmonicBalance.jl is a driven Duffing resonator governed by Eq.~\eqref{eq:duff_basic}.
+For a driving frequency $\omega$ in the vicinity of the natural resonance frequency $\omega_0$, the dominant behaviour can be captured by a single harmonic, the excitation frequency $\omega$. The basic lines of code follow below: definition of the system, implementation of the harmonic ansatz 
+%
+\begin{equation}
+x(t) = u_1(T) \cos(\omega t ) + v_1(T) \sin(\omega t)\,,
+\end{equation}
+and derivation of corresponding harmonic equations proceed as
+%
+\begin{lstlisting}[numbers=none]
+using HarmonicBalance
+
+# declare constant variables and a function x(t)
+@variables α, ω, ω0, F, t, γ, x(t) 
+
+diff_eq = DifferentialEquation(d(d(x, t),t) + ω0^2 * x + γ*d(x,t)  + α*x^3 ~ F*cos(ω*t), x)
+
+# specify the ansatz x = u(T) cos(ωt) + v(T) sin(ωt) 
+add_harmonic!(diff_eq, x, ω) 
+
+# implement ansatz to get harmonic equations 
+harmonic_eq = get_harmonic_equations(diff_eq)
+
+
+\end{lstlisting}
+%
+\texttt{harmonic\_eq} is a \texttt{HarmonicEquation} object, storing a set of ODEs for the harmonic variables. The output of this code is
+%
+\begin{lstlisting}[numbers=none, basicstyle=\scriptsize\ttfamily]
+A set of 2 harmonic equations
+Variables: u1(T), v1(T)
+Parameters: α, ω, γ, ω0, F
+
+Harmonic ansatz: 
+x(t) = u1(T)*cos(ω*t) + v1(T)*sin(ω*t)
+
+Harmonic equations:
+
+(ω0^2)*u1(T) + γ*Differential(T)(u1(T)) + (3//4)*α*(u1(T)^3) + (2//1)*ω*Differential(T)(v1(T)) + γ*ω*v1(T) + (3//4)*α*(v1(T)^2)*u1(T) - F - (ω^2)*u1(T) ~ 0
+
+γ*Differential(T)(v1(T)) + (ω0^2)*v1(T) + (3//4)*α*(v1(T)^3) + (3//4)*α*(u1(T)^2)*v1(T) - (2//1)*ω*Differential(T)(u1(T)) - (ω^2)*v1(T) - γ*ω*u1(T) ~ 0
+\end{lstlisting}
+%
+Notice that the harmonic equations are \textit{not} rearranged to the form \eqref{eq:harmoniceq} (all derivatives on one side). Strictly speaking, this step is not necessary to find steady states, it is only used to calculate stability [Eq.~\eqref{eq:linresp_eom_pert}]. In some cases, the symbolic rearrangement may be a bottleneck and is better performed numerically.
+
+To now find the steady states for a range of $\omega$ values, we introduce the tuples
+%
+\begin{lstlisting}[numbers=none]
+fixed = (α => 1., ω0 => 1.0, F => 0.01, γ=> 0.01)
+varied = ω => LinRange(0.9, 1.2, 100)
+\end{lstlisting}
+%
+and call
+%
+\begin{lstlisting}[numbers=none]
+result = get_steady_states(harmonic_eq, varied, fixed)
+\end{lstlisting}
+%
+This returns a \texttt{Result}, giving information on the branches found and their classification
+\begin{lstlisting}[numbers=none, basicstyle=\scriptsize\ttfamily, keywordstyle=\color{black}]
+A steady state result for 100 parameter points
+
+Solution branches:   3
+of which real:    3
+of which stable:  2
+
+Classes: stable, physical, Hopf, binary_labels
+\end{lstlisting}
+The steady-state amplitude corresponding to the harmonic $\omega$ is given by $\sqrt{u_1^2+v_1}$; this can be inspected via
+%
+\begin{lstlisting}[numbers=none]
+plot(result, x="ω", y="sqrt(u1^2 + v1^2)")
+\end{lstlisting}
+%
+which produces the curves shown in Fig.~\ref{fig:hb_Duffing}. The stability information is calculated and displayed automatically. 
+%
+
+In Sec.~\ref{sec:hopf_discrete}, we saw an extension of this model where three harmonics were used for the ansatz: $\omega$, $3\omega$ and $5\omega$. This can be achieved by calling \texttt{add\_harmonic!} again, followed by generating new harmonic equations.
+\begin{lstlisting}[numbers=none]
+add_harmonic!(diff_eq, x, [3*ω, 5*ω]) 
+harmonic_eq = get_harmonic_equations(diff_eq)
+\end{lstlisting}
+%
+which returns
+\begin{lstlisting}[numbers=none, basicstyle=\scriptsize\ttfamily]
+A set of 6 harmonic equations
+Variables: u1(T), v1(T), u2(T), v2(T), u3(T), v3(T)
+Parameters: α, ω, ω0, γ, F
+
+Harmonic ansatz: 
+x(t) = u1(T)*cos(ωt) + v1(T)*sin(ωt) + u2(T)*cos(3ωt) + v2(T)*sin(3ωt) + u3(T)*cos(5ωt) + v3(T)*sin(5ωt)
+
+Harmonic equations:
+
+(ω0^2)*u1(T) + γ*Differential(T)(u1(T)) + (3//4)*α*(u1(T)^3) + γ*ω*v1(T) + (2//1)*ω*Differential(T)(v1(T)) + (3//2)*α*(u2(T)^2)*u1(T) + (3//2)*α*(u3(T)^2)*u1(T) + (3//4)*α*(u1(T)^2)*u2(T) + (3//4)*α*(v1(T)^2)*u1(T) + (3//4)*α*(u2(T)^2)*u3(T) + (3//2)*α*(v2(T)^2)*u1(T) + (3//2)*α*(v3(T)^2)*u1(T) + (3//2)*α*u1(T)*u2(T)*u3(T) + (3//2)*α*u1(T)*v1(T)*v2(T) + (3//2)*α*u1(T)*v2(T)*v3(T) + (3//2)*α*u2(T)*v1(T)*v3(T) + (3//2)*α*u2(T)*v2(T)*v3(T) - (ω^2)*u1(T) - (3//4)*α*(v1(T)^2)*u2(T) - (3//4)*α*(v2(T)^2)*u3(T) - (3//2)*α*u3(T)*v1(T)*v2(T) ~ 0
+
+γ*Differential(T)(v1(T)) + (ω0^2)*v1(T) + (3//4)*α*(v1(T)^3) + (3//4)*α*(u1(T)^2)*v1(T) + (3//2)*α*(u2(T)^2)*v1(T) + (3//4)*α*(u1(T)^2)*v2(T) + (3//4)*α*(v2(T)^2)*v3(T) + (3//2)*α*(u3(T)^2)*v1(T) + (3//2)*α*(v2(T)^2)*v1(T) + (3//2)*α*(v3(T)^2)*v1(T) + (3//2)*α*u1(T)*u2(T)*v3(T) + (3//2)*α*u2(T)*u3(T)*v2(T) - (ω^2)*v1(T) - (2//1)*ω*Differential(T)(u1(T)) - γ*ω*u1(T) - (3//4)*α*(v1(T)^2)*v2(T) - (3//4)*α*(u2(T)^2)*v3(T) - (3//2)*α*u1(T)*u2(T)*v1(T) - (3//2)*α*u2(T)*u3(T)*v1(T) - (3//2)*α*u1(T)*u3(T)*v2(T) - (3//2)*α*v1(T)*v2(T)*v3(T) ~ 0
+
+(ω0^2)*u2(T) + γ*Differential(T)(u2(T)) + (1//4)*α*(u1(T)^3) + (3//4)*α*(u2(T)^3) + (6//1)*ω*Differential(T)(v2(T)) + (3//2)*α*(u1(T)^2)*u2(T) + (3//4)*α*(u1(T)^2)*u3(T) + (3//4)*α*(v2(T)^2)*u2(T) + (3//1)*γ*ω*v2(T) + (3//2)*α*(u3(T)^2)*u2(T) + (3//2)*α*(v1(T)^2)*u2(T) + (3//2)*α*(v3(T)^2)*u2(T) + (3//2)*α*u1(T)*u2(T)*u3(T) + (3//2)*α*u1(T)*v1(T)*v3(T) + (3//2)*α*u1(T)*v2(T)*v3(T) + (3//2)*α*u3(T)*v1(T)*v2(T) - (9//1)*(ω^2)*u2(T) - (3//4)*α*(v1(T)^2)*u1(T) - (3//4)*α*(v1(T)^2)*u3(T) - (3//2)*α*u2(T)*v1(T)*v3(T) ~ 0
+
+γ*Differential(T)(v2(T)) + (ω0^2)*v2(T) + (3//4)*α*(v2(T)^3) + (3//4)*α*(u1(T)^2)*v1(T) + (3//4)*α*(u2(T)^2)*v2(T) + (3//2)*α*(u1(T)^2)*v2(T) + (3//2)*α*(u3(T)^2)*v2(T) + (3//2)*α*(v1(T)^2)*v2(T) + (3//2)*α*(v3(T)^2)*v2(T) + (3//4)*α*(u1(T)^2)*v3(T) + (3//2)*α*u2(T)*u3(T)*v1(T) + (3//2)*α*u1(T)*u2(T)*v3(T) + (3//2)*α*v1(T)*v2(T)*v3(T) - (1//4)*α*(v1(T)^3) - (9//1)*(ω^2)*v2(T) - (6//1)*ω*Differential(T)(u2(T)) - (3//1)*γ*ω*u2(T) - (3//4)*α*(v1(T)^2)*v3(T) - (3//2)*α*u1(T)*u3(T)*v1(T) - (3//2)*α*u1(T)*u3(T)*v2(T) ~ 0
+
+γ*Differential(T)(u3(T)) + (ω0^2)*u3(T) + (3//4)*α*(u3(T)^3) + (10//1)*ω*Differential(T)(v3(T)) + (3//4)*α*(u2(T)^2)*u1(T) + (3//4)*α*(u1(T)^2)*u2(T) + (3//2)*α*(u1(T)^2)*u3(T) + (3//2)*α*(u2(T)^2)*u3(T) + (3//2)*α*(v1(T)^2)*u3(T) + (3//4)*α*(v3(T)^2)*u3(T) + (3//2)*α*(v2(T)^2)*u3(T) + (5//1)*γ*ω*v3(T) + (3//2)*α*u2(T)*v1(T)*v2(T) - (25//1)*(ω^2)*u3(T) - (3//4)*α*(v1(T)^2)*u2(T) - (3//4)*α*(v2(T)^2)*u1(T) - (3//2)*α*u1(T)*v1(T)*v2(T) ~ F
+
+γ*Differential(T)(v3(T)) + (ω0^2)*v3(T) + (3//4)*α*(v3(T)^3) + (3//4)*α*(v2(T)^2)*v1(T) + (3//4)*α*(u1(T)^2)*v2(T) + (3//4)*α*(u3(T)^2)*v3(T) + (3//2)*α*(u1(T)^2)*v3(T) + (3//2)*α*(u2(T)^2)*v3(T) + (3//2)*α*(v1(T)^2)*v3(T) + (3//2)*α*(v2(T)^2)*v3(T) + (3//2)*α*u1(T)*u2(T)*v1(T) + (3//2)*α*u1(T)*u2(T)*v2(T) - (10//1)*ω*Differential(T)(u3(T)) - (25//1)*(ω^2)*v3(T) - (3//4)*α*(u2(T)^2)*v1(T) - (5//1)*γ*ω*u3(T) - (3//4)*α*(v1(T)^2)*v2(T) ~ 0
+\end{lstlisting}
+
+Performing a frequency sweep around $\omega \cong 5 \omega_0$ gives
+%
+\begin{lstlisting}[numbers=none]
+varied = ω => 5*LinRange(0.9, 1.2, 100)
+result = get_steady_states(harmonic_eq, varied, fixed)
+\end{lstlisting}
+%
+and calling the plotter again
+\begin{lstlisting}[numbers=none]
+plot(result, x="ω", y="atan(u1/v1)")
+\end{lstlisting}
+generates the data shown in Fig.~\ref{fig:hb_duff_sub}(d).
+
+\subsubsection{Two coupled oscillators} 
+
+The extension to many-coordinate systems is straightforward. The following code generates the data shown in Fig.~\ref{fig:hb_rect_ss1}. 
+\begin{lstlisting}[numbers=none]
+using HarmonicBalance
+@variables γ, F, ω, t, x(t), y(t), γ1, γ3, ω1, ω3, F1, F3, η1, η3, α1111, α3333, α1133, α3111, α1113;
+\end{lstlisting}
+
+\begin{lstlisting}[numbers=none]
+# specify two equations and two variables x,y
+diff_eq = DifferentialEquation([
+d(x,t,2) + γ1 * d(x,t) + ω1^2 * x + α1111*x^3 + α1133*x*y^2 + α1113*x^2*y + η1*x^2*d(x,t) - F1*cos(ω*t), 
+d(y,t,2) + γ3 * d(y,t) + ω3^2 * y + α3333*y^3 + α1133*x^2*y + α3111*x^3 + η3*y^2*d(y,t) - F3*cos(ω*t)], [x,y])
+
+# use a different harmonic for each coordinate
+add_harmonic!(diff_eq, x, ω)
+add_harmonic!(diff_eq, y, 3*ω)
+
+harmonic_eq = get_harmonic_equations(diff_eq)
+\end{lstlisting}
+which returns (algebraic expressions cut for brevity)
+\begin{lstlisting}[numbers=none, basicstyle=\scriptsize\ttfamily]
+A set of 4 harmonic equations
+Variables: u1(T), v1(T), u2(T), v2(T)
+Parameters: α1111, ω, γ1, ω1, α1133, F1, α1113, η1, α3111, α3333, γ3, ω3, F3, η3
+
+Harmonic ansatz: 
+x(t) = u1(T)*cos(ωt) + v1(T)*sin(ωt)
+y(t) = u2(T)*cos(3ωt) + v2(T)*sin(3ωt)
+
+Harmonic equations:
+...
+\end{lstlisting}
+The rest of this example is similar to the single-oscillator case. 
+
+\subsection{Linear response}
+The functionality to evaluate stability and linear response (Chapter \ref{ch:linresp}) is included in the module \texttt{LinearResponse}. Let us look at the Duffing oscillator example \eqref{eq:linresp_duffing}. Assuming we have obtained a \texttt{Result} object (see example above), we can select a single steady state by indexing, for example, the first state of the first branch,
+\begin{lstlisting}[numbers=none]
+state = result[1][1]
+\end{lstlisting}
+which holds a dictionary specifying all numerical values,
+\begin{lstlisting}[numbers=none, basicstyle=\scriptsize\ttfamily]
+OrderedCollections.OrderedDict{Symbolics.Num, ComplexF64} with 8 entries:
+u1 => 0.0520729+0.0im
+v1 => 0.000260593+0.0im
+ω  => 0.9+0.0im
+α  => 1.0+0.0im
+ω0 => 1.0+0.0im
+γ  => 0.001+0.0im
+F  => 0.01+0.0im
+η  => 0.1+0.0im
+\end{lstlisting}
+The object \texttt{Result} contains a function \texttt{jacobian} which takes this dictionary as an argument
+\begin{lstlisting}[numbers=none]
+result.jacobian(single_solution)
+\end{lstlisting}
+to produce the matrix $J_1^{-1} J_0$ we used to extract stability and response out of Eq.~\eqref{eq:linresp_eom},
+\begin{lstlisting}[numbers=none, extendedchars=true, basicstyle=\scriptsize\ttfamily]
+2x2 Matrix{ComplexF64}:
+-0.000655006+0.0im      0.106685+0.0im
+-0.108945-0.0im  -0.000616528-0.0im
+\end{lstlisting}
+The overall white noise response can also be plotted. The following code produces Fig.~\ref{fig:linresp_noise}. 
+\begin{lstlisting}[numbers=none]
+HarmonicBalance.plot_jacobian_spectrum(result, x, 
+	Ω_range = LinRange(0.95,1.15,500), branch=1, logscale=true)
+\end{lstlisting}
+Response on different branches is plotted using the \texttt{branch} keyword. 
+
+\subsection{Time-dependent simulations} 
+
+The harmonic equations are ODEs and can therefore be treated with Runge-Kutta type methods. We interface with the package DifferentialEquations.jl~\cite{Rackauskas_2017} and overload its method \texttt{ODEProblem}. The object \texttt{ParameterSweep} holds the details of a linear time-dependent change of a parameter.
+
+The initial condition can either be supplied explicitly or taken from a known steady state. The following code generates the results in Fig.~\ref{fig:hopf_timedep}(e). Assuming a \texttt{HarmonicEquation} has been properly defined and solved to obtain a \texttt{Result}, a time-dependent sweep of $F$ is performed
+
+\begin{lstlisting}[numbers=none]
+# take the first solution of the first branch
+initial_state = result[1][1]
+
+T = 1E5
+
+# sweep F from 0.1 to 0.2 during time 0 -> T
+F_sweep = ParameterSweep(F => (0.1, 0,2), (0,T))
+
+# simulate between 0 -> 4T
+problem = ODEProblem(harmonic_eq, initial_state, sweep=F_sweep, timespan=(0,4*T))
+solution = solve(problem);
+\end{lstlisting}
+Here, both \texttt{problem} and \texttt{solution} are objects native to DifferentialEquations.jl, whose documentation gives details on their handling.

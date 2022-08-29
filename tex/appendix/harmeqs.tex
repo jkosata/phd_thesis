@@ -1,0 +1,121 @@
+% !TEX root = ../thesis.tex
+
+\chapter{Harmonic equations} \label{app:harmeqs}
+
+This Appendix contains the harmonic equations of the various systems discussed in Chapter \ref{part:temporal}. $T$ dependences are omitted for clarity. 	
+
+\section{Single Duffing oscillator} \label{app:harmeqs_11}
+
+The following 2 harmonic equations result from Eq.~\eqref{eq:hb_mem_eom1} under the single-harmonic ansatz \eqref{eq:hb_rect_ansatz0}. Parameter subscripts are omitted. 
+
+\begin{dmath}
+\frac{d u_1}{dT} = -\frac{1}{4 \left(\gamma ^2+4 \omega ^2\right)} \left\{4 \gamma  F+3 \alpha  \gamma  u_1^3-6 \alpha  u_1^2 v_1 \omega +\gamma  u_1 \left[3 \alpha  v_1^2+4 \left(\omega ^2+\omega_0^2\right)\right]+2 v_1 \omega  \left(2 \gamma ^2-3 \alpha  v_1^2+4 \omega ^2-4 \omega_0^2\right) \right\} \,,
+\end{dmath}
+
+\begin{dmath}	
+\frac{d v_1}{dT} = -\frac{1}{4 \left(\gamma ^2+4 \omega ^2\right)} \left\{8 F \omega +6 \alpha  u_1^3 \omega +3 \alpha  \gamma  u_1^2 v_1+2 u_1 \omega  \left[-2 \gamma ^2+3 \alpha  v_1^2  + 4 \left(\omega_0^2 - \omega^2 \right) \right]+3 \alpha  \gamma  v_1^3+4 \gamma  v_1 \left(\omega ^2+\omega_0^2\right) \right\} \,.
+\end{dmath}
+
+\section{Coupled Duffing oscillators} \label{app:harmeqs_1133}
+
+The following 4 harmonic equations result from Eq.~\eqref{eq:hb_mem_2mode} under the harmonic ansatz \eqref{eq:hb_1133_ansatz}. Nonlinear damping as shown in Fig.~\ref{fig:hb_duff_nld} is also added. Notice that the respective denominators are polynomials of order up to 5 although we only have cubic nonlinear damping. This is correct, as the order reduces to 3 when looking for steady states (i.e, when setting all left-hand-sides to zero). 
+
+\begin{dmath}
+\frac{d u_1}{dT} = -\left\{4 F_1 \left[4 \gamma_1+\eta_1 \left(u_1^2+3 v_1^2\right)\right]+3 \alpha_{1111} \eta_1 u_1^5+2 u_1^3 \left[2 \eta_1 \left(\omega ^2+\omega_1^2\right)+\alpha_{1133} \eta_1 \left(u_2^2+v_2^2\right)+3 \alpha_{1111} \left(2 \gamma_1+\eta_1 v_1^2\right)\right]+2 u_1^2 \left(\alpha_{1113} u_2 \left(2 \gamma_1+3 \eta_1 v_1^2\right)+\omega  \left(3 \eta_1^2 v_1^3-12 \alpha_{1111} v_1+8 \gamma_1 \eta_1 v_1-4 \alpha_{1113} v_2\right)\right)+\eta_1 u_1^4 (\alpha_{1113} u_2+3 \eta_1 v_1 \omega )+u_1 \left[2 v_1^2 \left(6 \alpha_{1111} \gamma_1+2 \eta_1 \left(\omega ^2+\omega_1^2\right)+\alpha_{1133} \eta_1 \left(u_2^2+v_2^2\right)\right)+8 \gamma_1 \left(\alpha_{1133} \left(u_2^2+v_2^2\right)+2 \left(\omega ^2+\omega_1^2\right)\right)+8 \alpha_{1113} v_1 (2 u_2 \omega +\gamma_1 v_2)+3 \alpha_{1111} \eta_1 v_1^4+8 \alpha_{1113} \eta_1 v_1^3 v_2\right]+v_1 \left[-16 \alpha_{1133} u_2^2 \omega -\alpha_{1113} u_2 v_1 \left(4 \gamma_1+3 \eta_1 v_1^2\right)+\omega  \left(16 \left(\gamma_1^2+2 (\omega^2 -\omega_1^2) \right) 
+ +8 v_1^2 (2 \gamma_1 \eta_1-3 \alpha_{1111}) \\ +3 \eta_1^2 v_1^4+8 \alpha_{1113} v_1 v_2-16 \alpha_{1133} v_2^2\right)\right]\right\} \\ \bigg/ \left\{\left(4 \gamma_1+\eta_1 \left(u_1^2+v_1^2\right)\right) \left[4 \gamma_1+3 \eta_1 \left(u_1^2+v_1^2\right)\right]+64 \omega ^2\right\} \,,
+\end{dmath}
+
+\begin{dmath}
+\frac{d v_1}{dT} = \left\{u_1 \left[8 F_1 \eta_1 v_1-16 \alpha_{1133} u_2^2 \omega +8 \alpha_{1113} \gamma_1 u_2 v_1+\omega  \left(16 \left(\gamma_1^2+2 \omega ^2-2 \omega_1^2\right)+16 \gamma_1 \eta_1 v_1^2+3 \eta_1^2 v_1^4 \\ \hfill -8 \left(3 \alpha_{1111} v_1^2+2 \alpha_{1113} v_1 v_2+2 \alpha_{1133} v_2^2\right)\right)\right]-32 F_1 \omega +3 \eta_1^2 u_1^5 \omega -2 u_1^2 \left[v_1 \left(6 \alpha_{1111} \gamma_1+2 \eta_1 \left(\omega ^2+\omega_1^2\right)+\alpha_{1133} \eta_1 \left(u_2^2+v_2^2\right)\right)+2 \alpha_{1113} (2 u_2 \omega +\gamma_1 v_2)+3 \alpha_{1111} \eta_1 v_1^3-3 \alpha_{1113} \eta_1 v_1^2 v_2\right]+2 u_1^3 \left[\eta_1 \left(8 \gamma_1 \omega +4 \alpha_{1113} u_2 v_1+3 \eta_1 v_1^2 \omega \right)-12 \alpha_{1111} \omega \right]-3 \eta_1 u_1^4 (\alpha_{1111} v_1+\alpha_{1113} v_2)-2 v_1^3 \left[6 \alpha_{1111} \gamma_1+2 \eta_1 \left(\omega ^2+\omega_1^2\right)+\alpha_{1133} \eta_1 \left(u_2^2+v_2^2\right)\right]-8 \gamma_1 v_1 \left[\alpha_{1133} \left(u_2^2+v_2^2\right)+2 \left(\omega ^2+\omega_1^2\right)\right]+4 \alpha_{1113} v_1^2 (2 u_2 \omega +\gamma_1 v_2)-3 \alpha_{1111} \eta_1 v_1^5 \nolinebreak +\alpha_{1113} \eta_1 v_1^4 v_2\right\} \\ \bigg/ \left\{\left[4 \gamma_1+\eta_1 \left(u_1^2+v_1^2\right)\right] \left[4 \gamma_1+3 \eta_1 \left(u_1^2+v_1^2\right)\right]+64 \omega ^2\right\} \,,
+\end{dmath}
+
+\begin{dmath}
+\frac{d u_2}{dT} = -\left\{2 \alpha_{1133} u_1^2 \left(\eta_3 u_2^3+4 \gamma_3 u_2+\eta_3 u_2 v_2^2-24 v_2 \omega \right)+3 \alpha_{3333} \eta_3 u_2^5+2 u_2^3 \left(6 \alpha_{3333} \gamma_3+18 \eta_3 \omega ^2+2 \eta_3 \omega_3^2+\alpha_{1133} \eta_3 v_1^2+3 \alpha_{3333} \eta_3 v_2^2\right)+6 u_2^2 v_2 \omega  \left[\eta_3 \left(8 \gamma_3+3 \eta_3 v_2^2\right)-12 \alpha_{3333}\right]+9 \eta_3^2 u_2^4 v_2 \omega +u_2 \left(4 \gamma_3+\eta_3 v_2^2\right) \left(2 \alpha_{1133} v_1^2+3 \alpha_{3333} v_2^2+36 \omega ^2+4 \omega_3^2\right)+3 v_2 \omega  \left[16 \left(\gamma_3^2+18 \omega ^2-2 \omega_3^2\right)-16 \alpha_{1133} v_1^2+8 v_2^2 (2 \gamma_3 \eta_3-3 \alpha_{3333})+3 \eta_3^2 v_2^4\right]\right\} \bigg/ \left\{\left[4 \gamma_3+\eta_3 \left(u_2^2+v_2^2\right)\right] \left[4 \gamma_3+3 \eta_3 \left(u_2^2+v_2^2\right)\right]+576 \omega ^2\right\}\,,
+\end{dmath}
+
+\begin{dmath}
+\frac{d v_2}{dT} = -\left\{2 \alpha_{1133} u_1^2 \left(\eta_3 u_2^2 v_2+24 u_2 \omega +\eta_3 v_2^3+4 \gamma_3 v_2\right)+2 \alpha_{1133} v_1^2 \left(\eta_3 u_2^2 v_2+24 u_2 \omega +\eta_3 v_2^3+4 \gamma_3 v_2\right)-3 u_2 \omega  \left[16 \gamma_3^2+\left(u_2^2+v_2^2\right) \left(-24 \alpha_{3333}+16 \gamma_3 \eta_3+3 \eta_3^2 \left(u_2^2+v_2^2\right)\right)\right]+3 \alpha_{3333} v_2 \left(u_2^2+v_2^2\right) \left(4 \gamma_3+\eta_3 \left(u_2^2+v_2^2\right)\right)+36 v_2 \omega ^2 \left(4 \gamma_3+\eta_3 \left(u_2^2+v_2^2\right)\right)+4 \omega_3^2 \left(\eta_3 u_2^2 v_2+24 u_2 \omega +\eta_3 v_2^3+4 \gamma_3 v_2\right)-864 u_2 \omega ^3\right\} \bigg/ \left\{\left[4 \gamma_3+\eta_3 \left(u_2^2+v_2^2\right)\right] \left[4 \gamma_3+3 \eta_3 \left(u_2^2+v_2^2\right)\right]+576 \omega ^2\right\}\,.
+\end{dmath}
+
+\section{Multi-harmonic Duffing oscillator} \label{app:duff_subharm}
+
+The following 6 harmonic equations result from Eq.~\eqref{eq:hopf_duffing} with $\psi=0$ under the harmonic ansatz \eqref{eq:hopf_5_ansatz}. 
+
+\begin{dmath}[noalign]
+	\frac{d u_1}{dT} = \left\{-4 \gamma  F-3 \alpha  \gamma  u_1^3+3 \alpha  u_1^2 (2 \omega  (v_1+v_2)-\gamma  u_2)-u_1 \left(4 \gamma  \left(\omega ^2+\omega_0^2\right)+6 \alpha  \gamma  u_2^2+6 \alpha  u_2 (\gamma  u_3+2 \omega  (v_1-v_3))+6 \alpha  \gamma  u_3^2+12 \alpha  u_3 v_2 \omega +3 \alpha  \gamma  \left(v_1^2+2 v_1 v_2+2 \left(v_2^2+v_2 v_3+v_3^2\right)\right)\right)-3 \alpha  \gamma  u_2^2 u_3+12 \alpha  u_2^2 v_1 \omega -6 \alpha  u_2^2 v_3 \omega -12 \alpha  u_2 u_3 v_1 \omega +12 \alpha  u_2 u_3 v_2 \omega +3 \alpha  \gamma  u_2 v_1^2-6 \alpha  \gamma  u_2 v_1 v_3-6 \alpha  \gamma  u_2 v_2 v_3+12 \alpha  u_3^2 v_1 \omega +6 \alpha  \gamma  u_3 v_1 v_2+3 \alpha  \gamma  u_3 v_2^2+6 \alpha  v_1^3 \omega -6 \alpha  v_1^2 v_2 \omega -4 \gamma ^2 v_1 \omega +12 \alpha  v_1 v_2^2 \omega -12 \alpha  v_1 v_2 v_3 \omega +12 \alpha  v_1 v_3^2 \omega -8 v_1 \omega ^3+8 v_1 \omega  \omega_0^2+6 \alpha  v_2^2 v_3 \omega \right\} \bigg/ \left[4 \left(\gamma ^2+4 \omega ^2\right)\right] \,,
+\end{dmath}
+
+\begin{dmath}[noalign]
+	\frac{d v_1}{dT} = -\left\{8 F \omega +6 \alpha  u_1^3 \omega +3 \alpha  u_1^2 (2 u_2 \omega +\gamma  (v_1+v_2))+2 u_1 \left(-2 \omega  \left(\gamma ^2+2 (\omega -\omega_0) (\omega +\omega_0)\right)+6 \alpha  u_2^2 \omega +3 \alpha  u_2 (2 u_3 \omega +\gamma  (-v_1)+\gamma  v_3)+6 \alpha  u_3^2 \omega -3 \alpha  \gamma  u_3 v_2+3 \alpha  \omega  \left(v_1^2+2 v_1 v_2+2 \left(v_2^2+v_2 v_3+v_3^2\right)\right)\right)+3 \alpha  u_2^2 (2 u_3 \omega +2 \gamma  v_1-\gamma  v_3)-6 \alpha  u_2 \left(\gamma  u_3 (v_1-v_2)+\omega  \left(v_1^2-2 v_3 (v_1+v_2)\right)\right)+6 \alpha  \gamma  u_3^2 v_1-12 \alpha  u_3 v_1 v_2 \omega -6 \alpha  u_3 v_2^2 \omega +3 \alpha  \gamma  v_1^3-3 \alpha  \gamma  v_1^2 v_2+4 \gamma  v_1 \omega ^2+4 \gamma  v_1 \omega_0^2+6 \alpha  \gamma  v_1 v_2^2-6 \alpha  \gamma  v_1 v_2 v_3+6 \alpha  \gamma  v_1 v_3^2+3 \alpha  \gamma  v_2^2 v_3 \right\} \bigg/ \left[4 \left(\gamma ^2+4 \omega ^2\right)\right] \,,
+\end{dmath}
+
+\begin{dmath}[noalign]
+	\frac{d u_2}{dT} = \left\{-\alpha  \gamma  u_1^3+3 \alpha  u_1^2 (6 \omega  (v_1+2 v_2+v_3)-\gamma  (2 u_2+u_3))+3 \alpha  u_1 \left(\gamma  \left(-2 u_2 u_3+v_1^2-2 v_3 (v_1+v_2)\right)-12 \omega  (u_3 (v_1+v_2)-u_2 v_3)\right)-3 \alpha  \gamma  u_2^3+18 \alpha  u_2^2 v_2 \omega -u_2 \left(4 \gamma  \left(9 \omega ^2+\omega_0^2\right)+6 \alpha  \gamma  u_3^2-36 \alpha  u_3 v_1 \omega +3 \alpha  \gamma  \left(2 \left(v_1^2-v_1 v_3+v_3^2\right)+v_2^2\right)\right)+36 \alpha  u_3^2 v_2 \omega +3 \alpha  \gamma  u_3 v_1 (v_1-2 v_2)+6 \omega  \left(-\alpha  v_1^3+v_1^2 (6 \alpha  v_2-3 \alpha  v_3)+6 \alpha  v_1 v_2 v_3+v_2 \left(-2 \gamma ^2+3 \alpha  v_2^2+6 \alpha  v_3^2-36 \omega ^2+4 \omega_0^2\right)\right)\right\} \bigg/ \left[4 \left(\gamma ^2+36 \omega ^2\right)\right] \,,
+\end{dmath}
+
+\begin{dmath}[noalign]
+	\frac{d v_2}{dT} = -\left\{6 \alpha  u_1^3 \omega +3 \alpha  u_1^2 (6 \omega  (2 u_2+u_3)+\gamma  (v_1+2 v_2+v_3))+6 \alpha  u_1 \left(6 u_2 u_3 \omega +\gamma  u_2 v_3-\gamma  u_3 (v_1+v_2)-3 v_1^2 \omega +6 v_3 \omega  (v_1+v_2)\right)+18 \alpha  u_2^3 \omega +3 \alpha  \gamma  u_2^2 v_2+6 u_2 \left(-2 \omega  \left(\gamma ^2+18 \omega ^2-2 \omega_0^2\right)+6 \alpha  u_3^2 \omega +\alpha  \gamma  u_3 v_1+3 \alpha  \omega  \left(2 \left(v_1^2-v_1 v_3+v_3^2\right)+v_2^2\right)\right)+6 \alpha  \gamma  u_3^2 v_2-18 \alpha  u_3 v_1^2 \omega +36 \alpha  u_3 v_1 v_2 \omega -\alpha  \gamma  v_1^3+6 \alpha  \gamma  v_1^2 v_2-3 \alpha  \gamma  v_1^2 v_3+6 \alpha  \gamma  v_1 v_2 v_3+3 \alpha  \gamma  v_2^3+36 \gamma  v_2 \omega ^2+4 \gamma  v_2 \omega_0^2+6 \alpha  \gamma  v_2 v_3^2\right\} \bigg/ \left[4 \left(\gamma ^2+36 \omega ^2\right)\right] \,,
+\end{dmath}
+
+\begin{dmath}[noalign]
+\frac{d u_3}{dT} = -\left\{3 \alpha  u_1^2 (\gamma  u_2+2 \gamma  u_3-10 \omega  (v_2+2 v_3))+3 \alpha  u_1 \left(\gamma  u_2^2-20 u_2 \omega  (v_1+v_2)-\gamma  v_2 (2 v_1+v_2)\right)+6 \alpha  u_2^2 (\gamma  u_3+5 \omega  (v_1-2 v_3))-3 \alpha  \gamma  u_2 v_1 (v_1-2 v_2)+3 \alpha  \gamma  u_3^3-30 \alpha  u_3^2 v_3 \omega +100 \gamma  u_3 \omega ^2+6 \alpha  \gamma  u_3 v_1^2+6 \alpha  \gamma  u_3 v_2^2+3 \alpha  \gamma  u_3 v_3^2+4 \omega_0^2 (\gamma  u_3-10 v_3 \omega )+30 \alpha  v_1^2 v_2 \omega -60 \alpha  v_1^2 v_3 \omega -30 \alpha  v_1 v_2^2 \omega -60 \alpha  v_2^2 v_3 \omega -30 \alpha  v_3^3 \omega +20 \gamma ^2 v_3 \omega +1000 v_3 \omega ^3 \right\} \bigg/ \left[4 \left(\gamma ^2+100 \omega ^2\right)\right] \,,
+\end{dmath}
+
+\begin{dmath}[noalign]
+\frac{d v_3}{dT} = -\left\{3 \alpha  u_1^2 (10 \omega  (u_2+2 u_3)+\gamma  v_2+2 \gamma  v_3)+6 \alpha  u_1 \left(5 u_2^2 \omega +\gamma  u_2 (v_1+v_2)-5 v_2 \omega  (2 v_1+v_2)\right)+3 \alpha  u_2^2 (20 u_3 \omega +\gamma  (-v_1)+2 \gamma  v_3)-30 \alpha  u_2 v_1 \omega  (v_1-2 v_2)+30 \alpha  u_3^3 \omega +3 \alpha  \gamma  u_3^2 v_3-20 \gamma ^2 u_3 \omega +60 \alpha  u_3 v_1^2 \omega +60 \alpha  u_3 v_2^2 \omega +30 \alpha  u_3 v_3^2 \omega +4 \omega_0^2 (10 u_3 \omega +\gamma  v_3)-1000 u_3 \omega ^3-3 \alpha  \gamma  v_1^2 v_2+6 \alpha  \gamma  v_1^2 v_3+3 \alpha  \gamma  v_1 v_2^2+6 \alpha  \gamma  v_2^2 v_3+3 \alpha  \gamma  v_3^3+100 \gamma  v_3 \omega ^2 \right\} \bigg/ \left[4 \left(\gamma ^2+100 \omega ^2\right)\right] \,.
+\end{dmath}
+
+\section{Limit cycle duffings} \label{app:harmeqs_2duff_lc}
+
+The following 12 harmonic equations result from Eq.~\eqref{eq:hopf_duffing} under the gauge-fixed extended ansatz \eqref{eq:hopf_egfa} and $\psi=0$. The gauge fixing was implemented by setting $v_6 = 0$. 
+
+\begin{dmath}
+	\frac{d u_1}{dT} = \left\{-4 \gamma  F-u_1 \left(4 \gamma  \left(\omega_0 (J+\omega_0)+\omega ^2\right)+6 \alpha  \gamma  u_3^2+6 \alpha  u_3 (\gamma  u_4-2 v_4 \omega )+6 \alpha  \gamma  u_4^2-12 \alpha  u_4 v_3 \omega +3 \alpha  \gamma  \left(v_1^2+2 \left(v_3^2-v_3 v_4+v_4^2\right)\right)\right)+4 J \omega_0 (\gamma  u_2+2 \omega  (v_1-v_2))-3 \alpha  \gamma  u_1^3+6 \alpha  u_1^2 v_1 \omega +2 v_1 \left(-2 \gamma ^2 \omega +3 \alpha  \omega  \left(2 \left(u_3^2-u_3 u_4+u_4^2\right)+v_1^2+2 \left(v_3^2+v_3 v_4+v_4^2\right)\right)-3 \alpha  \gamma  (u_3 v_4+u_4 v_3)-4 \omega ^3\right)+8 v_1 \omega  \omega_0^2 \right\} \bigg/ \left[4 \left(\gamma ^2+4 \omega ^2\right)\right]
+\end{dmath} 
+
+
+\begin{dmath}
+	\frac{d v_1}{dT} = -\left\{8 F \omega +2 u_1 \left(\omega  \left(-2 \gamma ^2+4 \omega_0 (J+\omega_0)+3 \alpha  \left(v_1^2+2 \left(v_3^2-v_3 v_4+v_4^2\right)\right)-4 \omega ^2\right)+6 \alpha  u_3^2 \omega +3 \alpha  u_4 (2 u_3 \omega +\gamma  v_3)+3 \alpha  \gamma  u_3 v_4+6 \alpha  u_4^2 \omega \right)+4 J \omega_0 (-2 u_2 \omega +\gamma  v_1-\gamma  v_2)+6 \alpha  u_1^3 \omega +3 \alpha  \gamma  u_1^2 v_1+v_1 \left(4 \gamma  \omega ^2+3 \alpha  \gamma  \left(2 \left(u_3^2-u_3 u_4+u_4^2\right)+v_1^2+2 \left(v_3^2+v_3 v_4+v_4^2\right)\right)+12 \alpha  \omega  (u_3 v_4+u_4 v_3)\right)+4 \gamma  v_1 \omega_0^2 \right\} \bigg/ \left[4 \left(\gamma ^2+4 \omega ^2\right)\right]
+\end{dmath}
+
+\begin{dmath}
+	\frac{d u_2}{dT} = \left\{-4 \left(\gamma  F \eta +v_2 \omega  \left(\gamma ^2+2 \omega ^2\right)\right)+4 J \omega_0 (\gamma  u_1+2 \omega  (v_2-v_1))-u_2 \left(4 \gamma  \left(\omega_0 (J+\omega_0)+\omega ^2\right)+6 \alpha  \gamma  u_5^2+6 \alpha  \gamma  u_5 u_6+6 \alpha  \gamma  u_6^2-12 \alpha  u_6 v_5 \omega +3 \alpha  \gamma  \left(v_2^2+2 v_5^2\right)\right)-3 \alpha  \gamma  u_2^3+6 \alpha  u_2^2 v_2 \omega +6 \alpha  v_2 \omega  \left(2 u_5^2+v_2^2+2 v_5^2\right)-6 \alpha  u_6 v_2 (2 u_5 \omega +\gamma  v_5)+12 \alpha  u_6^2 v_2 \omega +8 v_2 \omega  \omega_0^2 \right\} \bigg/  \left[4 \left(\gamma ^2+4 \omega ^2\right)\right]
+\end{dmath}
+
+\begin{dmath}
+	\frac{d v_2}{dT} = -\left\{8 F \eta  \omega -4 J \omega_0 (2 u_1 \omega +\gamma  v_1-\gamma  v_2)+2 u_2 \left(\omega  \left(-2 \gamma ^2+4 \omega_0 (J+\omega_0)+3 \alpha  \left(2 u_5^2+v_2^2+2 v_5^2\right)-4 \omega ^2\right)+3 \alpha  u_6 (2 u_5 \omega +\gamma  v_5)+6 \alpha  u_6^2 \omega \right)+6 \alpha  u_2^3 \omega +3 \alpha  \gamma  u_2^2 v_2+6 \alpha  \gamma  u_5^2 v_2-6 \alpha  \gamma  u_5 u_6 v_2+6 \alpha  \gamma  u_6^2 v_2+12 \alpha  u_6 v_2 v_5 \omega +3 \alpha  \gamma  v_2^3+4 \gamma  v_2 \omega ^2+4 \gamma  v_2 \omega_0^2+6 \alpha  \gamma  v_2 v_5^2 \right\} \bigg/ \left[4 \left(\gamma ^2+4 \omega ^2\right) \right]
+\end{dmath}
+
+\begin{dmath}
+	\frac{d u_3} {dT} = \left\{-\gamma  u_3 \left(4 \left(({\omega_{\rm lc}} +\omega )^2+\omega_0 (J+\omega_0)\right)+3 \alpha  \left(2 u_4^2+2 v_1^2+v_3^2+2 v_4^2\right)\right)+4 J \omega_0 (\gamma  u_5+2 ({\omega_{\rm lc}} +\omega ) (v_3-v_5))-3 \alpha  u_1^2 (2 \gamma  u_3+\gamma  u_4-2 ({\omega_{\rm lc}} +\omega ) (2 v_3-v_4))+6 \alpha  u_1 v_1 (2 u_4 ({\omega_{\rm lc}} +\omega )-\gamma  v_4)-3 \alpha  \gamma  u_3^3+6 \alpha  u_3^2 v_3 ({\omega_{\rm lc}} +\omega )+12 \alpha  {\omega_{\rm lc}}  u_4^2 v_3+12 \alpha  u_4^2 v_3 \omega +3 \alpha  \gamma  u_4 v_1^2+12 \alpha  {\omega_{\rm lc}}  v_1^2 v_3+12 \alpha  v_1^2 v_3 \omega +6 \alpha  {\omega_{\rm lc}}  v_1^2 v_4+6 \alpha  v_1^2 v_4 \omega +6 \alpha  {\omega_{\rm lc}}  v_3^3+6 \alpha  v_3^3 \omega -4 \gamma ^2 {\omega_{\rm lc}}  v_3-4 \gamma ^2 v_3 \omega -24 {\omega_{\rm lc}} ^2 v_3 \omega -8 {\omega_{\rm lc}} ^3 v_3-24 {\omega_{\rm lc}}  v_3 \omega ^2+8 v_3 \omega_0^2 ({\omega_{\rm lc}} +\omega )+12 \alpha  {\omega_{\rm lc}}  v_3 v_4^2+12 \alpha  v_3 v_4^2 \omega -8 v_3 \omega ^3 \right\} \bigg/ \left[4 \left(\gamma ^2+4 ({\omega_{\rm lc}} +\omega )^2\right) \right]
+\end{dmath}
+
+\begin{dmath}
+	\frac{d v_3}{dT} = -\left\{2 u_3 ({\omega_{\rm lc}} +\omega ) \left(-2 \gamma ^2-4 ({\omega_{\rm lc}} +\omega )^2+4 \omega_0 (J+\omega_0)+3 \alpha  \left(2 u_4^2+2 v_1^2+v_3^2+2 v_4^2\right)\right)+4 J \omega_0 (\gamma  (v_3-v_5)-2 u_5 ({\omega_{\rm lc}} +\omega ))+3 \alpha  u_1^2 (2 ({\omega_{\rm lc}} +\omega ) (2 u_3+u_4)+2 \gamma  v_3-\gamma  v_4)+6 \alpha  u_1 v_1 (\gamma  u_4+2 v_4 ({\omega_{\rm lc}} +\omega ))+6 \alpha  u_3^3 ({\omega_{\rm lc}} +\omega )+3 \alpha  \gamma  u_3^2 v_3+6 \alpha  \gamma  u_4^2 v_3-6 \alpha  {\omega_{\rm lc}}  u_4 v_1^2-6 \alpha  u_4 v_1^2 \omega +6 \alpha  \gamma  v_1^2 v_3+3 \alpha  \gamma  v_1^2 v_4+3 \alpha  \gamma  v_3^3+4 \gamma  {\omega_{\rm lc}} ^2 v_3+8 \gamma  {\omega_{\rm lc}}  v_3 \omega +4 \gamma  v_3 \omega ^2+4 \gamma  v_3 \omega_0^2+6 \alpha  \gamma  v_3 v_4^2 \right\} \bigg/ \left[4 \left(\gamma ^2+4 ({\omega_{\rm lc}} +\omega )^2\right) \right]
+\end{dmath}
+
+\begin{dmath}
+	\frac{d u_4}{dT} = -\left\{4 J \omega_0 (\gamma  u_4-\gamma  u_6+2 {\omega_{\rm lc}}  v_4-2 v_4 \omega )+3 \alpha  u_1^2 (\gamma  u_3+2 \gamma  u_4-2 ({\omega_{\rm lc}} -\omega ) (v_3-2 v_4))+6 \alpha  u_1 v_1 (2 u_3 ({\omega_{\rm lc}} -\omega )+\gamma  v_3)+6 \alpha  u_3^2 (\gamma  u_4+2 {\omega_{\rm lc}}  v_4-2 v_4 \omega )-3 \alpha  \gamma  u_3 v_1^2+3 \alpha  \gamma  u_4^3+6 \alpha  {\omega_{\rm lc}}  u_4^2 v_4-6 \alpha  u_4^2 v_4 \omega +4 \gamma  {\omega_{\rm lc}} ^2 u_4-8 \gamma  {\omega_{\rm lc}}  u_4 \omega +4 \gamma  u_4 \omega ^2+6 \alpha  \gamma  u_4 v_1^2+6 \alpha  \gamma  u_4 v_3^2+3 \alpha  \gamma  u_4 v_4^2+4 \omega_0^2 (\gamma  u_4+2 {\omega_{\rm lc}}  v_4-2 v_4 \omega )+6 \alpha  {\omega_{\rm lc}}  v_1^2 v_3-6 \alpha  v_1^2 v_3 \omega +12 \alpha  {\omega_{\rm lc}}  v_1^2 v_4-12 \alpha  v_1^2 v_4 \omega +12 \alpha  {\omega_{\rm lc}}  v_3^2 v_4-12 \alpha  v_3^2 v_4 \omega +6 \alpha  {\omega_{\rm lc}}  v_4^3-6 \alpha  v_4^3 \omega -4 \gamma ^2 {\omega_{\rm lc}}  v_4+4 \gamma ^2 v_4 \omega +24 {\omega_{\rm lc}} ^2 v_4 \omega -8 {\omega_{\rm lc}} ^3 v_4-24 {\omega_{\rm lc}}  v_4 \omega ^2+8 v_4 \omega ^3 \right\} \bigg/ \left[4 \left(\gamma ^2+4 ({\omega_{\rm lc}} -\omega )^2\right) \right]
+\end{dmath}
+
+\begin{dmath}
+	\frac{d v_4}{dT} = -\left\{4 J \omega_0 (\gamma  v_4-2 ({\omega_{\rm lc}} -\omega ) (u_4-u_6))-3 \alpha  u_1^2 (2 ({\omega_{\rm lc}} -\omega ) (u_3+2 u_4)+\gamma  v_3-2 \gamma  v_4)+6 \alpha  u_1 v_1 (\gamma  u_3+2 v_3 (\omega -{\omega_{\rm lc}} ))-12 \alpha  {\omega_{\rm lc}}  u_3^2 u_4+12 \alpha  u_3^2 u_4 \omega +6 \alpha  \gamma  u_3^2 v_4+3 \alpha  v_1^2 (2 ({\omega_{\rm lc}} -\omega ) (u_3-2 u_4)+\gamma  (v_3+2 v_4))-6 \alpha  {\omega_{\rm lc}}  u_4^3+6 \alpha  u_4^3 \omega +3 \alpha  \gamma  u_4^2 v_4+4 \gamma ^2 {\omega_{\rm lc}}  u_4-4 \gamma ^2 u_4 \omega -24 {\omega_{\rm lc}} ^2 u_4 \omega +8 {\omega_{\rm lc}} ^3 u_4+24 {\omega_{\rm lc}}  u_4 \omega ^2-12 \alpha  {\omega_{\rm lc}}  u_4 v_3^2+12 \alpha  u_4 v_3^2 \omega -6 \alpha  {\omega_{\rm lc}}  u_4 v_4^2+6 \alpha  u_4 v_4^2 \omega +4 \omega_0^2 (-2 {\omega_{\rm lc}}  u_4+2 u_4 \omega +\gamma  v_4)-8 u_4 \omega ^3+6 \alpha  \gamma  v_3^2 v_4+3 \alpha  \gamma  v_4^3+4 \gamma  {\omega_{\rm lc}} ^2 v_4-8 \gamma  {\omega_{\rm lc}}  v_4 \omega +4 \gamma  v_4 \omega ^2 \right\} \bigg/ \left[4 \left(\gamma ^2+4 ({\omega_{\rm lc}} -\omega )^2\right) \right]
+\end{dmath}
+
+\begin{dmath}
+	\frac{d u_5}{dT} = \left\{4 J \omega_0 (\gamma  u_3-2 ({\omega_{\rm lc}} +\omega ) (v_3-v_5))-\gamma  u_5 \left(4 \left(({\omega_{\rm lc}} +\omega )^2+\omega_0 (J+\omega_0)\right)+3 \alpha  \left(2 \left(u_6^2+v_2^2\right)+v_5^2\right)\right)-3 \alpha  u_2^2 (2 \gamma  u_5+\gamma  u_6-4 v_5 ({\omega_{\rm lc}} +\omega ))+12 \alpha  u_2 u_6 v_2 ({\omega_{\rm lc}} +\omega )-3 \alpha  \gamma  u_5^3+6 \alpha  u_5^2 v_5 ({\omega_{\rm lc}} +\omega )+12 \alpha  {\omega_{\rm lc}}  u_6^2 v_5+12 \alpha  u_6^2 v_5 \omega +3 \alpha  \gamma  u_6 v_2^2+12 \alpha  {\omega_{\rm lc}}  v_2^2 v_5+12 \alpha  v_2^2 v_5 \omega +6 \alpha  {\omega_{\rm lc}}  v_5^3+6 \alpha  v_5^3 \omega -4 \gamma ^2 {\omega_{\rm lc}}  v_5-4 \gamma ^2 v_5 \omega -24 {\omega_{\rm lc}} ^2 v_5 \omega -8 {\omega_{\rm lc}} ^3 v_5-24 {\omega_{\rm lc}}  v_5 \omega ^2+8 v_5 \omega_0^2 ({\omega_{\rm lc}} +\omega )-8 v_5 \omega ^3\right\} \bigg/ \left[4 \left(\gamma ^2+4 ({\omega_{\rm lc}} +\omega )^2\right) \right]
+\end{dmath}
+
+\begin{dmath}
+	\frac{d v_5}{dT} = -\left\{-4 J \omega_0 (2 u_3 ({\omega_{\rm lc}} +\omega )+\gamma  (v_3-v_5))+2 u_5 ({\omega_{\rm lc}} +\omega ) \left(-2 \gamma ^2-4 ({\omega_{\rm lc}} +\omega )^2+4 \omega_0 (J+\omega_0)+3 \alpha  \left(2 \left(u_6^2+v_2^2\right)+v_5^2\right)\right)+6 \alpha  u_2^2 (({\omega_{\rm lc}} +\omega ) (2 u_5+u_6)+\gamma  v_5)+6 \alpha  \gamma  u_2 u_6 v_2+6 \alpha  u_5^3 ({\omega_{\rm lc}} +\omega )+3 \alpha  \gamma  u_5^2 v_5+6 \alpha  \gamma  u_6^2 v_5-6 \alpha  {\omega_{\rm lc}}  u_6 v_2^2-6 \alpha  u_6 v_2^2 \omega +6 \alpha  \gamma  v_2^2 v_5+3 \alpha  \gamma  v_5^3+4 \gamma  {\omega_{\rm lc}} ^2 v_5+8 \gamma  {\omega_{\rm lc}}  v_5 \omega +4 \gamma  v_5 \omega ^2+4 \gamma  v_5 \omega_0^2 \right\} \bigg/ \left[4 \left(\gamma ^2+4 ({\omega_{\rm lc}} +\omega )^2\right)\right]
+\end{dmath}
+
+\begin{dmath}
+	\frac{d u_6}{dT} = -\left\{4 J \omega_0 (\gamma  (-u_4)+\gamma  u_6-2 {\omega_{\rm lc}}  v_4+2 v_4 \omega )+3 \alpha  u_2^2 (\gamma  u_5+2 \gamma  u_6-2 {\omega_{\rm lc}}  v_5+2 v_5 \omega )+6 \alpha  u_2 v_2 (2 u_5 ({\omega_{\rm lc}} -\omega )+\gamma  v_5)+6 \alpha  \gamma  u_5^2 u_6-3 \alpha  \gamma  u_5 v_2^2+3 \alpha  \gamma  u_6^3+4 \gamma  {\omega_{\rm lc}} ^2 u_6-8 \gamma  {\omega_{\rm lc}}  u_6 \omega +4 \gamma  u_6 \omega ^2+4 \gamma  u_6 \omega_0^2+6 \alpha  \gamma  u_6 v_2^2+6 \alpha  \gamma  u_6 v_5^2+6 \alpha  {\omega_{\rm lc}}  v_2^2 v_5-6 \alpha  v_2^2 v_5 \omega \right\} \bigg/ \left[4 \left(\gamma ^2+4 ({\omega_{\rm lc}} -\omega )^2\right) \right]
+\end{dmath}
+
+
+\begin{dmath}
+	0 = \left\{4 J \omega_0 (\gamma  v_4-2 ({\omega_{\rm lc}} -\omega ) (u_4-u_6))+3 \alpha  u_2^2 (2 ({\omega_{\rm lc}} -\omega ) (u_5+2 u_6)+\gamma  v_5)-6 \alpha  u_2 v_2 (\gamma  u_5+2 v_5 (\omega -{\omega_{\rm lc}} ))+2 u_6 ({\omega_{\rm lc}} -\omega ) \left(3 \alpha  \left(2 u_5^2+u_6^2+2 v_5^2\right)-2 \left(\gamma ^2+2 ({\omega_{\rm lc}} -\omega )^2\right)\right)-3 \alpha  v_2^2 (2 ({\omega_{\rm lc}} -\omega ) (u_5-2 u_6)+\gamma  v_5)+8 u_6 \omega_0^2 ({\omega_{\rm lc}} -\omega ) \right\} \bigg/ \left[4 \left(\gamma ^2+4 ({\omega_{\rm lc}} -\omega )^2\right) \right]
+\end{dmath}
+

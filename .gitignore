@@ -1,0 +1,17 @@
+**.jld2
+**/.ipynb_checkpoints/**
+**.aux
+**.bbl
+**.blg
+**.dvi
+**.log
+**.toc
+**.ps
+**.bcf
+**.synctex.gz
+**.xml
+**.tmb
+**/comsol_cells/**
+2do.odt
+admin/**
+tex/svg-inkscape/**

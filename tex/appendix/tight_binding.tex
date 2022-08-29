@@ -1,0 +1,64 @@
+% !TeX spellcheck = en_GB
+% !TEX root = ../thesis.tex
+
+
+\chapter{Symmetry analysis of a tight-binding model} \label{app:tb}
+
+Here we repeat the symmetry analysis introduced in Chapter \ref{ch:symmetry} for the tight-binding model of graphene, see Fig.~\ref{fig:app_graphene}. 
+
+\begin{figure} [h!]
+	\centering
+	\includesvg{figures/appendix/graphene.svg}
+	\caption{(I) The unit cell of graphene with two distinct sites. (II) The Brillouin zone with reciprocal vectors $\vb{b}_1$, $\vb{b}_2$. }
+	\label{fig:app_graphene}
+\end{figure}
+
+The procedure is similar but our basis functions are now localised in space. To describe the two distinct graphene sites (labelled 1 and 2 in Fig.~\ref{fig:app_graphene}), we choose the basis functions
+\begin{equation}
+\delta_1(\vb{r}) = \sum_{\vb{r}^{(i)}_1} \delta(\vb{r} - \vb{r}^{(i)}_1) \,, \quad \delta_2(\vb{r}) = \sum_{\vb{r}^{(i)}_2} \delta(\vb{r} - \vb{r}^{(i)}_2) \,,
+\end{equation}
+which are sums of Dirac delta functions localised at the respective sites (lower index). This way, each of the two basis functions is essentially an infinite grid of points corresponding to either sites 1 or sites 2. Adding the $\boldsymbol{K} / \boldsymbol{K'}$ labels, we arrive at the basis
+\begin{equation}
+\left\{ \delta_1(\vb{r}) \e^{i \boldsymbol{K} \vdot \vb{r}}, \delta_2(\vb{r}) \e^{i \boldsymbol{K} \vdot \vb{r}}, \delta_1(\vb{r}) \e^{i \boldsymbol{K'} \vdot \vb{r}}, \delta_2(\vb{r}) \e^{i \boldsymbol{K'} \vdot \vb{r}} \right\} \,.
+\end{equation}
+%
+Applying a $C_6$ rotation transforms
+\begin{equation}
+ \delta_1(\vb{r}) \leftrightarrow \delta_2(\vb{r}) \,, \quad \boldsymbol{K} \rightarrow \boldsymbol{K'} \,, \quad \boldsymbol{K'} \rightarrow \boldsymbol{K} - \vb{b}_2 \,.
+\end{equation}
+%
+The effect of having $\boldsymbol{K} - \vb{b}_2$ instead of $\boldsymbol{K}$ is, due to the localised nature of the basis functions,
+\begin{equation}
+\delta_1(\vb{r}) \e^{i \boldsymbol{K'} \vdot \vb{r}} \: \xrightarrow[]{C_6} \:  \delta_2(\vb{r}) \e^{i \left(\boldsymbol{K} - \vb{b}_2 \right) \vdot \vb{r}} = \delta_2(\vb{r}) \e^{i \boldsymbol{K} \vdot \vb{r}} \e^{-i \vb{b}_2 \vdot \vb{r}_2} \,,
+\end{equation}
+where $\vb{r}_1$ is any one of the equivalent site-1 positions. As $\vb{b}_2 \vdot \vb{r}_{_{2}^{1}} = \e^{\pm 2 \pi i / 3}$ we obtain 
+\begin{equation}
+\rho(C_6) = \mqty( 0 & 0 & 0 & \e^{-2 \pi i / 3} \\ 0 & 0 & \e^{2 \pi i / 3} & 0 \\ 0 & 1 & 0 & 0 \\ 1 & 0 & 0 & 0) \,.
+\end{equation}
+%
+More straightforwardly,
+\begin{equation}
+\rho(\sigma_x) = \tau_1 \otimes \mathbb{1}_2 \,, \quad \rho(\vb{a}) = \text{diag}(  \e^{-2 \pi i /3} , \, \e^{2 \pi i /3} ) \otimes \mathbb{1}_2 \,.
+\end{equation}
+%
+The time reversal operator sends $\boldsymbol{K}  \rightarrow -\boldsymbol{K} = \boldsymbol{K'} - ( \vb{b}_1 + \vb{b}_2)$ and $\boldsymbol{K'}  \rightarrow -\boldsymbol{K'} = \boldsymbol{K} - (\vb{b}_1 + \vb{b}_2)$. Since $(\vb{b}_1 + \vb{b}_2) \vdot  \vb{r}_{_{2}^{1}} = \e^{\pm 2 \pi i / 3}$, we have
+\begin{equation}
+\rho(\mathcal{T}) = \left[\tau_1 \otimes \text{diag} (  \e^{2 \pi i /3} , \, \e^{-2 \pi i /3} ) \right] \mathcal{K} \,.
+\end{equation}
+%
+With the representation matrices at hand, we construct perturbations of the four-dimensional eigenspace. Breaking $C_6$ symmetry while preserving $C_3$ [see Table \ref{table:symm_perts_6}(b)] gives
+\begin{equation} \label{eq:app_invbreak}
+M_1 = c_1 \mathbb{1}_4 + c_2 \mathbb{1}_2 \otimes \tau_3 \,.
+\end{equation}
+%
+Similarly, breaking translation [Table \ref{table:symm_perts_6}(c)],
+\begin{equation}
+M_2 = c_1 \mathbb{1}_4 + c_2 \, \tau_1 \otimes \mqty(0 & \e^{2 \pi i /3} \\ \e^{-2\pi i / 3} & 0) \,.
+\end{equation}
+Finally, going away from the $\boldsymbol{K} / \boldsymbol{K'}$ points (Sec.~\ref{sec:symm_kpert}) gives
+\begin{equation} \label{eq:app_kpert}
+k_x \e^{i \pi / 6} \mathbb{1}_2 \otimes \mqty(0 & 1 \\ 1 - \e^{i \pi / 3}  & 0) \,, \quad k_y \e^{i \pi / 6} \tau_3 \otimes \mqty(0 & \e^{-i \pi/2} \\ \frac{1+\e^{i \pi /3}}{\sqrt{3}} & 0) \,,
+\end{equation}
+which both anticommute with time reversal. 
+
+Bar the unit matrix contributions ($c_1$), all four perturbations \eqref{eq:app_invbreak}-\eqref{eq:app_kpert} anticommute with one another. We have thus again obtained the building blocks of the Jackiw-Rossi model (Chapter \ref{ch:hoti}), underscoring the universality of the symmetry-based arguments. 

@@ -1,0 +1,18 @@
+% !TeX spellcheck = en_GB
+%!TEX root = ../thesis.tex
+
+\newrefcontext[labelprefix=]
+\printbibliography[heading=bibintoc, notkeyword=jk, notkeyword=jkold, title={References},resetnumbers]
+
+\chapter*{List of publications}
+\nocite{Kosata_2022a, Kosata_2022b, Kosata_2021, Kosata_2020}
+\nocite{Grob_2019, Kosata_2018b, Kosata_2018a, Nilsen_2017}
+\vspace*{-5mm}
+\newrefcontext[labelprefix=JK]
+\printbibliography[keyword=jk, notkeyword=jkold, title={Publications forming a part of this thesis},heading=subbibliography, resetnumbers=true]
+* shared first authorship
+\printbibliography[keyword=jkold, notkeyword=jk, title={Other publications},heading=subbibliography, resetnumbers=false]
+\section*{Supervised Master theses}
+
+09/2020 - 03/2021: Tobias K\"{a}stli,
+\textit{Parametric Phenomena in Oscillating Nonlinear Systems} (co-supervised with Anina Leuch)

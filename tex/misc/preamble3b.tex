@@ -1,0 +1,217 @@
+%!TEX root = ../thesis.tex
+
+\documentclass[9pt]{extbook} % should be 11pt or 12pt for hand-in
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FONT RELATED SETTINGS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[default]{fontsetup}
+%\setmathfont{STIX Two Math}[
+%  range={\blacktriangle,\blacktriangledown,\smallblacktriangleright,\smallblacktriangleleft}
+%]
+
+%$$$ common settings:
+\AtBeginDocument{\renewcommand{\Re}{\operatorname{Re}}}
+\AtBeginDocument{\renewcommand{\Im}{\operatorname{Im}}}
+\AtBeginDocument{\renewcommand{\vec}[1]{\symbfit{#1}}}
+
+%\usepackage{eucal}
+
+%\usepackage{amssymb, amsmath}
+\usepackage{physics}
+\usepackage{braket}
+\usepackage{microtype}
+\usepackage{bbold}
+\usepackage{mathtools}
+\usepackage{breqn}
+\usepackage{subfig}
+
+\usepackage{listings}
+\lstdefinelanguage{Julia}%
+{morekeywords={abstract,break,case,catch,const,continue,do,else,elseif,%
+		end,export,false,for,function,immutable,import,importall,if,in,%
+		macro,module,otherwise,quote,return,switch,true,try,type,typealias,%
+		using,while},%
+	sensitive=true,%
+	escapeinside={\%*}{*)},%
+	morecomment=[l]\#,%
+	morecomment=[n]{\#=}{=\#},%
+	morestring=[s]{"}{"},%
+	morestring=[m]{'}{'},%
+}[keywords,comments,strings]%
+
+\lstset{%
+	language         = Julia,
+	basicstyle       = \linespread{0.8}\small\ttfamily,
+	keywordstyle     = \bfseries\color{blue},
+	stringstyle      = \color{magenta},
+	commentstyle     = \color{ForestGreen},
+	numbers=left,
+	showstringspaces=false,
+	tabsize=1,
+	breaklines=true,
+	breakatwhitespace=false,
+	numberstyle=\tiny, 
+	literate=
+	{α}{{$\alpha$}}1 {ω}{{$\omega$}}1 {η}{{$\eta$}}1
+	{γ}{{$\gamma$}}1 {θ}{{$\theta$}}1 {Δ}{{$\Delta$}}1
+	{ψ}{{$\Psi$}}1 {λ}{$\lambda$}1 {Ω}{{$\Omega$}}1
+} %literate lstlistings to know about unicode characters in the code at the end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PAGE SETUP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% keeps footnotes on the same page
+\interfootnotelinepenalty=10000
+
+\usepackage[a5paper,xetex,includeheadfoot,bindingoffset=0.0cm,inner=2.0cm, outer=2.0cm, top=1.1cm, bottom=1.1cm]{geometry} % digital
+% \usepackage[a5paper,xetex,includeheadfoot,bindingoffset=0.0cm,inner=2.4cm, outer=1.6cm, top=1.1cm, bottom=1.1cm]{geometry} % print
+
+
+\usepackage{setspace,parskip}
+% \setstretch{1.05}
+% \setstretch{1.15} % for editing 1
+% \setstretch{1.3} % for handing in
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead[\sffamily\rightmark]{}%\sffamily\rightmark
+\chead[]{}
+\rhead[]{\sffamily\leftmark}%\sffamily\bfseries
+\lfoot[]{}
+\cfoot[\sffamily\bfseries\thepage]{\sffamily\bfseries\thepage}
+\rfoot[]{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{ %
+  \fancyhf{} % remove everything
+  \cfoot[]{\sffamily\bfseries\thepage}
+  \renewcommand{\headrulewidth}{0pt} % remove lines as well
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+\setlength{\headheight}{15pt}
+
+\usepackage{titletoc}
+\titlecontents{part}%
+[0pt]{\bfseries\large\protect\addvspace{25pt}\addvspace{1.0ex}}%remove rule if you like
+{}{}
+{\hfill\contentspage}%replaced with {} if don't want page number for parts
+[\addvspace{0pt}]%remove rule if you like
+
+\usepackage[sf,bf]{titlesec} %sf,bf,medium
+\titleformat{\part}[display]
+  {\centering\sffamily\bfseries\selectfont}%\fontsize{8mm}{8mm}\bfseries\sffamily\Huge
+  {\mdseries\huge\MakeUppercase{\partname}~\thepart}
+  {0cm}
+  {\titlerule
+    \vspace{1ex}\fontsize{24pt}{5mm}\selectfont
+   }
+  [\vspace{\fill}]
+
+\newcommand{\chapbox}[1]{\tcbox[arc=0mm, colframe=myblue2,colback=myblue, coltext=white, on line, flush right, boxsep=0pt, left=7mm, right=7mm, top=7mm, bottom=7mm]{\mdseries\fontsize{7mm}{7mm}\selectfont#1}}
+
+
+
+
+\titlespacing*{\chapter}{0cm}{-2cm}{1.0cm}
+\titlespacing*{name=\chapter,numberless}{0pt}{-8mm}{1.5cm}
+
+\titleformat{\chapter}[display]
+{\sffamily\Large}{\chaptertitlename~\thechapter}{0pt}{\bfseries\Huge}
+\titlespacing{\chapter}{0pt}{*2}{*4.5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPEARANCE OF TEXT ELEMENTS (FIGURES, TABLES, REFERENCES, BIBLIOGRAPHY)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{adjustbox}
+% \usepackage{microtype} % improves typographic layout
+
+\usepackage[dvipsnames,svgnames,x11names,hyperref]{xcolor}
+% \definecolor{myblue}{cmyk}{1.0, 0.73, 0.29, 0.15}
+% \definecolor{myblue}{cmyk}{1.0, 0.82, 0.47, 0.55}
+\definecolor{myblue}{RGB}{0,21,61}
+\definecolor{myblue2}{RGB}{0,60,121}
+
+\usepackage[notransparent]{svg}
+% \usepackage[pdf17,a-3b]{pdfx} % can cause trouble, remove if necessary
+
+\usepackage{float}
+% \usepackage[section]{placeins}
+\renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\renewcommand{\dbltopfraction}{.66}
+\renewcommand{\dblfloatpagefraction}{.66}
+\setcounter{topnumber}{9}
+\setcounter{bottomnumber}{9}
+\setcounter{totalnumber}{20}
+\setcounter{dbltopnumber}{9}
+
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage[labelfont={bf,sf}]{caption}
+\captionsetup{font={small,singlespacing},width=0.95\textwidth} %small
+% \captionsetup{font={small},width=0.98\linewidth}
+\usepackage{enumitem}
+
+\usepackage{sidecap}
+
+% BIBLIOGRAPHY AND REFERENCES
+% \usepackage[sort&compress,numbers]{natbib}
+% \bibliographystyle{apsrev4-2}
+% \setlength{\bibsep}{0pt plus 0.3ex}
+
+\usepackage[backend=biber,style=phys,biblabel=brackets,eprint=true,pageranges=false,chaptertitle=false,defernumbers]{biblatex}
+
+\addbibresource{references/references_biblatex.bib}
+\addbibresource{references/mypublications.bib}
+
+\setlength\bibitemsep{0pt}
+
+
+\usepackage{doi}
+\usepackage{hyperref}
+\hypersetup{pdfencoding=auto, psdextra, linktoc=all, colorlinks=true,linkcolor=NavyBlue,urlcolor=NavyBlue,  citecolor=NavyBlue}  % closer in appearance to what APS journals use
+\pdfstringdefDisableCommands{\def\varepsilon{\textepsilon}}
+\pdfstringdefDisableCommands{\def\Delta{\textDelta}}
+\pdfstringdefDisableCommands{\def\mu{\textmu}}
+\pdfstringdefDisableCommands{\def\kappa{\textkappa}}
+\def\figureautorefname{Fig.}
+\def\equationautorefname{Eq.}
+
+\usepackage[capitalise,nameinlink]{cleveref}
+
+% \usepackage{thumbs}
+
+\usepackage{appendix} %[toc]
+
+\usepackage[nottoc]{tocbibind}
+
+\usepackage{bookmark}
+
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\newenvironment{todo}{\begin{tcolorbox}\textbf{TODO: }}{\end{tcolorbox}}
+
+\newenvironment{chapterabstract}{%
+% \vspace{-2.0cm}%
+\begin{tcolorbox}[fontlower=\small\itshape,arc=0mm,boxsep=0mm,left=1mm,right=1mm,top=1mm,bottom=1mm,halign lower=left,colframe=black!5,colback=black!5,lower separated=false]%beamer,skin=beamerfirst,fontupper=\sffamily,
+%
+}%
+{%
+\end{tcolorbox}
+\vspace{1.0cm}
+% \vspace{\fill}
+%
+}
+
+\usepackage{emptypage}
+\usepackage[free-standing-units=true]{siunitx} % for consistent handling of SI units
+%\usepackage[section]{placeins} % floats placed in the section they appear in
+
+\usepackage[stable]{footmisc} % allows to have footnotes in the title
