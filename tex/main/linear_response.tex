@@ -7,27 +7,27 @@
 \chapter{Linear response} \label{ch:linresp}
 
 \begin{chapterabstract}
-	In the previous chapter, we introduced a methodology to find steady states of nonlinear systems. Here we turn our attention to what happens when a system in a steady state experiences a small perturbation, typically originating from environmental noise or an applied coherent signal. We determine the criterion for stability and the quantitative details of the response using a perturbative approach. While well-known in the study of differential equations, we shall see that its application to harmonic systems predicts some unexpected effects, such as frequency conversion of the applied force. We provide a framework to characterise this phenomenon and confirm its existence using numerical methods. We also discuss different layers of approximation that can be made and the resulting trade-off of accuracy and computational complexity. 
+	In the previous Chapter, we introduced a methodology to find steady states of nonlinear systems. Here we turn our attention to what happens when a system in a steady state experiences a small perturbation, typically originating from environmental noise or an applied coherent signal. We determine the criterion for stability and the quantitative details of the response using a perturbative approach. While well-known in the study of differential equations, we shall see that its application to harmonic systems predicts some unexpected effects, such as frequency conversion of the applied force. We provide a framework to characterise this phenomenon and confirm its existence using numerical methods. We also discuss different layers of approximation that can be made and the resulting trade-off of accuracy and computational complexity. 
 	
 %
 \tcblower
 %
-The methods in this chapter have been incorporated into the package HarmonicBalance.jl~\cite{Kosata_2022a}, which was used to produce the presented data. The implementation is described in the HarmonicBalance.jl documentation~\cite{harmonic_balance_docs}. 
+The methods in this Chapter have been incorporated into the package HarmonicBalance.jl~\cite{Kosata_2022a}, which was used to produce the presented data. The implementation is described in the HarmonicBalance.jl documentation~\cite{harmonic_balance_docs}. 
 \end{chapterabstract}
 
 The first concept we explore is stability, answering the question whether a steady state survives when perturbed. Stability is an essential characteristic of nonlinear systems. The vast majority of potential applications concern stable steady states. Nevertheless, unstable steady states do carry physical meaning and play an important role in transient behaviour~\cite{Heugel_2022}. Moreover, the \textit{change} of stability is a strong qualitative observable. If a state the system is in ceases to be stable, the system switches to a different state, causing a jump in its amplitude and/or phase. Sensing protocols have been proposed where the occurrence of this jump depends on the force being measured and thus serves as the observable~\cite{Papariello_2016, Leuch_2016}.  
 
-The second concept is linear response, or "how does a system respond to a weak applied force". Such a scenario naturally arises in the context of sensing -- we shall therefore call any forces constituting the unperturbed system the \textit{pump} and the perturbation the \textit{probe}. The probe will typically be an oscillatory force, appearing as an inhomogeneous term in the equations of motion. It may also be a stochastic quantity describing environmental noise -- this is particularly important where signal-to-noise ratios of measurement schemes are of interest~\cite{Heugel_2019, Cleland_2005}. However, the effect of noise may serve as a characterisation tool in its own right~\cite{Yang_2021b, Huber_2020}.
+The second concept is linear response, analysing how a system responds to a weak applied force. Such a scenario naturally arises in the context of sensing, where this applied force is a signal. Here, we shall call any forces constituting the unperturbed system the \textit{pump} and the perturbation the \textit{probe}. The probe will typically be an oscillatory force, appearing as an inhomogeneous term in the equations of motion. It may also be a stochastic quantity describing environmental noise -- this is particularly important where signal-to-noise ratios of measurement schemes are of interest~\cite{Heugel_2019, Cleland_2005}. However, the effect of noise may serve as a characterisation tool in its own right~\cite{Yang_2021b, Huber_2020}.
 
-Note that excellent treatments of this topic in general dynamical systems exist~\cite{Jordan_Smith, Guckenheimer_Holmes, Rand_2005}. Here, our focus is on harmonic systems, where what we call a steady state is only stationary within the harmonic ansatz. The underlying physical variables -- in the "lab frame" - are time-dependent. As we shall see, the perturbation of our harmonic variables does not translate trivially into the lab frame.  
+Note that excellent treatments of this topic in general dynamical systems exist~\cite{Jordan_Smith, Guckenheimer_Holmes, Rand_2005}. Here, our focus is on harmonic systems, where what we call a steady state is only stationary within the harmonic ansatz. The underlying physical variables -- in the "lab frame" - are time-dependent. As we shall see, the perturbation of our harmonic variables translates non-trivially into the lab frame.  
 
 \section{Linear response in periodically driven systems} \label{sec:linresp}
 
-We start with a general equation of motion of a driven system\footnote{For simplicity, we consider a single-coordinate system -- the extension to multiple coordinates is straightforward.} and single out a \textit{signal}, also known as a \textit{probe} -- an inhomogeneous oscillating term of magnitude $f$ and frequency $\Omega$. Assuming the probe to be weak,
+We start with a general equation of motion of a driven system\footnote{For simplicity, we consider a single-coordinate system -- the extension to multiple coordinates is straightforward.} and single out the probe -- an inhomogeneous oscillating term of magnitude $f$ and frequency $\Omega$. Assuming the probe to be weak,
 \begin{equation} \label{eq:linresp_origeom}
 G(\ddot{x}, \dot{x}, x, t ) = \epsilon f\cos(\Omega  t + \phi ),
 \end{equation}
-where $\epsilon$ is a small expansion parameter and $G(\ddot{x}, \dot{x}, x, t )$ is a nonlinear function of $x(t)$ and its derivatives. $G$ may also contain oscillatory terms in $t$, typically the pump. The procedure to be followed is
+where $\epsilon$ is a small expansion parameter and $G(\ddot{x}, \dot{x}, x, t )$ is a nonlinear function of $x(t)$ and its derivatives. It may also contain oscillatory terms in $t$, typically the pump. The procedure to be followed is
 
 \begin{enumerate}
 	\item Transform the equation of motion into truncated Fourier space (the \textit{harmonic ansatz}, see Sec.~\ref{sec:hb}) and obtain an unperturbed solution $\vb{U}_0$. 
@@ -40,22 +40,18 @@ First, we choose a set of frequencies $\{ \omega_1,\ldots \,, \omega_N\}$ to for
 	x(t) = \sum_{j=1}^{N} u_j(T) \cos(\omega_j t) + v_j(T) \sin(\omega_j t)\,,
 \end{equation}
 %
-and construct the harmonic equations similarly to Chapter~\ref{ch:hb}. We leave the transformed probe as a separate term,
+and construct the harmonic equations as done in Chapter~\ref{ch:hb}. We leave the transformed probe as a separate term,
 \begin{equation} \label{eq:linresp_harmeq}
 \bar{\vb{G}}(\ddot{\vb{U}}, \dot{\vb{U}},\vb{U}) = \epsilon \bbar{f}(T)\,,
 \end{equation}
-with the components of $\bar{\vb{G}}(\ddot{\vb{U}}, \dot{\vb{U}},\vb{U})$ being the Fourier components of the equations of motion,
+with the components of $\bar{\vb{G}}(\ddot{\vb{U}}, \dot{\vb{U}},\vb{U})$ again being the sine and cosine components of the equations of motion,
 \begin{equation}
-%\bar{G}_j=\begin{cases}
-%2\int_{-\infty}^{\infty} G(x(t),t) \cos(\omega_{(j+1)/2} t) \,dt \quad &\text{if }  j \text{ odd} \\
-%2\int_{-\infty}^{\infty} G(x(t),t) \sin(\omega_{j/2} t)\,dt \quad &\text{if }  j \text{ even.} \\
-%\end{cases}
-\bar{\vb{G}}(\ddot{\vb{U}}, \dot{\vb{U}},\vb{U}) = 2 \int_{-\infty}^{\infty} \mqty( G(x(t),t) \cos(\omega_{1} t) \,
-\\  G(x(t),t) \sin(\omega_{1} t) \,
+\bar{\vb{G}}(\ddot{\vb{U}}, \dot{\vb{U}},\vb{U}) = 2  \mqty( \int_{0}^{2\pi/\omega_1}G(x(t),t) \cos(\omega_{1} t) \, dt \,
+\\   \int_{0}^{2\pi/\omega_1} G(x(t),t) \sin(\omega_{1} t) \, dt \,
 \\ \cdots 
-\\ G(x(t),t) \sin(\omega_{N} t) \,) \, dt \,.
+\\  \int_{0}^{2\pi/\omega_N} G(x(t),t) \sin(\omega_{N} t) \, dt \,)  \,.
 \end{equation}
-The harmonic-frame force vector $\bbar{f}$ is defined analogously. Strictly speaking, an $\omega_j$ Fourier component of $\cos(\Omega t + \phi)$ is zero unless $\omega_j = \Omega$. We will, however, assume that all $\omega_j$ are close to $\Omega$ and split the phase evolution into fast and slow terms,
+The harmonic-frame force vector $\bbar{f}$ is defined analogously. Strictly speaking, the $\omega_j$ Fourier component of $\cos(\Omega t + \phi)$ is zero unless $\omega_j = \Omega$. We will, however, assume that all $\omega_j$ are close to $\Omega$ and split the phase evolution into fast and slow terms,
 \begin{equation}
 \Omega t \equiv \omega_j t + (\Omega - \omega_j) T \,.
 \end{equation}
@@ -80,7 +76,7 @@ To determine whether the unperturbed solution $\vb{U}_0$ is stable or not, we ne
 \begin{equation} \label{eq:linresp_eom_pert}
 \der{\, \bdel{U} (T)}{T} = - J_1^{-1} J_0\, \bdel{U}(T) \,.
 \end{equation}
-Taking $(\lambda_k, \vb{v}_k)$ as the eigenvalues and eigenvectors of $-J_1^{-1} J_0$, we find solutions with time-dependent amplitudes
+Taking $(\lambda_k, \vb{v}_k)$ as the eigenvalues and eigenvectors of $-J_1^{-1} J_0$, we find solutions with time-dependent amplitudes,
 \begin{equation}
 \bdel{U}(T) = \sum_k \e^{\lambda_k T } \left[ \bdel{U}(0) \cdot \vb{v}_k \right] \vb{v}_k \,.
 \end{equation}
@@ -89,7 +85,7 @@ The stability criterion is, therefore, that $\re{\lambda_k} < 0$ for all $\lambd
 \subsection{Response to a probe} \label{sec:linresp_response1}
 Assuming $\vb{U}_0$ is stable, we wish to find its response to the probe $\bbar{f}$. We first show the general solution before focusing on simplified cases. Asserting a response with a constant amplitude, we define
 \begin{equation} \label{eq:linresp_steady_resp}
-\bdel{U}(T) \equiv  \e^{i(\Omega \mathbb{1}- \tilde{\omega}) T} \bdel{U} + \text{c.c.} 
+\bdel{U}(T) \equiv  \e^{i(\Omega \mathbb{1}- \tilde{\omega}) T} \bdel{U} + \text{c.c.,} 
 \end{equation}
 which allows us to reduce Eq.~\eqref{eq:linresp_eom} to
 \begin{equation} \label{eq:linresp_simp}
@@ -97,23 +93,21 @@ which allows us to reduce Eq.~\eqref{eq:linresp_eom} to
 \end{equation}
 A practical point arises here. Typically, the linear response as a numerical function of $\Omega$ is desired, since a symbolic evaluation involving all the underlying system parameters is too complicated. While one could numerically solve for each $\Omega$ separately, the specific form of Eq.~\eqref{eq:linresp_simp} enables a simplification. Given we know the eigendecomposition $\tilde{J} = R D R^{-1}$, where $D$ is a diagonal matrix of eigenvalues and the columns of $R$ are the eigenvectors, we obtain 
 \begin{equation} \label{eq:linresp_master}
-%\boldsymbol{\delta U}(T) = \e^{i \Omega T} \sum_{j=1}^{2N} \left(\lambda_k + i\Omega\right)^{-1} \left( \vb{v}_k \cdot \e^{-i \tilde{\omega} T} \boldsymbol{f}\right) \vb{v}_k
-\bdel{U}(T) = \e^{i \Omega T} R \left( i \Omega \mathbb{1} - D \right)^{-1} R^{-1} J_1^{-1} \,\e^{-i \tilde{\omega} T} \bbar{f} + \text{c.c} \,.
+\bdel{U}(T) = \e^{i \Omega T} R \left( i \Omega \mathbb{1} + D \right)^{-1} R^{-1} J_1^{-1} \,\e^{-i \tilde{\omega} T} \bbar{f} + \text{c.c.}
 \end{equation}
-Eq.~\eqref{eq:linresp_master} is the key result of this Section -- it gives the linear response as a function of $\Omega$, at the cost of a single matrix diagonalisation. It is evident that the response consists of Lorentzian peaks. For each eigenvalue $\lambda_k$ of $\tilde{J}$, the response has a peak centred at $\Omega = -\im{\lambda_k}$, with a width given by $\re{\lambda_k}$. Note that the response amplitude does not depend on $\phi$, which merely appears as a phase. Since the frequencies $\Omega$ and $\{\omega_j\}$ are generally incommensurate, the phase between the pump and probe responses is inconsequential.
+Eq.~\eqref{eq:linresp_master} is the key result of this Section -- it gives the linear response as a function of $\Omega$, at the cost of a single matrix diagonalisation. It is evident that the response consists of Lorentzian peaks. For each eigenvalue $\lambda_k$ of $\tilde{J}$, the response has a peak centred at $\Omega = -\im{\lambda_k}$, with a width given by $\re{\lambda_k}$. Note that the response amplitude does not depend on $\phi$, which merely appears as a phase. Since the frequencies $\Omega$ and $\{\omega_j\}$ are generally incommensurate, the phase between the pump and the probe is inconsequential.
 
 To obtain the response observed in the lab frame, $\delta x(t)$, we must now invert the harmonic ansatz. However, the time-dependent matrices in Eq.~\eqref{eq:linresp_master} make this quite cumbersome -- any of the perturbed harmonic variables can itself exhibit a complicated time dependence. We therefore leave the explicit demonstration for Sec.~\ref{sec:single_harmonic}.
 
 The procedure we have performed has two principal limitations. First, its validity is naturally restricted to small amplitudes of $\bdel{U}(T)$ compared to $\vb{U}_0$. This is because we did \textit{not} define a new harmonic ansatz based on the probe frequency $\Omega$. Instead, we described the probe as a perturbation of the existing harmonic variables. Second, since we expect the perturbation $\bdel{U}(T)$ to be time-dependent, the slow-flow approximation underlying Eq.~\eqref{eq:linresp_eom} must be re-examined. To obtain Eq.~\eqref{eq:linresp_eom} -- a first-order ODE -- we had to neglect higher-order time-derivatives of $\vb{U}(T)$, which is only justified if we limit ourselves to $\Omega \cong \omega_j$ for all $\omega_j$, in which case the harmonic variables evolve slowly. In Sec.~\ref{sec:noisecorr}, we drop this approximation, which fixes the issue, albeit at the cost of increasing the problem's complexity.
 
-Despite these shortcomings, using Eq.~\eqref{eq:linresp_master} to find the linear response still has its merits as a computationally inexpensive method, since it only requires a single matrix diagonalization to find the response for all $\Omega$.
+Despite these shortcomings, using Eq.~\eqref{eq:linresp_master} to find the linear response still has its merits as a computationally inexpensive method, since it only requires a single matrix diagonalization to find the full response spectrum. 
 
 \subsection{Single-harmonic systems} \label{sec:single_harmonic}
 
 The evaluation of Eq.~\eqref{eq:linresp_master} is simplified in systems with only a single harmonic $\omega$, i.e., when $N = 1$ in the harmonic ansatz \eqref{eq:linresp_ansatz}. In this case, the matrix $\e^{-i\tilde{\omega} T}$ reduces to $ \e^{-i \omega T} \mathbb{1}$ and hence $\bdel{U}(T)$ becomes monochromatic,
 \begin{equation} \label{eq:linresp1_master}
-%\boldsymbol{\delta U}(T) = \e^{i (\Omega-\omega) T} \sum_{k=1}^{2} \left(\lambda_k + i\Omega\right)^{-1} \left( \vb{v}_k \cdot \boldsymbol{f}\right) \vb{v}_k\,.
-\bdel{U}(T) =  \e^{i (\Omega - \omega)T} R \left( i \Omega \mathbb{1} - D \right)^{-1} R^{-1} J_1^{-1} \bbar{f} + \text{c.c} \,,
+\bdel{U}(T) =  \e^{i (\Omega - \omega)T} R \left( i \Omega \mathbb{1} + D \right)^{-1} R^{-1} J_1^{-1} \bbar{f} + \text{c.c.} \,,
 \end{equation}
 with 
 \begin{equation}
@@ -128,7 +122,7 @@ We now translate $\bdel{U}(T)$ back to the lab frame, that is, go from $\bdel{U}
 + \left[\im{\delta u} + \re{\delta v} \right] &\sin[(2\omega - \Omega)t]\,.
 \end{split}
 \end{equation}
-Besides the expected response at frequency $\Omega$, Eq.~\eqref{eq:recons} suggests a rather surprising phenomenon -- a component of $\delta x(t)$ oscillating at $2\omega - \Omega$, i.e., detuned from the probe frequency by $2(\omega-\Omega)$. Crucially, this frequency-converted probe response appears as a linear effect, that is, its amplitude scales as $f$. This is a profound difference from more common frequency conversion mechanisms in nonlinear systems such as high-harmonic generation (HHG, see Sec.~\ref{sec:hb}). In HHG, with only the pump present, the high harmonics appear as corrections of the single-harmonic solution $\vb{U}_0$. As such, they (i) scale nonlinearly with the pump strength and (ii) are small compared to the response at the pump frequency. The anomalous response implied by Eq.~\eqref{eq:recons} fulfils neither (i) nor (ii). In the following, we shall investigate and numerically verify this finding.  
+Beside the expected response at $\Omega$, Eq.~\eqref{eq:recons} suggests a rather surprising phenomenon -- a component of $\delta x(t)$ oscillating at $2\omega - \Omega$, i.e., detuned from the probe frequency by $2(\omega-\Omega)$. Crucially, this frequency-converted probe response appears as a linear effect, that is, its amplitude scales as $f$. This is a profound difference from more common frequency conversion mechanisms in nonlinear systems such as high-harmonic generation (HHG, see Sec.~\ref{sec:hb}). In HHG, with only the pump present, the high harmonics appear as corrections of the single-harmonic solution $\vb{U}_0$. As such, they (i) scale nonlinearly with the pump strength and (ii) are small compared to the response at the pump frequency. The anomalous response implied by Eq.~\eqref{eq:recons} is linear in the probe strength and potentially much larger than the principal probe response at $\Omega$. In the following, we shall investigate and numerically verify this finding.  
 
 \begin{figure}
 	\centering
@@ -144,7 +138,7 @@ a = {S(\Omega) + S(2\omega - \Omega)} =  2 \left(\delta u^2 + \delta v^2 \right)
 w = \frac{S(2\omega - \Omega)}{S(\Omega) + S(2\omega - \Omega)} = \frac{  \im{\delta u} \re{\delta v}  - \re{\delta u} \im{\delta v}}{\delta u^2 + \delta v^2} + \frac{1}{2} \,,
 \end{gathered}
 \end{equation}
-where $0 \leq w \leq 1$. For $w=0$, the system's response frequency exactly matches that of the probe, while anomalous response appears for $w > 0$, see Fig.~\ref{fig:linresp_w_illustr}. We stress that both $a$ and $w$ depend on the system parameters as well as the probe frequency $\Omega$, but not on its phase $\phi$. In addition, $a \propto f^2$ and $w$ is independent of $f$, underscoring the linear nature of the response.
+where $0 \leq w \leq 1$. For $w=0$, the system's response frequency matches that of the probe, while anomalous response appears for $w > 0$, see Fig.~\ref{fig:linresp_w_illustr}. We stress that both $a$ and $w$ depend on the system parameters as well as the probe frequency $\Omega$, but not on its phase $\phi$. In addition, $a \propto f^2$ and $w$ is independent of $f$, underscoring the linear nature of the response.
 
 \subsubsection{Example 1: The simple harmonic oscillator}
 
@@ -180,15 +174,14 @@ We have correctly predicted the probe response to exhibit one peak only. Further
 
 \subsubsection{Example 2: The Duffing oscillator}
 
-We demonstrate the anomalous frequency conversion on our canonical nonlinear system -- the driven Duffing oscillator. In the notation of Eq.~\eqref{eq:linresp_eom}, its equation of motion reads
+We demonstrate the anomalous frequency conversion on our canonical nonlinear system -- the driven Duffing oscillator. In the notation of Eq.~\eqref{eq:linresp_origeom}, its equation of motion reads
 \begin{equation} \label{eq:linresp_duffing}
 \quad G(x(t), t) = \ddot{x}(t) + \gamma \dot{x}(t) + \omega_0^2 x(t) + \alpha x(t)^3 + \eta x(t)^2 \dot{x}(t) - F \cos(\omega t) \,.
 \end{equation}
-Here, both matrices $J_1$ and $J_0$ depend on the unperturbed solution, highlighting the nonlinear nature of the system. Denoting $\vb{U}_0 = (u,v)^T$,
+We use the single-harmonic ansatz~\eqref{eq:hb_rect_ansatz0}. Owing to the nonlinear nature of the system, both matrices $J_1$ and $J_0$ depend on the unperturbed solution. Denoting $\vb{U}_0 = (u,v)^T$,
+%
 \begin{equation}
 \begin{gathered}
-%\bbar{f} = c\: \mqty(\:4 \gamma +\eta  (u+i v) (u-3 i v)-8 i \omega \:\: \\ 4 i \gamma +\eta  (v+3 i u) (u+i v)+8 \omega)\\
-%c = 2 \left\{\left[4 \gamma +\eta  \left(u^2+v^2\right)\right] \left[4 \gamma +3 \eta  \left(u^2+v^2\right)\right]+64 \omega ^2\right\}^{-1}\,.
 J_1 = \mqty(\gamma + \frac{\eta}{4} (3u^2 + v^2)  && 2 \omega + \frac{\eta}{2} u v\vspace*{1.2mm} \\  - 2 \omega + \frac{\eta}{2} u v && \gamma + \frac{\eta}{4} (u^2 + 3 v^2) ) \\ \vspace*{0.5mm}
 J_0 = \mqty(\omega_0^2 - \omega^2 + \frac{3\alpha}{4} ( 3u^2 + v^2) + \frac{\eta \omega}{2} u v && 
 \gamma \omega + \frac{3\alpha}{2} u v + \frac{\eta \omega}{4} (u^2 + 3v^2) \vspace*{1.2mm} \\
@@ -197,13 +190,13 @@ J_0 = \mqty(\omega_0^2 - \omega^2 + \frac{3\alpha}{4} ( 3u^2 + v^2) + \frac{\eta
 )
 \end{gathered}
 \end{equation}
-
+%
 Our symbolic efforts end here -- since the harmonic equations for $\vb{U}_0$ are two coupled cubics, no analytical solutions exist. The eigendecomposition of $\tilde{J}$ is an enormous expression, which does not offer much insight either. We therefore turn to numerics, first obtaining the unperturbed solutions using the method of harmonic balance, shown in Fig.~\ref{fig:linresp_Duffing_ref}.
 \begin{figure} [h!]
 	\centering
 	\vspace*{-2mm}
 	\includesvg{figures/linresp/duffing_ref.svg}
-	\caption{Stable steady states of the Duffing resonator, showing the high-amplitude (blue) and the low-amplitude (orange) branches. Parameters used: $\omega_0 = \alpha = 1, \; \gamma = 10^{-3} , \; \eta = 10^{-1},\; F = 10^{-2}, \;f=0$.}
+	\caption{Stable steady states of the Duffing resonator under a single-harmonic ansatz, showing the high-amplitude (blue) and the low-amplitude (orange) branches. Parameters used: $\omega_0 = \alpha = 1, \; \gamma = 10^{-3} , \; \eta = 10^{-1},\; F = 10^{-2}, \;f=0$.}
 	\label{fig:linresp_Duffing_ref} 
 \end{figure}
 
@@ -216,8 +209,7 @@ Our symbolic efforts end here -- since the harmonic equations for $\vb{U}_0$ are
 
 In Fig.~\ref{fig:linresp_Duffing_hi}, we show plots of $a$ and $w$ for the high-amplitude branch as a function of the probe frequency $\Omega$ for a set of pump frequencies $\omega$. Referring to Fig.~\ref{fig:linresp_Duffing_ref}, there is a clear trend with the amplitude of $\vb{U}_0$. At $\omega=0.9$, the amplitude is low, and the probe response matches that of a linear oscillator -- a single peak near $\Omega = \omega_0$ with negligible frequency conversion. With increasing amplitude, the peak at first shifts to the right, marking an effective hardening of the spring constant due to the Duffing nonlinearity. At $\omega = 0.975$, a second peak in the response appears. Note that this alone does \textit{not} constitute frequency conversion -- it merely corroborates our discussion of Eq.~\eqref{eq:linresp1_master}, which predicts up to two peaks in a single-variable single-harmonic system. The two peaks gradually become closer in height with increasing $\omega$. 
 
-
-The results for $w$ are particularly striking at $\omega \geq 0.975$, showing maxima very close to $w = 1$. These describe near-perfect frequency conversion; moreover, they roughly coincide with peaks in the response power $a$. The unperturbed pumped system therefore effectively acts as a highly efficient frequency converter. Beyond fundamental interest, such a concept is potentially valuable in experimental systems, where the probe (signal) may be accompanied by noise at the same frequency. An example are setups based on magnetic resonance, such as the one explored in Chapter \ref{ch:spins}, where oscillating magnetic fields, used to drive spin ensembles, cause stray electrical induction. Utilising a suitably driven oscillator as a sensor, reading out the converted frequency would evade the generated noise while still displaying  a large response and linearity in the signal amplitude. This may be a promising pathway to increase signal-to-noise ratios in sensing applications.
+The results for $w$ are particularly striking at $\omega \geq 0.975$, showing maxima very close to $w = 1$. These describe near-perfect frequency conversion; moreover, they roughly coincide with peaks in the response power $a$. The unperturbed pumped system therefore effectively acts as a highly efficient frequency converter. Beyond fundamental interest, this concept is potentially valuable in experimental systems, where the probe (signal) may be accompanied by noise at the same frequency. An example are setups based on magnetic resonance, such as the one explored in Chapter \ref{ch:spins}, where oscillating magnetic fields, used to drive spin ensembles, cause stray electrical induction. Utilising a suitably driven oscillator as a sensor, reading out the converted frequency would evade the generated noise while still displaying  a large response and linearity in the signal amplitude. This may be a promising pathway to increase signal-to-noise ratios in sensing applications.
 
 \begin{figure} [h!] 
 	\centering
@@ -235,7 +227,7 @@ In Fig.~\ref{fig:linresp_Duffing_bench}, we compare the linear response results 
 	\centering
 	\includesvg{figures/linresp/duff_benchmark.svg}
 	\vspace*{-3mm}
-	\caption{The probe response amplitude $a$ (full) and the frequency conversion factor $w$ (dotted) for the high-amplitude branch of the driven Duffing oscillator as a function of probe frequency $\Omega$. Data obtained using Eq.~\eqref{eq:linresp_master}~(green lines), the method of harmonic balance~(purple lines) and a full time-dependent simulation~(red points). Parameters used: $\omega=1.1,\,\omega_0 = \alpha = 1, \; \omega_0 = 1, \; \gamma = 10^{-3} , \; \eta = 10^{-1},\; F = 10^{-2},\,f = 10^{-6}$.}
+	\caption{The probe response amplitude $a$ (full) and the frequency conversion factor $w$ (dotted) for the high-amplitude branch of the driven Duffing oscillator as a function of probe frequency $\Omega$. Data obtained using Eq.~\eqref{eq:linresp_master}~(green lines), the method of harmonic balance with a three-harmonic ansatz~(purple lines) and a full time-dependent simulation~(red points). Parameters used: $\omega=1.1,\,\omega_0 = \alpha = 1, \; \omega_0 = 1, \; \gamma = 10^{-3} , \; \eta = 10^{-1},\; F = 10^{-2},\,f = 10^{-6}$.}
 	
 	\label{fig:linresp_Duffing_bench} 
 \end{figure}
@@ -273,25 +265,24 @@ Here, we similarly have $J_2 =\mathbb{1}$. The probe response is compared to a f
 \begin{figure} [h!]
 	\centering
 	\includesvg{figures/linresp/duff_corrected.svg}
-	\caption{The probe response amplitude $a$ (full) and the frequency conversion factor $w$ (dotted) for high-amplitude branch of the driven Duffing oscillator as a function of the probe frequency $\Omega$. Data obtained using Eq.~\eqref{eq:linresp_master}~(green) and a full time-dependent simulation~(red points). Parameters used: $\omega=1.1,\,\omega_0 = \alpha = 1, \; \omega_0 = 1, \; \gamma = 10^{-3} , \; \eta = 10^{-1},\; F = 10^{-2},\,f = 10^{-6}$.}
+	\caption{The probe response amplitude $a$ (full) and the frequency conversion factor $w$ (dotted) for high-amplitude branch of the driven Duffing oscillator as a function of the probe frequency $\Omega$. Data obtained using Eq.~\eqref{eq:respcorr_master}~(green) and a full time-dependent simulation~(red points). Parameters used: $\omega=1.1,\,\omega_0 = \alpha = 1, \; \omega_0 = 1, \; \gamma = 10^{-3} , \; \eta = 10^{-1},\; F = 10^{-2},\,f = 10^{-6}$.}
 
 	\label{fig:respcorr_duff}
 \end{figure}
 
 \section{Response to noise} 
 
-We have so far looked at the response to a coherent probe. However, the linearisation procedure also allows us to treat noise~\cite{Ochs_2021, Huber_2020}. As the equations of motion for $\bdel{U}(T)$ are linear, we simply need to transform the noise to Fourier space, where our response function is known, and superpose the resulting responses. We are naturally limited to \textit{force noise}, i.e., noise that enters the equations of motion as an inhomogeneous term (akin to an external force)\footnote{In stochastic calculus, this is known as \textit{additive noise}~\cite{Gardiner}.}. To this end, we reuse the analysis from Sec.~\ref{sec:linresp_response1} but assume a stochastic perturbation $\xi(t)$,
+We have so far looked at the response to a coherent probe. However, the linearisation procedure also allows us to treat noise~\cite{Ochs_2021, Huber_2020}. As the equations of motion for $\bdel{U}(T)$ are linear, we simply need to transform the noise to Fourier space, where our response function is known, and superpose the resulting responses. We are naturally limited to \textit{force noise}, i.e., noise that enters the equations of motion as an inhomogeneous term, akin to an external force\footnote{In stochastic calculus, this is known as \textit{additive noise}~\cite{Gardiner}.}. To this end, we reuse the analysis from Sec.~\ref{sec:linresp_response1} but assume a stochastic perturbation $\xi(t)$,
 \begin{equation}
 G(\ddot{x}, \dot{x}, x, t) = \epsilon\, \xi(t)\,,
 \end{equation}
-which is characterised by a spectral density $\tilde{\xi}(\Omega)$. The spectral density of the response, $S_x(\Omega)$, is then a combination of the response to noise at $\Omega$ and the frequency-converted response to noise at $2\omega - \Omega$, 
+which is characterised by a spectral density $S_{\xi}(\Omega)$. The spectral density of the response, $S_x(\Omega)$, is then a combination of the response to $S_{\xi}(\Omega)$ and the frequency-converted response to $S_{\xi}(2\omega - \Omega)$, 
 \begin{equation} \label{eq:linresp_noise}
-S_x(\Omega) = a(\Omega) w(\Omega)\tilde{\xi}(\Omega) + a(2\omega - \Omega) \left[w(2\omega - \Omega) - 1 \right] \tilde{\xi}(2\omega-\Omega)\,,
+S_x(\Omega) = a(\Omega) \left[1 - w(\Omega) \right]S_{\xi}(\Omega) + a(2\omega - \Omega) w(2\omega - \Omega) S_{\xi}(2\omega-\Omega)\,,
 \end{equation}
 where, as before, $a(\Omega)$ and $w(\Omega)$ depend on the unperturbed steady state $\vb{U}_0$.
 
-One of the most common sources of noise are thermal fluctuations, for which $\tilde{\xi}(\Omega)$ is constant -- \textit{white noise}. In Fig.~\ref{fig:linresp_noise} we plot the white-noise response of a driven Duffing oscillator, obtained from the first-order linearisation procedure in Sec.~\ref{sec:linresp_response1}. The plots confirm our earlier findings. The high-amplitude branch shows a transition from quasi-linear (single noise peak) to nonlinear behaviour (two noise peaks centred symmetrically around $\omega$). The low-amplitude branch shows traces of nonlinear behaviour at $\omega=1.05$ but resembles the simple harmonic oscillator for larger $\omega$. 
-
+One of the most common sources of noise are thermal fluctuations, for which $S_{\xi}(\Omega)$ is constant -- \textit{white noise}. In Fig.~\ref{fig:linresp_noise} we plot the white-noise response of a driven Duffing oscillator, obtained from the first-order linearisation procedure in Sec.~\ref{sec:linresp_response1}. The plots confirm our earlier findings. The high-amplitude branch shows a transition from quasi-linear (single noise peak at $\Omega=\omega_0$) to nonlinear behaviour (two noise peaks centred symmetrically around $\omega$). The low-amplitude branch shows traces of nonlinear behaviour at $\omega=1.05$ but again resembles the simple harmonic oscillator for larger $\omega$. 
 %
 \begin{figure} [h!]
 	\centering
