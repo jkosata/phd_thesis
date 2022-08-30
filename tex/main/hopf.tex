@@ -8,20 +8,20 @@
 \begin{chapterabstract}
 	
 	
-The time-dependent systems presented so far in this thesis were subject to some periodic external drive, which allowed us to use the method of harmonic balance. Here, we explore the physical consequences of this periodicity -- or discrete time-translation symmetry (DTTS) -- of the problem. We shall see that, depending on the harmonics present in our system's behaviour, imposing DTTS implies a degeneracy of the steady state solutions. This degeneracy may be discrete, corresponding to the generation of subharmonics. It may also be continuous, which gives rise to a $U(1)$ gauge freedom of the system, resulting in aperiodic behaviour known as limit cycles. Due to the infinite degeneracy implied by the gauge freedom, limit cycles cannot be captured by the standard harmonic balance method. We develop an approach for fixing this gauge, which allows us to numerically characterise limit cycle behaviour. Finally, we consider adiabatic transitions within the continuous solution space and thus arrive at the notion of a geometric phase.
+The time-dependent systems presented so far in this thesis were subject to some periodic external drive, which allowed us to use the method of harmonic balance. Here, we explore the physical consequences of this periodicity -- or discrete time-translation symmetry (DTTS) -- of the problem. We shall see that, depending on the harmonics present in our system's behaviour, imposing DTTS implies a degeneracy of steady state solutions. This degeneracy may be discrete, corresponding to the generation of subharmonics. It may also be continuous, which gives rise to a $U(1)$ gauge freedom of the system, resulting in aperiodic solutions known as limit cycles. Due to the infinite degeneracy implied by the gauge freedom, limit cycles cannot be captured by the standard harmonic balance method. We develop an approach for fixing this gauge, which allows us to numerically characterise limit cycle behaviour. Finally, we consider adiabatic transitions within the continuous solution space and thus arrive at the notion of a geometric phase.
 %
 \tcblower
 %
 The methods developed here have been incorporated into HarmonicBalance.jl~\cite{Kosata_2022a}, which was used to produce the presented data. For more details, see the documentation~\cite{harmonic_balance_docs}.
 \end{chapterabstract}
 
-Although not explicitly stated, all time-dependent systems presented so far in this thesis possessed DTTS. In terms of our general equation of motion \eqref{eq:hb_general_ode}, this means, for DTTS with period $\tau$,
+Although not explicitly stated, all time-dependent systems presented so far in this thesis have possessed DTTS. In terms of our general equation of motion \eqref{eq:hb_general_ode}, this means, for DTTS with period $\tau$,
 \begin{equation} \label{eq:hopf_dtts}
 \vb{G}(\vb{x}(t), t)=\vb{G}(\vb{x}(t), t+\tau)=\vb{G}(\vb{x}(t-\tau), t)=0\:.
 \end{equation}
-Equivalently, one may require $H(t + \tau) = H(t)$ for the underlying time-dependent Hamiltonian $H(t)$. The period $\tau$ typically results from the presence of a periodic drive at frequency $\omega = 2\pi / \tau$. The second equality in Eq.~\eqref{eq:hopf_dtts} implies that for each solution $x(t)$, we may generate another one, $x(t-\tau)$. In this Chapter, we explore the implications of this symmetry. 
+Equivalently, one may impose $H(t + \tau) = H(t)$ for the underlying time-dependent Hamiltonian $H(t)$. The period $\tau$ typically results from the presence of a periodic drive at frequency $\omega = 2\pi / \tau$. The second equality in Eq.~\eqref{eq:hopf_dtts} implies that for each solution $x(t)$, we may generate another one, $x(t-\tau)$. In this Chapter, we explore the implications of this symmetry. 
 
-It is important to contrast the DTTS presented here to spatial translation symmetry, which played a key role in Part \ref{part:spatial}. Recall that spatial translation symmetry allowed us to use the powerful results of representation theory, under the condition that the system is linear. For our nonlinear time-dependent systems, the use of symmetry is somewhat limited, as the tabulated group representations used in Chapter~\ref{ch:symmetry} do not apply. Nevertheless, nonlinearity does not invalidate the principle of DTTS. 
+It is important to contrast the DTTS presented here to spatial translation symmetry, which played a key role in Part \ref{part:spatial}. Recall that this allowed us to use the powerful results of representation theory, under the condition that the system is linear. For our nonlinear time-dependent systems, the use of symmetry is somewhat limited, as the tabulated group representations used in Chapter~\ref{ch:symmetry} do not apply. Nevertheless, nonlinearity does not invalidate the principle of DTTS. 
 
 \section{Symmetry-broken steady states}
 
@@ -48,7 +48,7 @@ When all harmonics $\omega_j$ constituting $x(t)$ are such that the ratio $\omeg
 \begin{equation} \label{eq:hopf_DTT}
 \mathcal{T}(\tau)^q = \mathbb{1} \, .
 \end{equation}
-This has profound implications on the degeneracy of the solutions\footnote{Note that while our focus is on steady states, the arguments are also valid for transient solutions.}, as each $\vb{a}(T)$ can be mapped into $q$ degenerate solutions by the action of $\mathcal{T}(\tau)$. In the language of group theory, the group of DTT operations is isomorphic to a $q$-th order finite subgroup of the Lie group $U(1)$. More specifically, the DTT operations can be mapped to a set of unit complex numbers with arguments $0, \, 2\pi/q,\,, \ldots 2\pi(q-1)/q$. Correspondingly, applying a DTT operation to a steady-state solution changes the phases of its constituent harmonics.
+This has profound implications on the degeneracy of the solutions\footnote{Although we focus on steady states here, the arguments are also valid for transient solutions.}, as each $\vb{a}(T)$ can be mapped into $q$ degenerate solutions by the action of $\mathcal{T}(\tau)$. In the language of group theory, the group of DTT operations is isomorphic to a $q$-th order finite subgroup of the Lie group $U(1)$. More specifically, the DTT operations can be mapped to a set of unit complex numbers with arguments $0, \, 2\pi/q,\,, \ldots 2\pi(q-1)/q$. Correspondingly, applying a DTT operation to a steady-state solution changes the phases of its constituent harmonics.
 
 A prominent example of this phenomenon is the parametric oscillator -- an oscillator whose natural frequency is varied periodically in time~\cite{Rand_2005, Papariello_2016},
 \begin{equation}
@@ -60,17 +60,17 @@ Beyond the critical threshold $\lambda_{\rm th} = 2 \gamma / \omega_0$, two stea
 \end{equation}
 which, when driven at $\omega \cong 3 \omega_0$, displays a response at frequency $\omega/3$, that is, $p/q=1/3$~\cite{Arndt_2022, Jordan_Smith}. In both of these systems, the appearance of subharmonics can be seen as an instability with respect to the formation of new harmonics that resonantly interact with the drive via the nonlinear and/or parametric terms\footnote{Such instabilities are often analysed using the \textit{Hill determinant}~\cite{Richards}.}. For example, in the $p/q = 1/3$ case, the cubic nonlinearity facilitates the conversion of motion at $\omega$ and $\omega/3$ into motion at $\omega/3$ -- this is known as \textit{internal resonance}~\cite{Nayfeh_Mook, Manevich}. Intuitively, the subharmonic $\omega/3$ tends to appear where this is close to the natural frequency $\omega_0$. 
 
-To exemplify the solution degeneracy and to further demonstrate the strength of harmonic balance combined with homotopy continuation, we attempt a variation of the Duffing subharmonic problem. Based on our internal resonance argument, we conjecture a similar process with harmonics $\omega, \omega/3$ and $\omega /5$ being present, where $\omega \cong 5 \omega_0$. This necessitates the 6-variable harmonic ansatz (we drop the $T$ dependence for brevity)
+To exemplify the solution degeneracy and to further demonstrate the strength of harmonic balance combined with homotopy continuation, we attempt a variation of the Duffing subharmonic problem. Based on our internal resonance argument, we conjecture a similar process when driving at $\omega \cong 5 \omega_0$, with harmonics $\omega,\, 3\omega/5$ and $\omega /5$ constituting in the response. This necessitates a 6-variable harmonic ansatz (we drop the $T$ dependence for brevity)
 \begin{multline} \label{eq:hopf_5_ansatz}
-x(t) = u_1 \cos(\omega t) + v_1 \sin(\omega t) \\
-+ u_2 \cos(3\omega t) + v_2 \sin(3\omega t) +  u_3 \cos(5\omega t) + v_3 \sin(5\omega t) \,,
+x(t) = u_1 \cos(\omega t / 5) + v_1 \sin(\omega t / 5) \\
++ u_2 \cos(3\omega t / 5) + v_2 \sin(3\omega t / 5) +  u_3 \cos(\omega t) + v_3 \sin(\omega t) \,,
 \end{multline}
 which gives rise to 6 coupled harmonic equations (see Appendix~\ref{app:duff_subharm}). Steady states are hence obtained by solving 6 coupled cubic polynomials. 
 
 \begin{figure}[h!]
 	\centering
 	\includesvg{figures/limit_cycles/duff_sub_atan.svg}
-	\caption{Stable (full, dashed) and unstable (dotted) steady states of the Duffing resonator driven near 5 times its resonant frequency $\omega_0$. Amplitudes of the harmonics (a) $\omega/5$, (b) $\omega /3$ and (c) $\omega$ are shown. Orange branches are five-fold degenerate in amplitude. Parameters used: $\omega_0 = 1 \,, \alpha = 1 \,, F = 0.5 \,, \gamma = 10^{-4}, \psi=0$. The code used to generate this data is shown in Appendix \ref{sec:app_duffing_example}.}
+	\caption{Stable (full, dashed) and unstable (dotted) steady states of the Duffing resonator driven near 5 times its resonant frequency $\omega_0$. Amplitudes of the harmonics (a) $\omega/5$, (b) $3\omega /5$ and (c) $\omega$ are shown. Orange branches are five-fold degenerate in amplitude. Parameters used: $\omega_0 = 1 \,, \alpha = 1 \,, F = 0.5 \,, \gamma = 10^{-4}, \psi=0$. The code used to generate this data is shown in Appendix \ref{sec:app_duffing_example}.}
 	\label{fig:hb_duff_sub}
 \end{figure}
 
@@ -90,7 +90,7 @@ Unlike in the DTTS-breaking case, finding the resulting steady states is not str
 
 \subsubsection{Limit cycles from a Hopf bifurcation}
 
-In Chapters \ref{ch:hb}-\ref{ch:linresp}, we dealt with the harmonic equations, i.e., first-order ODEs for the harmonic variables $\vb{U}(T)$,
+In Chapters \ref{ch:hb} and \ref{ch:linresp}, we dealt with the harmonic equations, i.e., first-order ODEs for the harmonic variables $\vb{U}(T)$,
 \begin{equation}
 \frac{d\vb{U}(T)}{dT}  = \bar{\vb{G}} (\vb{U})\,.
 \end{equation}
@@ -105,9 +105,7 @@ Furthermore, as multiple harmonics now co-exist in the system, frequency convers
 \begin{equation}
 \{ \omega_1, \ldots\,, \omega_M \} \rightarrow \{\omega_1, \omega_1 \pm \omega_{\rm lc} \,, \omega_1 \pm 2 \omega_{\rm lc}\,, \ldots\,, \omega_M \pm K \omega_{\rm lc} \} \,.
 \end{equation}
-Note that this implies an aperiodic response, which is analogous to the lack of translation symmetry in a quasicrystal~\cite{Pizzi_2019, Giergiel_2019}.
-
-Finally, very large $K$ describes the so-called \textit{frequency combs}, which are a subject of intense research in nonlinear optics~\cite{Weng_2022, Lugiato_2018, Herr_2012}, but also appear in mechanical~\cite{Ochs_2022, Dykman2019, Czaplewski_2019, Ganesan_2018, Ganesan2017} and polaritonic systems~\cite{Zambon_2020}.
+Note that this implies an aperiodic response, which is analogous to the lack of translation symmetry in a quasicrystal~\cite{Pizzi_2019, Giergiel_2019}. The limit of large $K$ describes the so-called \textit{frequency combs}, which are a subject of intense research in nonlinear optics~\cite{Weng_2022, Lugiato_2018, Herr_2012}, but also appear in mechanical~\cite{Ochs_2022, Dykman2019, Czaplewski_2019, Ganesan_2018, Ganesan2017} and polaritonic systems~\cite{Zambon_2020}.
 
 \section{Limit cycles via harmonic balance} \label{sec:hopf_hb}
 
@@ -157,17 +155,17 @@ which turns Eq.~\eqref{eq:hopf_extansatz_phase} into
 x(t) = u_1 \cos(\omega t) + v_1 \sin(\omega t) + \left( v_2 \cos{\phi} - u_2 \sin{\phi} \right) \sin[(\omega + \omega_{\rm lc}) t] \\ 
 + \left( u_3 \cos{\phi} - v_3 \sin{\phi} \right) \cos[(\omega - \omega_{\rm lc}) t]  + \left(v_3 \cos{\phi} + u_3 \sin{\phi} \right) [(\omega - \omega_{\rm lc}) t]  + \ldots \,. 
 \end{multline}
-We see that fixing the gauge has effectively removed one of the variables, since $\cos[(\omega + \omega_{\rm lc}) t]$ does not appear any more. Discarding $u_2$, we can therefore use $2+4K$ variables as our harmonic ansatz, i.e.,
+We see that fixing the free phase has effectively removed one of the variables, since $\cos[(\omega + \omega_{\rm lc}) t]$ does not appear any more. Discarding $u_2$, we can therefore use $2+4K$ variables as our harmonic ansatz, i.e.,
 \begin{equation} \label{eq:hopf_fixed}
 \vb{U}= \mqty(u_1 \\ v_1 \\ v_2 \\ \vdots \\ v_{2K+1} \\ \omega_{\rm lc}) \,,
 \end{equation}
-to remove the infinite degeneracy. Keep in mind that $\phi$ is only defined modulo $\pi$ by Eq.~\eqref{eq:hopf_phase} but its effect on the harmonic variables is not. Choosing $\phi = -\arctan{u_2/v_2} + \pi$ would invert the signs of $v_2, u_3, v_3$. As a result, each solution is doubly degenerate. Combined with the sign ambiguity of $\omega_{\rm lc}$, we conclude that under the ansatz \eqref{eq:hopf_fixed}, a limit cycle solution appears as a fourfold-degenerate steady state.
+to remove the infinite degeneracy. Note that $\phi$ is only defined modulo $\pi$ by Eq.~\eqref{eq:hopf_phase} but its effect on the harmonic variables is not. Choosing $\phi = -\arctan{u_2/v_2} + \pi$ would invert the signs of $v_2, u_3, v_3$. As a result, each solution is doubly degenerate. Combined with the sign ambiguity of $\omega_{\rm lc}$, we conclude that under the ansatz \eqref{eq:hopf_fixed}, a limit cycle solution appears as a fourfold-degenerate steady state.
 
-The harmonic equations can now be solved using homotopy continuation to obtain all steady states (see Sec.~\ref{sec:hb_solving}). Note that compared to the single-harmonic ansatz, we have significantly enlarged the polynomial system to be solved. As the number of solutions scales exponentially (B\'{e}zout bound, Sec.~\ref{sec:hb}), we expect vast numbers of solutions even for fairly small systems. 
+The harmonic equations can now be solved using homotopy continuation to obtain all steady states (see Sec.~\ref{sec:hb_solving}). Compared to the single-harmonic ansatz however, we have significantly enlarged the polynomial system to be solved. As the number of solutions scales exponentially (B\'{e}zout bound, Sec.~\ref{sec:hb}), we expect vast numbers of solutions even for fairly small systems. 
 
 TTS-preserving solutions are not affected by the gauge fixing, still displaying spurious infinite degeneracy. Within the framework of homotopy continuation, such solutions now appear as \textit{singular roots} of the polynomial system.
 
-To summarize, the workflow suggested for treating limit cycle systems is to first use the single-frequency ansatz~\eqref{eq:hopf_simple_ansatz} to find TTS-preserving states, followed by a gauge-fixed extended ansatz to find the limit cycles.
+To summarize, the workflow suggested for treating limit cycle systems is to first use the single-frequency ansatz~\eqref{eq:hopf_simple_ansatz} to find TTS-preserving solutions, followed by a gauge-fixed extended ansatz to find the limit cycles.
 
 \subsection{Stability criterion}
 In Chapter \ref{ch:linresp}, we formulated the criterion for a steady state to be stable under an infinitesimal perturbation. Recall that we linearised the harmonic equations around a steady-state solution to obtain a matrix, denoted $J_1^{-1} J_0$ in Eq.~\eqref{eq:linresp_eom_pert}, such that the perturbation $\bdel{U}(T)$ obeyed
@@ -195,7 +193,7 @@ We first find the steady states using a single-harmonic ansatz, where limit cycl
 x(t) &= u_1(T) \cos(\omega t) + v_1(T) \sin(\omega t) \,,  \\y(t) &= u_2(T) \cos(\omega t ) + v_2(T) \sin(\omega t)\,.
 \end{aligned}
 \end{equation}
-We choose $F$ as the parameter to be varied. The result (see Fig.~\ref{fig:hopf_ansatz0}) shows two stable solution branches -- a low-amplitude branch extending from $F = 0$ to $F=0.16$ followed by a Hopf-unstable region, and a high-amplitude branch extending from $F=0.20$ upwards. In addition, the low-amplitude branch shows a small island of stability around $F=0.31$. This qualitatively matches known experimental data~\cite{Zambon_2020}.
+We choose the drive $F$ as the parameter to be varied. The result (see Fig.~\ref{fig:hopf_ansatz0}) shows two stable solution branches -- a low-amplitude branch extending from $F = 0$ to $F=0.16$ followed by a Hopf-unstable region, and a high-amplitude branch extending from $F=0.20$ upwards. In addition, the low-amplitude branch shows a small island of stability around $F=0.31$. This qualitatively matches known experimental data~\cite{Zambon_2020}.
 %
 \begin{figure} [h!]
 	\centering
@@ -210,7 +208,7 @@ We now use the single-harmonic ansatz \eqref{eq:hopf_ansatz0} to perform a time-
 \begin{figure} [h!]
 	\centering
 	\includegraphics{figures/limit_cycles/2_duffings_timedep.pdf}
-	\caption{Adiabatic sweeps of the drive strength $F$. (a) A forward sweep followed by free time-evolution. The response of the first resonator, $x(t)$, (blue) and the value of $F$ (black, dashed) as a function of time. The low-amplitude steady-state branch is followed until $T = 0.8\cross10^{5}$, where limit cycle behaviour sets in. (b) The corresponding phase space paths of (blue) $u_1, v_1$ and (orange) $u_2, v_2$ after the disappearance of transient behaviour. (c,d) The Fourier components of $x(t)$ and $y(t)$. (e) Forward (blue) and backward (red) sweeps over a larger $F$ range, both starting and finishing in stable regions of the low-amplitude branch. In (e), a small additive noise term was added to the harmonic equations to ensure a fast decay of unstable solutions. Parameters used: same as Fig.~\ref{fig:hopf_ansatz0}.}
+	\caption{Adiabatic sweeps of the drive strength $F$. (a) A forward sweep followed by free time-evolution. The response of the first resonator, $x(t)$, (blue) and the value of $F$ (black, dashed) as a function of time. The low-amplitude steady-state branch is followed until $T = 0.8\cross10^{5}$, where limit cycle behaviour sets in. (b) The corresponding phase space paths of (blue) $u_1, v_1$ and (orange) $u_2, v_2$ after the disappearance of transient behaviour. (c,d) The Fourier components of $x(t)$ and $y(t)$. (e) Forward (blue) and backward (red) sweeps over a larger $F$ range, both starting and finishing in stable regions of the low-amplitude branch. In (e), a small additive noise term was added to the harmonic equations to ensure a fast decay of unstable solutions. Parameters used: same as in Fig.~\ref{fig:hopf_ansatz0}.}
 	\label{fig:hopf_timedep}
 \end{figure}
 
@@ -218,7 +216,7 @@ We now use the single-harmonic ansatz \eqref{eq:hopf_ansatz0} to perform a time-
  
 \subsubsection{Gauge-fixed extended harmonic ansatz}
 
-We now proceed to search for limit cycles by proposing a pair of emergent harmonics equally spaced around $\omega$. This necessitates $11+1$ variables -- 11 harmonic ones ($u, v$), and the limit cycle frequency $\omega_{\rm lc}$,
+We now proceed to characterise limit cycles by proposing a pair of emergent harmonics equally spaced around $\omega$. This necessitates $11+1$ variables -- 11 harmonic ones ($u, v$), and the limit cycle frequency $\omega_{\rm lc}$,
 \begin{multline*}
 x(t) = u_1 \cos(\omega t) + v_1 \sin(\omega t) \\
  + u_3 \cos[(\omega + \omega_{\rm lc}) t] + v_3 \sin[(\omega + \omega_{\rm lc}) t] + u_4 \cos[(\omega - \omega_{\rm lc}) t] + v_4 \sin[(\omega - \omega_{\rm lc}) t]
@@ -228,17 +226,16 @@ x(t) = u_1 \cos(\omega t) + v_1 \sin(\omega t) \\
 y(t) = u_2 \cos(\omega t) + v_2 \sin(\omega t) \,, \\
  + u_5 \cos[(\omega + \omega_{\rm lc}) t] + v_5 \sin[(\omega + \omega_{\rm lc}) t] + u_6 \cos[(\omega - \omega_{\rm lc}) t] \,,
 \end{multline}
-which results in 12 harmonic equations, see Appendix~\ref{app:harmeqs_2duff_lc}. Due to gauge fixing, the ansatz \eqref{eq:hopf_egfa} does not include a variable $v_6$. The B\'{e}zout bound on the number of steady states is $3^{12} = 531441$. Finding these is still feasible on a single-core computer using homotopy continuation. Despite the high upper bound, the number of real solution branches observed is 10. Out of these, 6 are discarded for having $\omega_{\rm lc} = 0$. Taking into account the inherent fourfold degeneracy [see the discussion of Eq.~\eqref{sec:hopf_hb}], we are left with a single solution branch, as shown in Fig.~\ref{fig:hopf_lc_ss}. The extended ansatz correctly predicts limit cycle behaviour in the region where the single-harmonic ansatz showed Hopf-instabilities. Remarkably, both the amplitudes and $\omega_{\rm lc}$ of the limit cycles agree with time-dependent simulation results.
+which results in 12 harmonic equations, see Appendix~\ref{app:harmeqs_2duff_lc}. Due to gauge fixing, the ansatz \eqref{eq:hopf_egfa} does not include a variable $v_6$. The B\'{e}zout bound on the number of steady states is $3^{12} = 531441$. Finding these is still feasible on a single-core computer using homotopy continuation. Despite the high upper bound, the number of real solution branches observed is 10. Out of these, 6 are discarded for having $\omega_{\rm lc} = 0$. Taking into account the inherent fourfold degeneracy [see the discussion of Eq.~\eqref{sec:hopf_hb}], we are left with a single solution branch, as shown in Fig.~\ref{fig:hopf_lc_ss}. The extended ansatz correctly predicts limit cycle behaviour in the region where the single-harmonic ansatz showed Hopf instabilities. Remarkably, both the amplitudes and $\omega_{\rm lc}$ of the limit cycles agree with time-dependent simulation results.
 
 \begin{figure} [h!]
 	\centering
 	\includesvg[]{figures/limit_cycles/lc_ansatz.svg}
-	\caption{(a), (b) Steady states of the coupled Duffing oscillators found using the extended gauge-fixed ansatz \eqref{eq:hopf_egfa} (opaque) overlaid on those found with the single-harmonic ansatz \eqref{eq:hopf_ansatz0} (grey, faded). Stable (full) and unstable (dotted) solutions are shown. Points mark corresponding time-dependent simulation results. (c),(d) The amplitudes corresponding to the two emergent limit cycle harmonics for (red) $x(t)$ and (purple) $y(t)$. (e) The limit cycle frequency.  Parameters used: same as Fig.~\ref{fig:hopf_ansatz0}.}
+	\caption{(a), (b) Steady states of the coupled Duffing oscillators found using the extended gauge-fixed ansatz \eqref{eq:hopf_egfa} (opaque) overlaid on those found with the single-harmonic ansatz \eqref{eq:hopf_ansatz0} (grey, faded). Stable (full) and unstable (dotted) solutions are shown. Points mark corresponding time-dependent simulation results. (c),(d) The amplitudes corresponding to the two emergent limit cycle harmonics for (red) $x(t)$ and (purple) $y(t)$. (e) The limit cycle frequency.  Parameters used: same as in Fig.~\ref{fig:hopf_ansatz0}.}
 	\label{fig:hopf_lc_ss}
 \end{figure}
 
-The small inaccuracies of the extended ansatz stem from its incompleteness. Fig.~\ref{fig:hopf_timedep}(c),(d) shows that multiple equally-spaced peaks appear in the full response, prompting the need for more harmonics in the ansatz. 
-%Even with the extended ansatz, a region around $F_0 = 12\cross10^3$ appears Hopf-unstable. Further time-dependent simulations confirm the existence of yet more Fourier-space peaks in this region, which means more harmonics are needed to capture the system's response. 
+The small inaccuracies of the extended ansatz likely stem from its incompleteness. Fig.~\ref{fig:hopf_timedep}(c),(d) shows that multiple equally-spaced peaks appear in the full response, prompting the need for more harmonics in the ansatz. 
 However, adding a further harmonic pair, $\omega \pm 2 \omega_{\rm lc}$, would result in a 20-variable system with up to $3^{20}$ solutions, which is currently outside of our computational capabilities to solve. 
 
 
@@ -257,11 +254,11 @@ After following a closed path in parameter space from $\lambda_0$ at time $T_0$ 
 \begin{equation} \label{eq:hopf_geophase}
 \delta \tilde{\phi} = \tilde{\omega} \left(T_1-T_0 \right) +  \int T \frac{\partial \tilde{\omega}}{\partial \lambda} \, d\lambda(T)\,.
 \end{equation}
-The first term on the right hand side in Eq.~\eqref{eq:hopf_geophase} is known as the \textit{dynamic phase} -- the phase accumulated solely due to free time-evolution. The second term is known as the \textit{geometric phase}, $\delta \tilde{\phi}_g$.
+The first term on the right hand side in Eq.~\eqref{eq:hopf_geophase} is the \textit{dynamic phase} -- the phase accumulated solely due to free time-evolution. The second term corresponds to the \textit{geometric phase}, $\delta \tilde{\phi}_g$.
 
-In systems with intact DTTS, as well as in systems featuring subharmonics (see Sec.~\ref{sec:hopf_discrete}), the harmonics contained in $\tilde{\omega}$ are fixed by an external drive frequency. Varying its phase then induces a geometric phase. For example, in the driven Duffing oscillator example shown in Sec.~\ref{sec:hopf_discrete}, we had $\tilde{\omega} = \text{diag} \{\omega/5 \,, \omega/3 \,, \omega\}$. Upon advancing the drive phase $\psi$ by $2\pi$, we have,
+In systems with intact DTTS, as well as in systems featuring subharmonics (see Sec.~\ref{sec:hopf_discrete}), the terms contained in $\tilde{\omega}$ are fixed by an external drive frequency. Varying its phase then induces a geometric phase. For example, in the driven Duffing oscillator example shown in Sec.~\ref{sec:hopf_discrete}, we had $\tilde{\omega} = \text{diag} \{\omega/5 \,, 3\omega/5 \,, \omega\}$. Upon advancing the drive phase $\psi$ by $2\pi$, we have,
 \begin{equation}
-\delta \tilde{\phi}_g = \int_0^{2\pi} T \frac{\partial \tilde{\omega}}{\partial \psi} \, d\psi(T) =  \frac{\partial \tilde{\omega}}{\partial \omega} \int_0^{2\pi} d\psi(T) = 2\pi\, \text{diag}\{1/5 ,\, 1/3, \, 1\}\,,
+\delta \tilde{\phi}_g = \int_0^{2\pi} T \frac{\partial \tilde{\omega}}{\partial \psi} \, d\psi(T) =  \frac{\partial \tilde{\omega}}{\partial \omega} \int_0^{2\pi} d\psi(T) = 2\pi\, \text{diag}\{1/5 ,\, 3/5, \, 1\}\,,
 \end{equation}
 The system has thus transitioned from one of the five degenerate states into another. %If a different parameter than $\omega$ is varied, no phase change occurs. 
 
@@ -273,16 +270,16 @@ which gives
 \begin{equation} \label{eq:hopf_geoshift}
 \delta \tilde{\phi}_g = 2 \pi \frac{\partial \tilde{\omega}}{\partial \omega} = 2\pi \left[\mathbb{1} + \frac{\partial \omega_{\rm lc}}{\partial \omega } \text{diag}(0,0,1,1,-1,-1) \right]  \,.
 \end{equation}
-The first term in the brackets is inconsequential, while the second term only affects the limit cycle variables. The effect of $\delta \tilde{\phi}_g$ is then equivalent to transforming $\vb{a}$ within the degenerate solution manifold\footnote{Note that even though our geometric phase takes the form of a matrix, the phase shift operations are still isomorphic to the $U(1)$ group. As such, they are commutative and do not enable non-Abelian braiding.}. Since we remain on this manifold at all times, the induced geometric phase is permanently stored in the limit cycle. Intuitively, the adiabatic change of $\psi$ can be seen as a temporary shift of the drive frequency $\omega$, which "speeds up" (or "slows down") the limit cycle for a limited amount of time, before returning to the original value, leaving a phase change behind it.
-
-We demonstrate the geometric phase concept in Fig.~\ref{fig:hopf_lc_phase}. Using the system parameters from Example \ref{sec:hopf_example}, we compute $ \omega_{\rm lc}$ as a function of $\omega$ [Fig.~\ref{fig:hopf_lc_phase}(a)] and extract the gradient $\partial \omega_{\rm lc} / \partial \omega$. In Fig.~\ref{fig:hopf_lc_phase}(b), we show the accumulated geometric phase $\delta \phi_g$ when sweeping the drive phase $\psi$. The gradients obtained from fully numerical time-evolution agree quite closely, validating Eq.~\eqref{eq:hopf_geoshift}. The gauge-fixed ansatz \eqref{eq:hopf_egfa} yields a slightly different result, but agrees qualitatively. As before, using a larger ansatz may improve the accuracy, but is outwith our computational possibilities. 
+The first term in the brackets is inconsequential, while the second term only affects the limit cycle variables. The effect of $\delta \tilde{\phi}_g$ is then equivalent to transforming $\vb{a}$ within the degenerate solution manifold\footnote{Note that even though our geometric phase takes the form of a matrix, the phase shift operations are still isomorphic to the $U(1)$ group. As such, they are commutative and do not enable non-Abelian braiding.}. The induced geometric phase is then permanently stored in the limit cycle. Intuitively, the adiabatic change of $\psi$ can be seen as a temporary shift of the drive frequency $\omega$, which "speeds up" (or "slows down") the limit cycle for a limited amount of time, before returning to the original value, leaving a phase change behind it.
 
 \begin{figure} [h!]
 	\centering
 	\includesvg{figures/limit_cycles/geophase.svg}
-	\caption{(a) The dependence of the limit cycle frequency $\omega_{\rm lc}$ on the drive frequency $\omega$ obtained using (line) the gauge-fixed ansatz \eqref{eq:hopf_egfa} and (points) time-dependent simulations. The gradient at $\omega=1.03$ is -0.35 and -0.26, respectively. (b) The evolution of the geometric phase $\delta \phi_g$ during a sweep of the drive phase $\delta \psi$ with $\omega=1.03$. Obtained from a full time-dependent simulation of the sweep, subsequent Fourier transformation and phase extraction of the $\omega - \omega_{\rm lc}$ peak. Numerical data (points) and a linear fit (line), showing a gradient -0.27.}
+	\caption{(a) The dependence of the limit cycle frequency $\omega_{\rm lc}$ on the drive frequency $\omega$ obtained using (line) the gauge-fixed ansatz \eqref{eq:hopf_egfa} and (points) time-dependent simulations. The gradient at $\omega=1.03$ is -0.35 and -0.26, respectively. (b) The evolution of the geometric phase $\delta \phi_g$ during a sweep of the drive phase $\psi$ with $\omega=1.03$. Obtained from a full time-dependent simulation of the sweep, subsequent Fourier transformation and phase extraction of the $\omega - \omega_{\rm lc}$ peak. Numerical data (points) and a linear fit (line), showing a gradient -0.27.}
 	\label{fig:hopf_lc_phase}
 \end{figure}
+
+We demonstrate the geometric phase concept in Fig.~\ref{fig:hopf_lc_phase}. Using the system parameters from Example \ref{sec:hopf_example}, we compute $ \omega_{\rm lc}$ as a function of $\omega$ [Fig.~\ref{fig:hopf_lc_phase}(a)] and extract the gradient $\partial \omega_{\rm lc} / \partial \omega$. In Fig.~\ref{fig:hopf_lc_phase}(b), we show the accumulated geometric phase $\delta \phi_g$ when sweeping the drive phase $\psi$. The gradients obtained from fully numerical time-evolution agree quite closely, validating Eq.~\eqref{eq:hopf_geoshift}. The gauge-fixed ansatz \eqref{eq:hopf_egfa} yields a slightly different result, but agrees qualitatively. As before, using a larger ansatz may improve the accuracy, but is outwith our computational possibilities. 
 
 \subsubsection{Application: Kerr solitons}
 
@@ -294,8 +291,8 @@ E(\theta, t) = \sum_{k = -K}^{K} a_k \e^{i \left[\left(\omega + k \omega_{\rm lc
 \end{equation}
 where $\theta \in [0, 2\pi)$ is the cavity's angular coordinate. By tuning the drive phase $\delta \psi$, we may again apply a geometric phase $\delta \phi_g$, shifting each $a_k$ proportionally to $k$ [cf.~Eq.~\eqref{eq:hopf_geoshift}], 
 \begin{equation}
-a_k \rightarrow a_k \e^{i k \delta{\phi}_g} \,, \qquad \delta \phi_g = \frac{\partial \omega_{\rm lc}}{\partial \omega} \delta \psi
+a_k \rightarrow a_k \e^{i k \delta{\phi}_g} \,, \qquad \delta \phi_g = \frac{\partial \omega_{\rm lc}}{\partial \omega} \delta \psi \,,
 \end{equation}
 which is equivalent to changing the angular position $\theta$ by $\delta \theta = -\delta \phi_g$. By tuning the drive phase, we may therefore achieve precise control of the soliton's position. 
 
-This mechanism is currently being explored as a means to synchronize Kerr solitons~\cite{Jang_2015, Erkintalo_2022}. The necessary gradient of limit cycle frequency against drive frequency has been measured experimentally~\cite{Bao_2017}. The analysis in this Section provides a general explanation of the phenomenon, complementary to the prevalent system-specific descriptions such as the Lugiato-Lefever equation~\cite{Lugiato_1987}. 
+This mechanism is currently being explored as a means to synchronize Kerr solitons~\cite{Jang_2015, Erkintalo_2022}. The necessary gradient of limit cycle frequency against drive frequency has been measured experimentally in a different context~\cite{Bao_2017}. The analysis in this Section provides a general explanation of the phenomenon, complementary to the prevalent system-specific descriptions such as the Lugiato-Lefever equation~\cite{Lugiato_1987}. 

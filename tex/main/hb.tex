@@ -136,7 +136,7 @@ where the sum runs over the finite set of desired frequencies $\{\omega_{i,j}\}$
 Equation~\eqref{eq:hb_ansatz} represents an attempt to capture the dynamics of the system using a discrete set of real functions $\{u_{i,j}(T),v_{i,j}(T)\}$, which we call the \textit{harmonic variables}, while the fast oscillations are accounted for by the sine/cosine terms. Note that this ansatz would be exact if the set of frequencies $\{\omega_{i,j}\}$ covered all real numbers. Generally, it is not straightforward to identify the relevant frequencies $\{\omega_{i,j}\}$. A good starting point is the frequencies of any external drives, combined with the frequency conversions presented in Table~\ref{table:hb_terms}. Alternatively, one can pick the highest-weight discrete Fourier components in a time trace obtained numerically or from experimental data.
 
 Plugging the harmonic ansatz \eqref{eq:hb_ansatz} into the ODE \eqref{eq:hb_general_ode}, we obtain equations governing pairs of harmonic variables $(u_{i,j}, v_{i,j})$ by extracting the coefficients of the respective sines and cosines from both sides. This procedure can be formalised as
-\begin{equation} \label{eq:hb_int2}
+\begin{equation} \label{eq:hb_int}
 \bar{\vb{G}}(\vb{U}) = 2 \mqty( \int_0^{2\pi/\omega_{1,1}} G_1 ( \vb{x},t) \cos(\omega_{1,1} t) \,dt \,
 \\  \int_0^{2\pi/\omega_{1,1}} G_1 ( \vb{x},t) \sin(\omega_{1,1} t)\, dt \,
 \\ \cdots 
