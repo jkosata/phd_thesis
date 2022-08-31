@@ -183,34 +183,26 @@ plot(result, x="ω", y="sqrt(u1^2 + v1^2)")
 which produces the curves shown in Fig.~\ref{fig:hb_Duffing}. The stability information is calculated and displayed automatically. 
 %
 
-In Sec.~\ref{sec:hopf_discrete}, we saw an extension of this model where three harmonics were used for the ansatz: $\omega/5$, $3\omega/5$ and $\omega$. As the current symbolic engine Symbolics.jl does not have full support of fractions, we instead use the harmonic $\{ \omega, 3\omega, 5\omega \}$ and drive with $5 \omega$. Following a redefinition of \texttt{diff_eq}, we may call \texttt{add\_harmonic!} again, followed by generating new harmonic equations.
+In Sec.~\ref{sec:hopf_discrete}, we saw an extension of this model where three harmonics were used for the ansatz: $\omega/5$, $3\omega/5$ and $\omega$. This can be done by calling \texttt{add\_harmonic!} again, followed by generating new harmonic equations.
 \begin{lstlisting}[numbers=none]
-add_harmonic!(diff_eq, x, [3*ω, 5*ω]) 
+add_harmonic!(diff_eq, x, [ω/5, 3ω/5]) 
 harmonic_eq = get_harmonic_equations(diff_eq)
 \end{lstlisting}
 %
-which returns
+which returns (algebraic expression cut for brevity)
 \begin{lstlisting}[numbers=none, basicstyle=\scriptsize\ttfamily]
 A set of 6 harmonic equations
 Variables: u1(T), v1(T), u2(T), v2(T), u3(T), v3(T)
-Parameters: α, ω, ω0, γ, F
+Parameters: ω, ω0, α, γ, F
 
 Harmonic ansatz: 
-x(t) = u1(T)*cos(ωt) + v1(T)*sin(ωt) + u2(T)*cos(3ωt) + v2(T)*sin(3ωt) + u3(T)*cos(5ωt) + v3(T)*sin(5ωt)
+x(t) = u1(T)*cos((1//5)*ωt) + v1(T)*sin((1//5)*ωt) + u2(T)*cos((3//5)*ωt) + v2(T)*sin((3//5)*ωt) + u3(T)*cos(ωt) + v3(T)*sin(ωt)
 
 Harmonic equations:
 
-(ω0^2)*u1(T) + γ*Differential(T)(u1(T)) + (3//4)*α*(u1(T)^3) + γ*ω*v1(T) + (2//1)*ω*Differential(T)(v1(T)) + (3//2)*α*(u2(T)^2)*u1(T) + (3//2)*α*(u3(T)^2)*u1(T) + (3//4)*α*(u1(T)^2)*u2(T) + (3//4)*α*(v1(T)^2)*u1(T) + (3//4)*α*(u2(T)^2)*u3(T) + (3//2)*α*(v2(T)^2)*u1(T) + (3//2)*α*(v3(T)^2)*u1(T) + (3//2)*α*u1(T)*u2(T)*u3(T) + (3//2)*α*u1(T)*v1(T)*v2(T) + (3//2)*α*u1(T)*v2(T)*v3(T) + (3//2)*α*u2(T)*v1(T)*v3(T) + (3//2)*α*u2(T)*v2(T)*v3(T) - (ω^2)*u1(T) - (3//4)*α*(v1(T)^2)*u2(T) - (3//4)*α*(v2(T)^2)*u3(T) - (3//2)*α*u3(T)*v1(T)*v2(T) ~ 0
+(ω0^2)*u1(T) + γ*Differential(T)(u1(T)) + (3//4)*α*(u1(T)^3) + (2//5)*ω*Differential(T)(v1(T)) + (3//2)*α*(u2(T)^2)*u1(T) + (3//2)*α*(u3(T)^2)*u1(T) + (1//5)*γ*ω*v1(T) + (3//4)*α*(u1(T)^2)*u2(T) + (3//4)*α*(v1(T)^2)*u1(T) + (3//4)*α*(u2(T)^2)*u3(T) + (3//2)*α*(v2(T)^2)*u1(T) + (3//2)*α*(v3(T)^2)*u1(T) + (3//2)*α*u1(T)*u2(T)*u3(T) + (3//2)*α*u1(T)*v1(T)*v2(T) + (3//2)*α*u1(T)*v2(T)*v3(T) + (3//2)*α*u2(T)*v1(T)*v3(T) + (3//2)*α*u2(T)*v2(T)*v3(T) - (1//25)*(ω^2)*u1(T) - (3//4)*α*(v1(T)^2)*u2(T) - (3//4)*α*(v2(T)^2)*u3(T) - (3//2)*α*u3(T)*v1(T)*v2(T) ~ 0
 
-γ*Differential(T)(v1(T)) + (ω0^2)*v1(T) + (3//4)*α*(v1(T)^3) + (3//4)*α*(u1(T)^2)*v1(T) + (3//2)*α*(u2(T)^2)*v1(T) + (3//4)*α*(u1(T)^2)*v2(T) + (3//4)*α*(v2(T)^2)*v3(T) + (3//2)*α*(u3(T)^2)*v1(T) + (3//2)*α*(v2(T)^2)*v1(T) + (3//2)*α*(v3(T)^2)*v1(T) + (3//2)*α*u1(T)*u2(T)*v3(T) + (3//2)*α*u2(T)*u3(T)*v2(T) - (ω^2)*v1(T) - (2//1)*ω*Differential(T)(u1(T)) - γ*ω*u1(T) - (3//4)*α*(v1(T)^2)*v2(T) - (3//4)*α*(u2(T)^2)*v3(T) - (3//2)*α*u1(T)*u2(T)*v1(T) - (3//2)*α*u2(T)*u3(T)*v1(T) - (3//2)*α*u1(T)*u3(T)*v2(T) - (3//2)*α*v1(T)*v2(T)*v3(T) ~ 0
-
-(ω0^2)*u2(T) + γ*Differential(T)(u2(T)) + (1//4)*α*(u1(T)^3) + (3//4)*α*(u2(T)^3) + (6//1)*ω*Differential(T)(v2(T)) + (3//2)*α*(u1(T)^2)*u2(T) + (3//4)*α*(u1(T)^2)*u3(T) + (3//4)*α*(v2(T)^2)*u2(T) + (3//1)*γ*ω*v2(T) + (3//2)*α*(u3(T)^2)*u2(T) + (3//2)*α*(v1(T)^2)*u2(T) + (3//2)*α*(v3(T)^2)*u2(T) + (3//2)*α*u1(T)*u2(T)*u3(T) + (3//2)*α*u1(T)*v1(T)*v3(T) + (3//2)*α*u1(T)*v2(T)*v3(T) + (3//2)*α*u3(T)*v1(T)*v2(T) - (9//1)*(ω^2)*u2(T) - (3//4)*α*(v1(T)^2)*u1(T) - (3//4)*α*(v1(T)^2)*u3(T) - (3//2)*α*u2(T)*v1(T)*v3(T) ~ 0
-
-γ*Differential(T)(v2(T)) + (ω0^2)*v2(T) + (3//4)*α*(v2(T)^3) + (3//4)*α*(u1(T)^2)*v1(T) + (3//4)*α*(u2(T)^2)*v2(T) + (3//2)*α*(u1(T)^2)*v2(T) + (3//2)*α*(u3(T)^2)*v2(T) + (3//2)*α*(v1(T)^2)*v2(T) + (3//2)*α*(v3(T)^2)*v2(T) + (3//4)*α*(u1(T)^2)*v3(T) + (3//2)*α*u2(T)*u3(T)*v1(T) + (3//2)*α*u1(T)*u2(T)*v3(T) + (3//2)*α*v1(T)*v2(T)*v3(T) - (1//4)*α*(v1(T)^3) - (9//1)*(ω^2)*v2(T) - (6//1)*ω*Differential(T)(u2(T)) - (3//1)*γ*ω*u2(T) - (3//4)*α*(v1(T)^2)*v3(T) - (3//2)*α*u1(T)*u3(T)*v1(T) - (3//2)*α*u1(T)*u3(T)*v2(T) ~ 0
-
-γ*Differential(T)(u3(T)) + (ω0^2)*u3(T) + (3//4)*α*(u3(T)^3) + (10//1)*ω*Differential(T)(v3(T)) + (3//4)*α*(u2(T)^2)*u1(T) + (3//4)*α*(u1(T)^2)*u2(T) + (3//2)*α*(u1(T)^2)*u3(T) + (3//2)*α*(u2(T)^2)*u3(T) + (3//2)*α*(v1(T)^2)*u3(T) + (3//4)*α*(v3(T)^2)*u3(T) + (3//2)*α*(v2(T)^2)*u3(T) + (5//1)*γ*ω*v3(T) + (3//2)*α*u2(T)*v1(T)*v2(T) - (25//1)*(ω^2)*u3(T) - (3//4)*α*(v1(T)^2)*u2(T) - (3//4)*α*(v2(T)^2)*u1(T) - (3//2)*α*u1(T)*v1(T)*v2(T) ~ F
-
-γ*Differential(T)(v3(T)) + (ω0^2)*v3(T) + (3//4)*α*(v3(T)^3) + (3//4)*α*(v2(T)^2)*v1(T) + (3//4)*α*(u1(T)^2)*v2(T) + (3//4)*α*(u3(T)^2)*v3(T) + (3//2)*α*(u1(T)^2)*v3(T) + (3//2)*α*(u2(T)^2)*v3(T) + (3//2)*α*(v1(T)^2)*v3(T) + (3//2)*α*(v2(T)^2)*v3(T) + (3//2)*α*u1(T)*u2(T)*v1(T) + (3//2)*α*u1(T)*u2(T)*v2(T) - (10//1)*ω*Differential(T)(u3(T)) - (25//1)*(ω^2)*v3(T) - (3//4)*α*(u2(T)^2)*v1(T) - (5//1)*γ*ω*u3(T) - (3//4)*α*(v1(T)^2)*v2(T) ~ 0
+...
 \end{lstlisting}
 
 Performing a frequency sweep around $\omega \cong 5 \omega_0$ gives
