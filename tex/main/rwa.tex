@@ -181,27 +181,26 @@ Overall, a sizeable body of work exists elaborating on the errors due to the RWA
 
 \section{General harmonic ansatz for quantised variables} \label{sec:rwa_gen}
 
-To complete the integration of quantised variables into our harmonic balance framework, we extend the operator basis found in Eq.~\eqref{eq:bs} to formulate a general harmonic ansatz, similar to Eq.~\eqref{eq:hb_ansatz_a}. For a system of $N$ pairs of conjugate variables, $\hat{x}_j$ and $\hat{p}_j$, we seek an expansion in terms of \textit{harmonic operators} $\hat{b}_{j,k} ,\, \hat{b}_{j,k}^\dagger$, with the requirement that
+To complete the integration of quantised variables into our harmonic balance framework, we extend the operator basis found in Eq.~\eqref{eq:bs} to formulate a general harmonic ansatz, similar to Eq.~\eqref{eq:hb_ansatz_a}. For a system of $N$ pairs of conjugate variables, $\hat{x}_j$ and $\hat{p}_j$, we seek an expansion in terms of \textit{harmonic operators} $b_{j,k} ,\, b_{j,k}^\dagger$, with the requirement that
 \begin{equation}
 \begin{aligned}
-&[\hat{b}_{j,k} , \, \hat{b}_{j'k'}^\dagger ] = \delta_{jj'} \delta_{kk'} \,, \quad  \left[\hat{x}_j , \, \hat{p}_{j'} \right ] = \delta_{jj'} i \hbar \\
-&\left[\hat{b}_{j,k} , \, \hat{b}_{j'k'} \right] = \left[\hat{x}_j , \, \hat{x}_{j'} \right ] = \left[ \hat{p}_j ,\, \hat{p}_{j'} \right] = 0 
+&[b_{j,k} , \, b_{j'k'}^\dagger ] = \delta_{jj'} \delta_{kk'} \,, \quad  \left[\hat{x}_j , \, \hat{p}_{j'} \right ] = \delta_{jj'} i \hbar \\
+&\left[b_{j,k} , \, b_{j'k'} \right] = \left[\hat{x}_j , \, \hat{x}_{j'} \right ] = \left[ \hat{p}_j ,\, \hat{p}_{j'} \right] = 0 
 \end{aligned}
 \end{equation}
 The desired formulation involves renormalizing all harmonic operators by the number of harmonics present, $K$,
 \begin{equation} \label{eq:rwa_general_ansatz}
 \begin{aligned}
-\hat{x}_j &= \sqrt{\frac{\hbar}{2mK}} \sum_{k=1}^K \sqrt{\frac{1}{\omega_k}} \left( \hat{b}_{j,k} \e^{i \omega_k t} + \hat{b}_{j,k}^{\dagger} \e^{-i \omega_{k} t} \right) \,, \\
-\hat{p}_j &= i\sqrt{\frac{\hbar m}{2K} } \sum_{k=1}^K \sqrt{\omega_k} \left(\hat{b}_{j,k} \e^{i \omega_k t} - \hat{b}_{j,k}^{\dagger} \e^{-i \omega_{k} t} \right) \,.
+\hat{x}_j &= \sqrt{\frac{\hbar}{2mK}} \sum_{k=1}^K \sqrt{\frac{1}{\omega_k}} \left( b_{j,k} \e^{i \omega_k t} + b_{j,k}^{\dagger} \e^{-i \omega_{k} t} \right) \,, \\
+\hat{p}_j &= i\sqrt{\frac{\hbar m}{2K} } \sum_{k=1}^K \sqrt{\omega_k} \left(b_{j,k} \e^{i \omega_k t} - b_{j,k}^{\dagger} \e^{-i \omega_{k} t} \right) \,.
 \end{aligned}
 \end{equation}
-Note that this procedure very much resembles a standard textbook quantisation of systems such as an optical cavity~\cite{Walls_Milburn}. We stress again that standard quantisation focuses on the solutions of a conservative system -- its normal modes. Each mode possesses a natural frequency, which would be observed under energy-conserving time evolution from an initial condition. In a driven-dissipative system, however, the normal mode frequencies do not play any special role in the formalism. They are merely one of the underlying parameters. It is the harmonics $\omega_k$, fixed by the drive, which must be used for the second quantisation to maintain consistency.
-
+Note that this procedure very much resembles a standard textbook quantisation of systems such as an optical cavity~\cite{Walls_Milburn}. We stress again that standard quantisation focuses on the solutions of a conservative system -- its normal modes. Each mode possesses a natural frequency, which would be observed under energy-conserving time evolution from an initial condition. In a driven-dissipative system, however, the normal mode frequencies do not play any special role in the formalism. They are merely one of the underlying parameters. For steady states to be consistent with Hamilton's equations, the harmonics $\omega_k$, fixed by the drive, must be used for the second quantisation instead.
 
 \subsubsection{Velocity-dependent potentials}
 
-Finally, we remark that the relations between $\hat{x}$ and $\hat{p}$ imposed throughout this Chapter rely on the Ehrenfest theorem, $m \hspace*{0.3mm} d \hspace*{-0.6mm} \expval{\hat{x}} / dt = \expval{\hat{p}}$. This however assumes a velocity-independent potential. Where that is not the case, the general Ehrenfest theorem for a Hamiltonian $\hat{H}$,
+Finally, we remark that the relations between $\hat{x}$ and $\hat{p}$ imposed throughout this Chapter rely on the Ehrenfest theorem, $m \hspace*{0.3mm} d \hspace*{-0.6mm} \expval{\hat{x}} / dt = \expval{\hat{p}}$. This however assumes a velocity-independent potential. Where that is not the case, the general Ehrenfest theorem for a Hamiltonian $H$,
 \begin{equation}
-\frac{d }{dt} \expval{\hat{x}_j}= \frac{1}{i \hbar} \expval{\left[\hat{x}_j, \hat{H} \right]} + \expval{\frac{\partial \hat{x}_j}{\partial t}}\,,
+\frac{d }{dt} \expval{\hat{x}_j}= \frac{1}{i \hbar} \expval{\left[\hat{x}_j, H \right]} + \expval{\frac{\partial \hat{x}_j}{\partial t}}\,,
 \end{equation}
 must be used to construct a suitable harmonic ansatz. 
